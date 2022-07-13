@@ -1,0 +1,187 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<div class="total-timelog">
+  <div class="container-fluid">
+    <div class="row align-items-center rowColor">
+      <div class="col-4">
+        <div class="md-form form-group">
+          <div class="searchBar">
+            <span class="mr-1" data-icon="&#xe090;"></span>
+          </div>
+          <div class="searchField">
+            <mat-form-field class="example-full-width">
+              <mat-label>Search</mat-label>
+              <input matInput placeholder="Enter Project title" (keyup)="onKey(searchText)" [(ngModel)]="searchText">
+            </mat-form-field>
+            <span id="message" style="color: red; font-size: 14px;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+        <div class="customClass">
+          <span>Filter</span>
+          <app-display-filter [filter]="displayFilter" [developer]="teamMembers"
+            (developerList)="filterOnDeveloper($event)" [resetFilter]="filterReset"
+            (selectedDate)="filterOnDueDate($event)">
+          </app-display-filter>
+          <div class="text-right" (click)="resetFilter()" *ngIf="displayReset">
+            <button class="btn p-2 btn-default resetBtn" tooltipClass="my-custom-class" ngbTooltip="Reset">
+              <i class="fa fa-repeat resetIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+        <div class="totalSpent mr-1">
+          Total Time Spent :
+        </div>
+        <div class="totalTime mr-1">
+          <span>{{  zeroPad(totalHours , 2) }}</span> Hours
+        </div>
+        <div class="totalTime">
+          <span>{{ zeroPad(totalMinutes, 2)}}</span> Minutes
+        </div>
+      </div>
+    </div>
+
+
+    <div class="noDataFound" *ngIf="isDisplay == 1">
+      <app-no-data-found [dataFound]="noDataFound"></app-no-data-found>
+    </div>
+
+    <div *ngIf="isDisplay == 0">
+      <div class="row py-2 align-items-center">
+        <div class="col-12">
+          <mat-paginator appereance="outline" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+          <table mat-table [dataSource]="dataSource" (matSortChange)="someMethod($event)" matSort>
+
+            <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+
+            <ng-container matColumnDef="estimated">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Estimated Time </th>
+              <td mat-cell *matCellDef="let element"> {{zeroPad(element.taskId.estimatedTime , 2)}} </td>
+            </ng-container>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="difference">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Taken Time</th>
+              <td mat-cell *matCellDef="let element ; let i =index"> {{ zeroPad(element.difference.split(':')[0] , 2)}}
+                :
+                {{ zeroPad(element.difference.split(':')[1] , 2)}}
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="taskTitle">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Title </th>
+              <td mat-cell *matCellDef="let element"><span class="text-capitalize"> {{element.description}} </span> -
+                <span class="taskTitle">
+                  <a (click)="openTaskModel(element.taskId)">
+                    <span class="text-capitalize">{{element.taskId.title}}</span>
+                    <span class="text-uppercase">({{element.taskId.taskUniqueId}})</span>
+                  </a>
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+              <td mat-cell *matCellDef="let element"> {{element.timeDate | date:'mediumDate'}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="users">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>User </th>
+              <td mat-cell *matCellDef="let element">
+                <app-user [userDetails]="element.taskId.assignTo"></app-user>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="from">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>From Time</th>
+              <td mat-cell *matCellDef="let element">
+                {{element.fromTime}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="end">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>End Time</th>
+              <td mat-cell *matCellDef="let element">
+                {{element.endTime}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="verifyLogs">
+              <th mat-header-cell *matHeaderCellDef>Verify Logs</th>
+              <td mat-cell *matCellDef="let element" class="verifyLogsIcon">
+                <i class="fa fa-check approve" (click)="approveTime(element)"
+                  *ngIf="element.verifyLogs && element.isverify == true"></i>
+                <i class="fa fa-exclamation-triangle notVerify" aria-hidden="true"
+                  *ngIf="element.verifyLogs && element.isverify == false" (click)="approveTime(element)"></i>
+                <i class="fa fa-pencil-square-o notApprove" *ngIf="!element.verifyLogs" aria-hidden="true"
+                  (click)="approveTime(element)"></i>
+              </td>
+              <!-- <td mat-cell *matCellDef="let element" *ngIf="!element.verifyLogs">
+              <i class="fa fa-pencil-square-o notApprove" aria-hidden="true" (click)="approveTime(element)"></i>
+            </td> -->
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <!-- <div class="col-2 d-flex borderClass">
+        <div class="col-5 ">
+          {{  zeroPad(diffHours[i] , 2)}}
+        </div>
+        <div class="col-2">
+          :
+        </div>
+        <div class="col-5">
+          {{diffMinutes[i]}}
+        </div>
+      </div>
+      <div class="col-4 d-flex">
+        {{log.description}} -
+        <div class="taskTitle">
+          <a (click)="openTaskModel(log.taskId)">{{log.taskId.title}}</a>
+        </div>
+      </div>
+      <div class="col-3 d-flex justify-content-center align-items-center">
+        <div class="col-md-6">
+          {{log.timeDate | date:'mediumDate'}}
+        </div>
+        <div class="col-md-6">
+          <app-user [userDetails]="log.taskId.assignTo"></app-user>
+        </div>
+      </div>
+      <div class="col-3 d-flex p-0">
+        <div class="col-5 ">
+          From : {{log.fromTime}}
+        </div>
+        <div class="col-5 ">
+          To : {{log.endTime}}
+        </div>
+        <div class="col-2 ">
+          <div *ngIf="log.verifyLogs">
+            <i class="fa fa-check approve" (click)="approveTime(log)" *ngIf="log.isverify == true"></i>
+            <i class="fa fa-exclamation-triangle notVerify" aria-hidden="true" *ngIf="log.isverify == false"
+              (click)="approveTime(log)"></i>
+          </div>
+          <div *ngIf="!log.verifyLogs">
+            <i class="fa fa-pencil-square-o notApprove" aria-hidden="true" (click)="approveTime(log)"></i>
+          </div>
+        </div>
+      </div> -->
+      </div>
+    </div>
+  </div>
+</div>

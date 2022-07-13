@@ -1,0 +1,43 @@
+ul.single-item li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-file-content a i {
+    color: gray;
+    margin: 5px;
+    border: 1px solid gray;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+a.name-file {
+    color: #2178c3;
+    font-size: 12px;
+}
+
+a.name-file1 {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #656565;
+}
+
+a.edit span {
+    color: #3998c5;
+}
+
+a.delete span {
+    color: #f44336;
+}
+
+span.date-on {
+    color: #9c9c9c;
+    font-size: 13px;
+}
+
+a.name-file1 span {
+    font-size: 30px;
+    color: #9c9c9c;
+}

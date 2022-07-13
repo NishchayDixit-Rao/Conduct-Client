@@ -1,0 +1,7 @@
+<mat-selection-list [(ngModel)]="selectedOptions" (selectionChange)="closeMenu($event)">
+    <mat-list-option *ngFor="let name of developerName" [value]="name">
+        <!-- {{name.name}} -->
+        <app-user [userDetails]="name" [userRedirect]="redirect"></app-user>
+        <mat-divider></mat-divider>
+    </mat-list-option>
+</mat-selection-list>

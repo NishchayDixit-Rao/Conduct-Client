@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row m-0 p-2 team_card">
+      <div class="imageDisplay">
+        <div class="img_section ">
+          <img src="{{baseUrl}}{{item.profilePhoto}}" onerror="this.src='assets/man.png'">
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="userDisplay d-block mx-2">
+          <span>{{item.name}}</span>
+          <p>
+            {{item.userRole}}</p>
+          <a href="javascript:void(0);" (click)="removeDeveloper(item)" *ngIf="item.update"
+            class="icon_for_action"><span class="icon-trash"></span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

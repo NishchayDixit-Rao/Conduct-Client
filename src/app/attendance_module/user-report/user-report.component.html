@@ -1,0 +1,392 @@
+<div class="main-content">
+	<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+		<div class="container-fluid">
+			<a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" style="font-size: 16px;">User
+				Details</a>
+			<ul *ngIf="userInfo.userRole == 'admin'" class="nav nav-pills nav-fill flex-column flex-sm-row"
+				id="tabs-text" role="tablist">
+				<li class="nav-item">
+					<button (click)="branchSelector('Rajkot')" id="rajkot" class="pill_btn">Rajkot</button>
+				</li>
+				<li class="nav-item">
+					<button (click)="branchSelector('Ahemdabad')" id="ahemdabad" class="pill_btn">Ahemdabad</button>
+				</li>
+			</ul>
+			<ul class="navbar-nav align-items-center d-none d-md-flex">
+				<li class="nav-item dropdown">
+					<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						<div class="media align-items-center">
+							<div class="media-body ml-2 ">
+								<span class="mb-0 text-sm  font-weight-bold text-capitalize"
+									*ngIf="userInfo">{{userInfo.name}}</span>
+							</div>
+						</div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+						<div class=" dropdown-header noti-title">
+							<h6 class="text-overflow m-0">Welcome!</h6>
+						</div>
+						<a class="dropdown-item">
+							<i class="ni ni-single-02"></i>
+							<span routerLink="/userprofile">My profile</span>
+						</a>
+						<!-- <div class="dropdown-divider"></div>
+						<a (click)="logout()" class="dropdown-item" style="cursor: pointer;">
+							<i class="ni ni-user-run"></i>
+							<span>Logout</span>
+						</a> -->
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+		<div class="container-fluid">
+			<div class="header-body">
+				<div class="header-body">
+					<div class="row">
+						<div *ngIf="userInfo.userRole && userInfo.userRole == 'admin'" class="col-xl-12 col-lg-12">
+							<form [formGroup]='reportForm'>
+								<div class="card card-stats selectUser mb-4 mb-xl-0">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-6">
+												<h4>Select
+													Employee</h4>
+												<ng-select formControlName="id" placeholder="Select Team Member"
+													[items]="developers" [multiple]="false" bindLabel="name"
+													bindValue="_id" [closeOnSelect]="false">
+													<ng-template ng-label-tmp let-item="item" let-clear="clear">
+														<span class="ng-value-label">{{item.name}}</span>
+														<span class="ng-value-icon right" (click)="clear(item)"
+															aria-hidden="true"> × </span>
+													</ng-template>
+													<ng-template ng-option-tmp let-item="item">
+														{{item.name}}
+													</ng-template>
+												</ng-select>
+											</div>
+											<div class="col-6">
+												<h4>
+													Select
+													month</h4>
+												<input type="text" id="Date1" formControlName="date"
+													[(ngModel)]="modelDate" autocomplete="off" class="form-control"
+													bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}"
+													(onShown)="onOpenCalendar($event)">
+												<button style="float: right;margin-top: 20px;" type="submit"
+													class="btn btn-info" [disabled]="isDisable || reportForm.invalid"
+													(click)="getReport(reportForm.value)">Get Report</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<div class="container-fluid mt--7">
+		<div class="row" *ngIf="(searchRecordDate)&&(foundRecordUser != null)">
+			<div class="col-xl-12 order-xl-2 mb-5 mb-xl-0">
+				<div class="card ">
+					<div class="bg-white border-0">
+						<div class="row align-items-center">
+							<div class="col-8">
+								<h3 class="heading text-muted mb-1">{{foundRecordUser.name}} account details</h3>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="pl-lg-4">
+							<div class="row">
+								<div class="col-xl-4 col-lg-6">
+									<div class="form-group">
+										<label class="form-control-label" for="input-username">Employee Name</label>
+										<p>{{foundRecordUser.name}}</p>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-6">
+									<div class="form-group">
+										<label class="form-control-label" for="input-email">Email address</label>
+										<p>{{foundRecordUser.email}}</p>
+
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-6">
+									<div class="form-group">
+										<label class="form-control-label" for="input-email">Designation</label>
+										<p>{{foundRecordUser.userRole}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-5 " *ngIf="allEmployeeSearch == false">
+			<div class="col-xl-12 mb-5 mb-xl-0">
+				<div class="card">
+					<div class="border-0">
+						<div class="row align-items-center">
+							<div class="col mt-1 recordDetails ml-2">
+								<h3 class="mb-0" *ngIf="searchRecordDate">{{searchRecordDate}}'s record</h3>
+							</div>
+							<div class="col mt-2">
+								<span *ngIf="logs.length == 0" class="text-danger text-uppercase"> No record found
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table align-items-center table-flush">
+							<thead class="thead-light text-uppercase">
+								<tr>
+									<th scope="col">Date</th>
+									<th scope="col">day</th>
+									<th scope="col">Hours in office</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody class="font-weight-bold">
+								<ng-container
+									*ngFor="let data of logs  | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
+									<tr *ngIf="data.message"
+										[ngStyle]="{'background-color':getBackGroundColorSingleEmployee(data.message) , 'color' : getColorSingleEmployee(data.message)}">
+										<td>{{data.date}}</td>
+										<td colspan="3" align="center">{{data.message}}</td>
+									</tr>
+									<tr *ngIf="!data.message" style="border-left: 6px solid red; margin-top: 1px"
+										[ngStyle]="{'background-color':getBackGroundColorSingleEmployee(data.seconds) , 'color' : getColorSingleEmployee(data.seconds)}">
+										<th scope="row">
+											{{ data.date }}
+										</th>
+										<td>
+											{{data.day}}
+										</td>
+										<td>
+											{{data.diffrence}}
+										</td>
+										<td>
+											<a id="viewMore" (click)="openModel(10 * (p - 1) + i)"><span
+													class="viewMore">View More</span></a>
+										</td>
+									</tr>
+								</ng-container>
+							</tbody>
+						</table>
+					</div>
+					<div class="card-footer py-4 ">
+						<pagination-controls *ngIf="userInfo.userRole == 'admin'" (pageChange)="p=$event">
+						</pagination-controls>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-5 " *ngIf="allEmployeeSearch == true">
+			<div class="col-xl-12 mb-5 mb-xl-0">
+				<div class="card ">
+					<div class="border-0">
+						<div class="row align-items-center">
+							<div class="col mt-2">
+								<h3 class="mb-0">{{monthDisplay}}'s record</h3>
+
+							</div>
+							<div class="col mt-2">
+								<span *ngIf="tableData.length == 0" class="text-danger text-uppercase"> No record found
+								</span>
+
+							</div>
+						</div>
+					</div>
+					<div class="scrollbar">
+						<div class="table-responsive">
+							<table class="table align-items-center table-flush">
+								<thead class="thead-light">
+									<tr>
+										<th class="empty_th" scope="col"></th>
+										<th scope="col" *ngFor="let data of developers">{{data.name}}</th>
+									</tr>
+								</thead>
+								<tbody class="font-weight-bold text-center">
+									<tr
+										*ngFor="let Datedata of tableHeader | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
+										<th class="zui-sticky-col" scope="row">
+											{{ Datedata }}
+										</th>
+										<ng-container
+											*ngFor="let logsData of tableData[10 * (p - 1) + i]  let j = index">
+											<td *ngIf="logsData.user" style="border: 1px solid black" class="tdHover"
+												[ngStyle]="{'color':getColor(logsData.seconds)}"
+												(click)="openModel(Datedata , j)">
+												{{logsData.diffrence !== null ? logsData.diffrence : 'AB' }}
+											</td>
+											<td align="left" colspan="20" *ngIf="!logsData.user"
+												style="border: 1px solid black; color: black"
+												[ngStyle]="{'background-color':getBackGroundColor(logsData)}">
+												{{logsData}}
+											</td>
+										</ng-container>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="card-footer py-4 ">
+							<pagination-controls (pageChange)="p=$event"></pagination-controls>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xl-6 mb-5 mb-xl-0 mt-4" *ngIf="searchRecordDate != null">
+				<div class="card card report_card card-shadow card-stats fontSize mb-4 mb-xl-0">
+					<div class="border-0">
+						<div class="row align-items-center">
+							<div class="col">
+								<h3 class="mb-0 text-uppercase text-center mt-1 ml-3" *ngIf="searchRecordDate != null">
+									{{foundRecordUser.name}}'s Report of {{searchRecordDate}}</h3>
+							</div>
+						</div>
+					</div>
+					<div class="card-body button" data-toggle="tooltip" title="{{foundRecordUser.name}}'s report"
+						style="height: 132px">
+						<div class="row">
+							<div class="col">
+								<h5 text-align="right" style="line-height: 35px;"
+									class="font-weight-bold text-uppercase  mb-0 ">Total hours worked : </h5>
+							</div>
+							<div class="col" style="padding: 0">
+								<h4 text-align="left" style="line-height: 35px;"
+									class="card-title font-weight-bold text-uppercase text-muted mb-0 ">
+									{{totalHoursWorked}} <span>out of</span> {{totalHoursToWork}}</h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<h5 text-align="right" style="line-height: 35px;"
+									class="font-weight-bold text-uppercase  mb-0 ">Required hours to complete : </h5>
+							</div>
+							<div class="col" style="padding: 0">
+								<h4 style="line-height: 35px;"
+									class="card-title font-weight-bold text-uppercase text-muted mb-0 ">
+									{{totalHoursToWork}}</h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<h5 text-align="right" style="line-height: 35px;"
+									class="font-weight-bold text-uppercase  mb-0 ">Less time worked(in days) : </h5>
+							</div>
+							<div class="col" style="padding: 0">
+								<h4 style="line-height: 35px;"
+									class="card-title font-weight-bold text-uppercase text-muted mb-0 ">
+									{{lessTimeWorked}}</h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<h5 text-align="right" style="line-height: 35px;"
+									class="font-weight-bold text-uppercase  mb-0 ">full time worked (in days) : </h5>
+							</div>
+							<div class="col" style="padding: 0">
+								<h4 style="line-height: 35px;"
+									class="card-title font-weight-bold text-uppercase text-muted mb-0 ">
+									{{fullTimeWorked}}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6 mb-5 mb-xl-0 mt-4" *ngIf="allLogs || logs">
+				<div class="card p-4">
+					<ul class="searchRecordDate_box">
+						<li>
+							<span class="box1"></span>
+							<p>If sunday</p>
+						</li>
+						<li>
+							<span class="box2"></span>
+							<p> If holiday or no working days</p>
+						</li>
+						<li>
+							<span class="text1">Aa</span>
+							<p>If employee worked less than 08:30 hours</p>
+						</li>
+						<li>
+							<span class="text2">Aa</span>
+							<p> If employee worked greater than 09:30 hours</p>
+						</li>
+						<li>
+							<span class="text3">Aa</span>
+							<p>If employee is absent</p>
+						</li>
+						<li>
+							<span class="text4">Aa</span>
+							<p> If employee worked between 08:30 to 09:30 hours</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<footer class="footer">
+			<div class="row align-items-center justify-content-xl-between">
+				<div class="col-xl-6">
+					<div class="copyright text-xl-left text-muted">
+						&copy; 2019 <a href="https://raoinformationtechnology.com/" class="font-weight-bold ml-1"
+							target="_blank">Rao Infotech</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+</div>
+
+
+<div class="modal fade" id="myModal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header" *ngIf="modelValue && allLogs != null">
+				<h4 class="modal-title">{{modelValue.day}} &nbsp;-&nbsp; {{modelValue.date | date}}</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body" *ngIf="modelValue && modelMessage">
+				<h3>{{modelMessage}}</h3>
+			</div>
+
+			<div class="modal-body" *ngIf="modelValue && !modelMessage">
+				<h3 *ngIf="allLogs != null">Employee Name : </h3>{{modelValue.user[0].name}}
+				<h3 *ngIf="allLogs != null">Date of log : </h3>
+				<h3 align="center"><u>Time log </u></h3>
+				<div class="form-group" style="overflow: auto; ; max-height: 350px">
+					<table align="center" style="width: 100% " cellpadding="10px" *ngIf="modelValue">
+						<tr align="center">
+							<th>No.</th>
+							<th>In</th>
+							<th>Out</th>
+						</tr>
+						<tr *ngFor="let time of modelValue.timeLog ; let i = index" align="center">
+							<td>{{i+1}}</td>
+							<td>{{time.in}}</td>
+							<td>{{time.out}}</td>
+						</tr>
+					</table>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+	</div>
+</div>

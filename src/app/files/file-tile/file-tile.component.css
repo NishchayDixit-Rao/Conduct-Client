@@ -1,0 +1,84 @@
+
+.left-file-content {
+    float: left;
+    display: flex;
+    align-items: center;
+}
+
+.image-div {
+    width: 35px;
+    height: 35px;
+    border-radius: 30%;
+    overflow: hidden;
+    margin-right: 7px;
+}
+
+.image-div img {
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+ul.single-item li {
+    padding: 10px 0;
+}
+
+ul.single-item li {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 23px 12px 9px;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+a.name-file {
+    color: #656565 !important;
+}
+
+.right-file-content {
+    float: right;
+    display: flex;
+    font-size: 13px;
+}
+
+.right-file-content span {
+    color: #9c9c9c;
+}
+
+p.comments {
+    color: #757575;
+    margin-bottom: 0px;
+}
+
+.right-file-content span.fa.fa-trash {
+    font-size: 16px;
+    color: #f54336;
+    margin-left: 12px;
+}
+
+.right-file-content span.icon-cloud-download {
+    font-size: 16px;
+    margin-right: 12px;
+    color: #3998c5;
+}
+
+
+.right-file-content span.fa.fa-eye {
+    font-size: 16px;
+ 
+    color: green;
+}
+
+i.pdfFile{
+    font-size: 32px ;
+}
+i.zipFile{
+    font-size: 32px;
+}
+i.videoFile{
+    font-size: 32px;
+}
+i.docFile{
+    font-size: 32px;
+}

@@ -1,0 +1,166 @@
+<!-- <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document"> -->
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Choose Avatar</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModel()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body px-0 pb-0">
+    <div class="md-form form-group">
+      <ul class="project-avatar">
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/school.png')">
+            <img src="../assets/avatar/school.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/mortarboard.png')">
+            <img src="../assets/avatar/mortarboard.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/alarm-clock.png')">
+            <img src="../assets/avatar/alarm-clock.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/stethoscope.png')">
+            <img src="../assets/avatar/stethoscope.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/doctor.png')">
+            <img src="../assets/avatar/doctor.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/bookshelf.png')">
+            <img src="../assets/avatar/bookshelf.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/flask.png')">
+            <img src="../assets/avatar/flask.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/customer-service.png')">
+            <img src="../assets/avatar/customer-service.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/payment-method.png')">
+            <img src="../assets/avatar/payment-method.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/beach.png')">
+            <img src="../assets/avatar/beach.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/coding.png')">
+            <img src="../assets/avatar/coding.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/maintenance.png')">
+            <img src="../assets/avatar/maintenance.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/birthday-cake.png')">
+            <img src="../assets/avatar/birthday-cake.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/conversation.png')">
+            <img src="../assets/avatar/conversation.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/food.png')">
+            <img src="../assets/avatar/food.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/shopping-basket.png')">
+            <img src="../assets/avatar/shopping-basket.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/cart.png')">
+            <img src="../assets/avatar/cart.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/pills.png')">
+            <img src="../assets/avatar/pills.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/project-management.png')">
+            <img src="assets/avatar/project-management.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/start-up.png')">
+            <img src="assets/avatar/start-up.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/medicine.png')">
+            <img src="assets/avatar/medicine.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/responsive.png')">
+            <img src="assets/avatar/responsive.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/destination.png')">
+            <img src="assets/avatar/destination.png" height="56" width="56">
+          </button>
+        </li>
+        <li>
+          <button class="icon-button"
+            (click)="addIcon('https://rao-conduct.s3.eu-west-2.amazonaws.com/Development/Avatar/police-car.png')">
+            <img src="assets/avatar/police-car.png" height="56" width="56">
+          </button>
+        </li>
+      </ul>
+    </div>
+    <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div> -->
+  </div>
+</div>
+<!-- </div>
+</div> -->

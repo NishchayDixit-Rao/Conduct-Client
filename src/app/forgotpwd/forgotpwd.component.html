@@ -1,0 +1,35 @@
+<div class="row m-0">
+    <div class="col-4 m-auto">
+        <div class="reset-box">
+            <h4 class="mb-2">Reset Password</h4>
+            <form [formGroup]="resetPasswordForm">
+                <mat-form-field appearance="outline" class="w-100 example-full-width">
+                    <input matInput type="password" autocomplete="new-password" id="form2" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" [type]="show ? 'text' : 'password'" />
+                    <span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password" (click)="password()" [title]="pwd ? 'hide password' : 'show password'"></span>
+                    <mat-label>Password</mat-label>
+                    <!-- <label for="form2">Password</label> -->
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                        <div *ngIf="f.password.errors.minlength">Password must contain atleast 6 characters</div>
+                        <div *ngIf="f.password.errors.maxlength">Password must be only 20 characters</div>
+                    </div>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100 example-full-width">
+                    <input matInput type="password" autocomplete="new-password" id="form2" formControlName="confirmPassword" (input)="comparePassword(resetPasswordForm)" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" [type]="show1? 'text' : 'password'"
+                    />
+                    <span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password" (click)="confirmPassword()" [title]="pwd1 ? 'hide password' : 'show1 password'"></span>
+                    <mat-label>Confirm-Password</mat-label>
+                    <!-- <label for="form2">Confirm-Password</label> -->
+                    <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                        <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
+                        <div *ngIf="f.confirmPassword.errors.minlength">Password must contain atleast 6 characters</div>
+                        <div *ngIf="f.confirmPassword.errors.maxlength">Password must be only 20 characters</div>
+                    </div>
+                </mat-form-field>
+                <div class="w-100">
+                    <button class="btn btn-default float-right m-0" type="submit" (click)="resetPassword()" [disabled]="!match || isDisable"><i class="fa fa-floppy-o mr-1" aria-hidden="true"></i> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

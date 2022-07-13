@@ -1,0 +1,231 @@
+<div class="loader" *ngIf="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+<div class="create-project-body">
+    <div class="container m-auto mb-3">
+        <div class="mainClass">
+            <div class="page-header-title">
+                <h3 class="card-header-title float-left">{{pageTitle}}</h3>
+            </div>
+            <form class="md-form" [formGroup]='addForm'>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <mat-form-field appearance="outline" class="w-100 example-full-width">
+                            <mat-label>Project Title</mat-label>
+                            <input matInput placeholder="Enter Project Title" formControlName="title"
+                                ngModel="{{availData ? availData.title : ''}}">
+                            <!-- <mat-error
+                                *ngIf="addForm.controls.title.hasError('maxlength') && !addForm.controls.title.hasError('required')">
+                                Project title must be only 20 characters
+                            </mat-error> -->
+                            <mat-error *ngIf="addForm.controls.title.hasError('required')">
+                                Title is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="md-form form-group active">
+                            <mat-form-field appearance="outline" class="w-100 example-full-width">
+                                <mat-label>Project Alias</mat-label>
+                                <input class="text-uppercase" matInput placeholder="Enter Project Alias"
+                                    formControlName="taskAlias" ngModel="{{availData ? availData.taskAlias : ''}}">
+                                <mat-error
+                                    *ngIf="addForm.controls.taskAlias.hasError('maxlength') && !addForm.controls.taskAlias.hasError('required')">
+                                    Project Alias must be only 6 characters
+                                </mat-error>
+                                <mat-error *ngIf="addForm.controls.taskAlias.hasError('required')">
+                                    Project Alias is <strong>Required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-12 editor">
+                        <!-- <div class="md-form form-group"> -->
+
+                        <app-text-editor (commentData)="contentData($event)" [description]="editDescription">
+                        </app-text-editor>
+                        <!-- <mat-form-field appearance="outline" class="w-100 example-full-width">
+                            <mat-label>Project Description</mat-label>
+                            <textarea matInput placeholder="Enter Description " formControlName="description"
+                                ngModel="{{availData ? availData.description : ''}}"></textarea>
+                            <mat-error *ngIf="addForm.controls.description.hasError('required')">
+                                Description is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field> -->
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <!-- <app-mate-date-picker (selectedDate)="getDate($event)" [dateName]="Name"
+                            [deadlineDate]="deadlineDate">
+                        </app-mate-date-picker> -->
+
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>{{ Name }}</mat-label>
+                            <input ngModel="{{availData ? availData.deadline : ''}}" (dateChange)="getDate($event)"
+                                formControlName="deadline" matInput [matDatepicker]="picker" (click)="picker.open()"
+                                [disabled]="isDisplay == true" [(ngModel)]="displayDate" [min]="todayDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="addForm.controls.deadline.hasError('required')">
+                                Enter project <strong>Due Date</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <mat-form-field appearance="outline" class="w-100 example-full-width">
+                            <mat-label>Project Technology</mat-label>
+                            <input matInput placeholder="Enter Project Technology" formControlName="technology"
+                                ngModel="{{availData ? availData.technology : ''}}">
+                            <!-- <mat-error
+                *ngIf="addForm.controls.description.hasError('maxlength') && !addForm.controls.description.hasError('required')">
+                Project Alias must be only 200 characters
+              </mat-error>
+              <mat-error *ngIf="addForm.controls.description.hasError('required')">
+                Description is <strong>required</strong>
+              </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-12">
+                        <div class="editor-tag" (click)="focusTagInput()">
+                            <span class="tag-item" *ngFor="let tag of tags">
+                                {{tag}}
+                                <span class="remove-tag" (click)="removeTag(tag)">×</span>
+                            </span>
+                            <input placeholder="Enter Tags" #tagInput type="text" class="input-tag"
+                                (keyup)="onKeyUp($event)" formControlName="tags">
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class="col-md-5">
+                        <ng-select appearance="outline" placeholder="Select Team Member" [(items)]="workCircleList"
+                            [multiple]="true" bindLabel="name" bindValue="_id" [closeOnSelect]="false"
+                            (add)="addDeveloper($event)" (remove)="removeDeveloper($event)" [clearable]="false">
+                            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                <span class="ng-value-label"><img src="{{baseUrl}}{{item.profilePhoto}}"
+                                        onerror="this.src='assets/default-profile.png'" width="30px" height="30px">
+                                    {{item.name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true"> × </span>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item">
+                                <app-user [(userDetails)]="item" [userRedirect]="false"></app-user>
+                            </ng-template>
+                        </ng-select>
+                        <div class="user_profile_pic">
+                            <div *ngFor="let item of projectTeam">
+                                <app-user [userRedirect]="false" [userDetails]="item" [removeUser]="editProject"
+                                    (deletUser)="removeDeveloper($event)"></app-user>
+                                <!-- <a tooltipClass="my-custom-class" *ngIf="item.update" class="deletebtn"
+                                    (click)="remoevDevelopoer(item)"><i class="fa fa-trash" aria-hidden="true"></i></a> -->
+                            </div>
+                        </div>
+
+                        <!-- Invited users list -->
+                        <div class="user_profile_pic">
+                            <div *ngFor="let invitedUser of userInvitationList">
+                                <div *ngIf="invitedUser.userRole == 'Team Member'">
+                                    <app-user [userDetails]="invitedUser" [removeUser]="editProject"></app-user>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="addInvite-icon">
+                            <i ngbTooltip="Invite new Team Member" (click)="openInvitationModal('Team Member')"
+                                class="fa fa-plus-circle" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <ng-select appearance="outline" placeholder="Select Manager" [(items)]="workCircleList"
+                            [multiple]="true" bindLabel="name" bindValue="_id" [closeOnSelect]="false"
+                            [clearable]="false" (add)="addProjectManager($event)" [(ngModel)]="onlyPm"
+                            [ngModelOptions]="{standalone: true}" (remove)="removeProjectManager($event)">
+                            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                <span class="ng-value-label text-capitalize"><img src="{{baseUrl}}{{item.profilePhoto}}"
+                                        onerror="this.src='assets/default-profile.png'" width="30px" height="30px">
+                                    {{item.name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true"> × </span>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item">
+                                <app-user [userRedirect]="false" [userDetails]="item"></app-user>
+                            </ng-template>
+                        </ng-select>
+                        <div class="pmTeam">
+                            <div *ngFor="let item of projectMngrTeam">
+                                <app-user [userRedirect]="false" [userDetails]="item" [removeUser]="editProject"
+                                    (deletUser)="removeProjectManager($event)"></app-user>
+                            </div>
+                        </div>
+                        <!-- Invited users list -->
+                        <div class="pmTeam">
+                            <div *ngFor="let invitedUser of userInvitationList">
+                                <div *ngIf="invitedUser.userRole == 'Manager'">
+                                    <app-user [userDetails]="invitedUser" [removeUser]="editProject"
+                                        (deletUser)="removeProjectManager($event)"></app-user>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="addInvite-icon">
+                            <i ngbTooltip="Invite new Manager" (click)="openInvitationModal('Manager')"
+                                class="fa fa-plus-circle" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn m-0 text-left select-avatar w-100" [disabled]="isAvatar"
+                            (click)="selectProjectAvatar()">
+                            <!-- <span class="icon-user"></span>  -->
+                            Select Project avatar
+                        </button>
+                    </div>
+                    <div class="col-md-6 text-center">
+
+                        <div class="text-center overlay_dragarea" (click)="uploadNewFile()" style="cursor: pointer; border: 2px dotted #e0dcdc;padding: 13px;
+                    border-radius: 5px;" *ngIf="!url">
+                            <div class="pdf_img">
+                                <img src="../assets/attach.png">
+                                <span style="color: #757575;" for="addFile">Choose Project Avatar</span>
+                            </div>
+                        </div>
+                        <!-- <button type="submit" class="btn btn-default" (click)="uploadNewFile()" *ngIf="!url">
+                            <i class="fa fa-upload mr-1" aria-hidden="true"></i> Choose Project Avatar</button> -->
+                        <!-- <button (click)="uploadNewFile()" *ngIf="!url"> Upload a file</button> -->
+                        <!-- <app-file-upload-dnd class="w-100" projectId="100" sectionId="107" [isAvatara]='isSelectFile'
+                            maxFiles="1" maxSize="2" fileExt="JPG, JPEG, PNG" (uploadedFile)="onSelectFile($event)"
+                            *ngIf="!url"></app-file-upload-dnd> -->
+                        <div class="text-center selected-avatar" *ngIf="url">
+                            <img class="avatar-image margin-auto" [src]="url">
+                            <div class="delete-team-member">
+                                <a href="javascript:void(0);" (click)="removeAvatar()"><span
+                                        class="icon-trash"></span></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 submitButton">
+                        <div class="spinner-border mr-2" *ngIf="loading">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <button class="btn btn-delete deletebtn  my-3" (click)="deleteProject(availData)"
+                            *ngIf="availData" [disabled]="isDisable"><i class="fa fa-trash mr-1"
+                                aria-hidden="true"></i>DELETE</button>
+                        <button type="submit" class="btn btn-default my-3 mx-0" [class.disabled]="addForm.invalid"
+                            (click)="availData? updateProject(addForm.value): addProject(addForm.value)"
+                            [disabled]="isDisable || addForm.invalid">
+                            <i class="fa fa-floppy-o mr-1" aria-hidden="true"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+.sorting input {
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 !important;
+    width: 100px;
+}
+
+.sorting button {
+    border: 1px solid #cccccc;
+    margin: 5px;
+    background: white;
+}
+
+.sorting {
+    cursor: pointer;
+}
+
+.mat-menu-item:hover:not([disabled]) {
+    background: transparent !important;
+}
+button.mat-menu-item{
+    text-transform: capitalize;
+}

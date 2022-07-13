@@ -1,0 +1,254 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<div class="row m-0 mt-1 mb-2">
+  <div class="col-md-8 d-flex align-items-center">
+    <h3 class="card-header-title">Project Summary</h3>
+  </div>
+</div>
+
+
+
+<!-- User profile page design start -->
+<div class="row">
+  <div class="user-profile-main">
+    <div class="user-left">
+      <div class="row" *ngIf="projectDetails">
+        <div class="col-6 displayLabel">
+          <h5>Teammates</h5>
+          <mat-card class="single-project-card">
+            <mat-list *ngFor="let team of projectDetails.teamMembers">
+              <mat-list-item>
+                <app-user [userDetails]="team"></app-user>
+              </mat-list-item>
+            </mat-list>
+          </mat-card>
+          <mat-card class="noMembers" *ngIf="projectDetails.teamMembers && !projectDetails.teamMembers.length">
+            <h6>Sorry, there is no teammates in this project</h6>
+          </mat-card>
+        </div>
+        <div class="col-6 displayLabel">
+          <h5>Project Manager</h5>
+          <mat-card class="single-project-card">
+            <mat-list *ngFor="let team of projectDetails.projectManager">
+              <mat-list-item>
+                <app-user [userDetails]="team"></app-user>
+              </mat-list-item>
+            </mat-list>
+          </mat-card>
+          <mat-card class="noMembers" *ngIf="projectDetails.projectManager && !projectDetails.projectManager.length">
+            <h6>Sorry, there is no project manager in this project</h6>
+          </mat-card>
+        </div>
+      </div>
+      <div class="user-details mt-5" *ngIf="projectDetails">
+        <mat-tab-group>
+          <mat-tab label="Project Details">
+            <div class="tab-content-box">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Title</p>
+                    <span class="text-capitalize">{{projectDetails.title}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Alias</p>
+                    <span>
+                      {{projectDetails.taskAlias}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box ">
+                    <p>Photo</p>
+                    <span class="user-profile-image">
+                      <img src="{{projectDetails.avatar}}" onerror="this.src='../assets/default-profile.png'"
+                        alt="profile image">
+                    </span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Technology</p>
+                    <span><span>
+                        {{projectDetails.technology }}</span></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Description</p>
+                    <span><span [innerHtml]="displayContent">
+                      </span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Project Duration">
+            <div class="tab-content-box">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Deadline Date</p>
+                    <span><span>{{projectDetails.deadline | date}}</span></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Total Time</p>
+                    <span><span>
+                        {{projectDetails.totalTimes }}</span></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Working Days</p>
+                    <span>{{projectDetails.workingDays}} days</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Remaining Days</p>
+                    <span>{{projectDetails.remainingDays}} days</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Created Date</p>
+                    <span>{{projectDetails.createdAt | date}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Task Count">
+            <div class="tab-content-box">
+              <div class="table-responsive">
+                <table class="table">
+                  <tr>
+                    <th class="table-dark">Status</th>
+                    <th class="table-dark" *ngFor="let track of projectDetails.taskType | keyvalue: returnZero">
+                      {{ track.key }}
+                    </th>
+                  </tr>
+                  <tr>
+                    <td>Tasks</td>
+                    <td *ngFor="let taskCount of projectDetails.taskType | keyvalue: returnZero">
+                      {{ taskCount.value }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Issues</td>
+                    <td *ngFor="let issueCount of projectDetails.issueType | keyvalue: returnZero">
+                      {{ issueCount.value }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Bugs</td>
+                    <td *ngFor="let bugCount of projectDetails.bugType | keyvalue: returnZero">
+                      {{ bugCount.value }}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="user_task_summary_table">
+        <h5>Task Summary</h5>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="table-dark" scope="col">Name</th>
+                <th class="table-dark text-capitalize" scope="col" *ngFor="let name of userList">{{name.name}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="countTable">
+                <th scope="row">To Do</th>
+                <td *ngFor="let count of userList">
+                  <div class="form-row text-center">
+                    <div class="col-4">
+                      <p class="taskCount" tooltipClass="my-custom-class" ngbTooltip="Task" data-container="body">
+                        <img src="../../assets/task.svg" alt="icon task"> {{count.toDo.task}}
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <p class="issueCount" tooltipClass="my-custom-class" ngbTooltip="Issue" data-container="body">
+                        <img src="../../assets/issue.svg" alt="icon issue"> {{count.toDo.issue}}
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <p class="bugCount" tooltipClass="my-custom-class" ngbTooltip="Bug" data-container="body">
+                        <img src="../../assets/bug.svg" alt="icon bug"> {{count.toDo.bug}}
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="countTable">
+                <th scope="row">In-Process</th>
+                <td *ngFor="let count of userList">
+                  <div class="form-row text-center">
+                    <div class="col-4">
+                      <p class="taskCount" tooltipClass="my-custom-class" ngbTooltip="Task" data-container="body">
+                        <img src="../../assets/task.svg" alt="icon task"> {{count.inProcess.task}}
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <p class="issueCount" tooltipClass="my-custom-class" ngbTooltip="Issue" data-container="body">
+                        <img src="../../assets/issue.svg" alt="icon issue"> {{count.inProcess.issue}}
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <p class="bugCount" tooltipClass="my-custom-class" ngbTooltip="Bug" data-container="body">
+                        <img src="../../assets/bug.svg" alt="icon bug"> {{count.inProcess.bug}}
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="countTable">
+                <th scope="row">Done</th>
+                <td *ngFor="let count of userList">
+                  <div class="form-row text-center">
+                    <div class="col-4">
+                      <p class="taskCount" tooltipClass="my-custom-class" ngbTooltip="Task" data-container="body">
+                        <img src="../../assets/task.svg" alt="icon task"> {{count.done.task}}
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <p class="issueCount" tooltipClass="my-custom-class" ngbTooltip="Issue" data-container="body">
+                        <img src="../../assets/issue.svg" alt="icon issue"> {{count.done.issue}}
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <p class="bugCount" tooltipClass="my-custom-class" ngbTooltip="Bug" data-container="body">
+                        <img src="../../assets/bug.svg" alt="icon bug"> {{count.done.bug}}
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="countTable total">
+                <th scope="row">Total Time</th>
+                <td *ngFor="let count of userList">
+                  {{zeroPad(count.totalTimes.split(':')[0] , 2)}}
+                  :
+                  {{zeroPad(count.totalTimes.split(':')[1] , 2)}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

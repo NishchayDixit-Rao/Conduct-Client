@@ -1,0 +1,69 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+
+<div class="row py-1 align-items-center">
+  <div class="col-md-6">
+    <h3>Files</h3>
+  </div>
+  <div class="col-md-6 text-right">
+    <button class="btn btn-default" (click)="uploadNewFile()"> <span class="fa fa-upload mr-1"
+        aria-hidden="true"></span>Upload File</button>
+    <button class="btn btn-primary" (click)="addFolderNew('Add')"><span class="icon-note mr-1"></span> Create
+      Folder</button>
+  </div>
+</div>
+
+
+
+<!-- {{fileName}} -->
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb lighten-4 text-capitalize">
+    <li class="breadcrumb-item"><a class="breadCrumbs-text" routerLink="/documents/{{projectId}}">{{projectAlias}}</a><i
+        class="fas fa-angle-right mx-2" style="color: #3f98c5;" aria-hidden="true"></i></li>
+    <div *ngIf="navArray">
+      <li class="breadcrumb-item"><a class="breadCrumbs-text" routerLink="/documents-folder/{{folder.folderId}}"
+          *ngFor="let folder of navArray">{{folder.title}}<i class="fas fa-angle-right mx-2" aria-hidden="true"></i></a>
+      </li>
+    </div>
+    <!-- <li class="breadcrumb-item"><a class="breadCrumbs-text">{{folder.title}}</a>
+    </li> -->
+  </ol>
+</nav>
+
+<mat-divider></mat-divider>
+
+<div class="noNoticeMessage text-center mt-1"
+  *ngIf="((totalFolder && !totalFolder.length) && (listOfImages&& !listOfImages.length) && !loader)">
+  <div>
+    <div class="empty-notice-image">
+      <img src="../../assets/notice.jpg" alt="empty notice">
+    </div>
+    <h4>Sorry!</h4>
+    <p>There is no files, <a (click)="uploadNewFile()">Add Some</a> to get started!</p>
+  </div>
+</div>
+
+
+<div class="card p-2">
+  <div *ngFor="let list of totalFolder; let i =index">
+    <app-folder-tile [singleFolder]="list" [index]="i" [allFolder]="allFolderList" (editFolder)="newEditFolder($event)"
+      (removeFolder)="deleteFolder($event)" (singleFolderDetails)="folderDetails($event)">
+    </app-folder-tile>
+
+  </div>
+
+
+  <div *ngFor="let image of listOfImages">
+    <app-file-tile [singleFile]="image" (removeImage)="deleteImage($event)"></app-file-tile>
+  </div>
+</div>
+
+<!-- <div className="col-6">
+  <a  download href="https://www.w3schools.com/images/myw3schoolsimage.jpg" >Test Download </a>
+</div> -->

@@ -1,0 +1,291 @@
+<div class="loader" *ngIf="loader">
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="border_custom">
+			<div class="row p-2">
+				<div class="col-md-4 p-0">
+					<div class="profile_image">
+						<img onerror="this.src='../assets/man.png'" src="{{path}}{{currentUser.profilePhoto}}">
+					</div>
+				</div>
+				<div class="col-md-8 p-0">
+					<div class="mx-0 my-auto">
+						<div class="name">
+							<span>{{currentUser.name | uppercase}}</span>
+						</div>
+						<p style="padding-left: 10px;">{{currentUser.userRole}}</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="tabs_div">
+				<ul class="nav md-tabs row text-center mt-2" id="myTabMD" role="tablist">
+					<li class="nav-item col-md-12">
+						<a class="nav-link active" id="home-tab-md" data-toggle="tab" href="#home-md" role="tab"
+							aria-controls="home-md" aria-selected="true"><span class="icon-user mr-1"></span>About</a>
+					</li>
+					<li class="nav-item col-md-12">
+						<a class="nav-link" id="profile-tab-md" data-toggle="tab" href="#profile-md" role="tab"
+							aria-controls="profile-md" aria-selected="false"><span class="icon-list mr-1"></span>
+							Projects</a>
+					</li>
+					<li class="nav-item col-md-12">
+						<a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#contact-md" role="tab"
+							aria-controls="contact-md" aria-selected="false"><span class="icon-docs mr-1"></span>
+							Attendance</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="tab-content p-0" id="myTabContentMD">
+			<div class="tab-pane fade show active" id="home-md" role="tabpanel" aria-labelledby="home-tab-md">
+				<div class="card profile padding-15">
+					<h2><span class="icon-user mr-1"></span> About</h2>
+					<h3>{{currentUser.name}}</h3>
+					<p><span class="icon-envelope mr-1"></span><a style="color: black!important;"
+							href="mailto: {{currentUser.email}}"> {{currentUser.email}}</a></p>
+					<p *ngIf="currentUser.phone"><span class="icon-screen-smartphone mr-1"></span><a
+							style="color: black!important;" href="tel:+91{{currentUser.phone}}">
+							{{currentUser.phone}}</a></p>
+					<button type="button" class="btn btn-primary" (click)="editUser()"><span
+							class="icon-note"></span> Edit profile</button>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
+				<div class="card">
+					<h2><span class="icon-list"></span> Projects</h2>
+					<div *ngIf="!projects">
+						<p style="text-align: center;">No projects Found</p>
+					</div>
+					<div class="project" *ngIf="projects">
+						<div class="row border-bottom">
+							<div class="col-md-1 mb-10">
+								<div class="project_img">
+									<img src="{{path}}{{projects.avatar}}" class="avatar_image"
+										onerror="this.src='../assets/4.jpeg'">
+								</div>
+							</div>
+							<div class="col-md-11">
+								<label class="txt_label1">{{projects.title}}</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="contact-md" role="tabpanel" aria-labelledby="contact-tab-md">
+				<div class="card">
+					<h2><span class="icon-list"></span> Attendance</h2>
+					<div class="container-fluid mt--7" *ngIf="currentUser">
+						<div class="row m-auto">
+							<div class="col-xl-12 order-xl-2 mb-5 mb-xl-0">
+								<div class="card shadow userDeatils">
+									<div class="border-0">
+										<div class="row align-items-center">
+											<div class="col-8">
+												<h3 class="heading text-muted mb-1 text-capitalize text-center">
+													{{currentUser.name}}'s account
+													details</h3>
+											</div>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="pl-lg-4">
+											<div class="row">
+												<div class="col-xl-4 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label text-capitalize"
+															for="input-username">Employee
+															Name</label>
+														<p class="text-capitalize">{{currentUser.name}}</p>
+													</div>
+												</div>
+												<div class="col-xl-6 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label text-capitalize"
+															for="input-email">Email
+															address</label>
+														<p>{{currentUser.email}}</p>
+
+													</div>
+												</div>
+												<div class="col-xl-2 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label"
+															for="input-email">Designation</label>
+														<p class="text-capitalize">{{currentUser.userRole}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-5 ">
+							<div class="col-xl-12 mb-5 mb-xl-0">
+								<div class="card shadow">
+									<div class="border-0">
+										<div class="row align-items-center">
+											<div class="col mt-2">
+												<h3 class="mb-0">Summary</h3>
+											</div>
+											<div class="input-daterange datepicker row align-items-center">
+												<div class="col mt-3">
+													<div class="form-group">
+														<div class="input-group input-group-alternative">
+															<div class="input-group-prepend">
+																<span class="input-group-text"><i
+																		class="far fa-calendar-alt"></i></span>
+															</div>
+															<input style="cursor: pointer;" readonly
+																class="form-control" id="reportrange"
+																placeholder="search Record" type="text" value="---">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col mt-2">
+												<i class="fas fa-redo-alt" style="cursor: pointer;"
+													(click)="resetForm()" data-toggle="tooltip" title="Reset form"></i>
+											</div>
+										</div>
+									</div>
+									<div class="table-responsive">
+
+										<table class="table align-items-center table-flush">
+											<thead class="thead-light">
+												<tr class="text-capitalize">
+													<th scope="col">Date</th>
+													<th scope="col">day</th>
+													<th scope="col">Hours in office</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+
+
+												<tr
+													*ngFor="let data of logs | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
+													<th scope="row" class="text-uppercase">
+														{{ data.date }}
+													</th>
+													<td>
+														{{data.day}}
+													</td>
+													<td>
+														{{data.diffrence}}
+													</td>
+													<td>
+														<a id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span
+																class="viewMore">View More</span></a>
+													</td>
+												</tr>
+
+											</tbody>
+											<pagination-controls *ngIf="currentUser.userRole == 'admin'"
+												(pageChange)="p=$event"></pagination-controls>
+										</table>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="row m-auto totalTime">
+							<div class="col-xl-6 mb-5 mb-xl-0 mt-4">
+								<div class="card card-shadow card-stats mb-4 mb-xl-0">
+									<div class="card-body button" data-toggle="tooltip" title="Log Attendance"
+										style="height: 132px">
+										<div class="row">
+											<div class="col">
+												<h5 class="font-weight-bold text-uppercase text-muted mb-0 mt-3">Total
+													hours completed</h5>
+											</div>
+											<div class="col">
+												<h5 class=" font-weight-bold text-uppercase text-muted mb-0 mt-3">
+													Required hours to complete</h5>
+											</div>
+
+										</div>
+										<div class="row">
+											<div class="col">
+												<h3 class="card-title font-weight-bold text-uppercase text-muted mb-0 ">
+													{{totalHoursWorked}}</h3>
+											</div>
+											<div class="col">
+												<h3 class="card-title font-weight-bold text-uppercase text-muted mb-0 ">
+													{{totalHoursToWork}}</h3>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Footer -->
+						<!-- <footer class="footer">
+							<div class="row align-items-center justify-content-xl-between">
+								<div class="col-xl-6">
+									<div class="copyright text-center text-xl-left text-muted">
+										&copy; 2019 <a href="https://raoinformationtechnology.com/"
+											class="font-weight-bold ml-1" target="_blank">Rao Infotech</a>
+									</div>
+								</div>
+
+							</div>
+						</footer> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header" *ngIf="modelValue">
+				<h4 class="modal-title">{{modelValue.day}} &nbsp;-&nbsp; {{modelValue.date}}</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body" *ngIf="modelValue">
+				<h3 align="center"><u>Time log </u></h3>
+				<div class="form-group" style="overflow: auto; ; max-height: 350px">
+					<table align="center" style="width: 100% " cellpadding="10px" *ngIf="modelValue">
+						<tr align="center">
+							<th>No.</th>
+							<th>In</th>
+							<th>Out</th>
+						</tr>
+						<tr *ngFor="let time of modelValue.timeLog ; let i = index" align="center">
+							<td>{{i+1}}</td>
+							<td>{{time.in}}</td>
+							<td>{{time.out}}</td>
+						</tr>
+					</table>
+				</div>
+
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+	</div>
+</div>

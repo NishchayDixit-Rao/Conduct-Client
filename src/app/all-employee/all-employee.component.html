@@ -1,0 +1,68 @@
+<div class="loader" *ngIf="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div *ngIf="!loader">
+    <div class="all-emp-main">
+        <div class="row color">
+            <div class="col-md-6">
+                <div class="searchIcon all-emp-search">
+                    <div class="searchBar">
+                        <span class="mr-1" data-icon="&#xe090;"></span>
+                    </div>
+                    <mat-form-field class="w-100 example-full-width">
+                        <input matInput placeholder="Search" id="exampleForm2" [(ngModel)]="searchText"
+                        (keyup)="onKey(searchText)" autocomplete="off">
+                    </mat-form-field>
+                    <span id="message" style="color: red; font-size: 14px;"></span>
+                </div>
+            </div>
+            <div class="col-md-3 all_prjct_drpdown">
+                <div class="form-group">
+                    <select class="browser-default custom-select custom-select-lg mb-3" id="projectId" *ngIf="projects" (change)="getDeveloper( trackChangeDeveloperWise = $event.target.value)" [class.disabled]="projects.length == 0">
+                        <option value="all" [class.disabled]="projects.length == 0">All Projects</option>
+                        <option *ngFor="let project of projects" value="{{project._id}}">{{project.title}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- add member -->
+            <div class="col-md-3 d-flex align-items-center justify-content-end">
+                <div class="btn_content text-right">
+                    <button type="button" class="btn btn-primary add_employee m-0" (click)="addEmployee()">
+                        <span class="icon-plus mr-1"></span> Add member to Work Circle
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!developers || developers.length == 0">
+            <p style="text-align: center;font-size: 20px;margin-top: 30px;">Sorry, No work-circle found.
+            </p>
+        </div>
+        <div class="noTeamMembers text-center">
+            <span id="message1"></span>
+        </div>
+        <div class="row mt-2">
+            <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let developer of developers">
+                <div class="card mb-1" (click)="singleDeveloper(developer)">
+                    <div class="emp-list">
+                        <img src="{{path}}{{developer.profilePhoto}}"
+                        onerror="this.src='../assets/default-profile.png'">
+                        <h4 class="text-capitalize">{{developer.name}}</h4>
+                    </div>
+                    <div class="card-detail">
+                        <div class="row">
+                            <div class="col-12 mt-1">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span><a href="mailto:{{developer.email}}"></a> {{developer.email}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

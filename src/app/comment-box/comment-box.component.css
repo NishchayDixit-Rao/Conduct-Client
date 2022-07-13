@@ -1,0 +1,14 @@
+/* @media(max-width:375px){   
+    .quillEditor {
+        font-size: x-small !important;
+    }
+} */
+.upladedButton button {
+  width: 100%;
+  color: white;
+}
+
+.image_attachment {
+  display: inline-block;
+  float: left;
+}

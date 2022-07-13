@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="card card-cascade narrower col col-md-10 offset-1">
+        <div class="view view-cascade gradient-card-header blue-gradient narrower py-3 mx-4 mb-3 px-3 d-flex justify-content-between align-items-center ">
+            <span class="white-text" style="font-size: 20px;">Team Members</span>
+        </div>
+        <div class="px-4">
+            <div class="table-wrapper">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="th-lg">
+                                <span>Name</span>
+                            </th>
+                            <th class="th-lg">
+                                <span>Time</span>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let team of tempArrayTrue">
+                            <td style="cursor: pointer" (click)="getTaskOfDeveloper(team)">{{team.assignDeveloper.name}}</td>
+                            <td *ngIf="team.isTimer == false">There is no running time</td>
+                            <td *ngIf="team.isTimer == true">{{team.totalTime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<h3 class="card-header-title text-center mt-2" *ngIf="displayTable && userTasks.length"><span class="icon-clock mr-1"></span> Task</h3>
+<div *ngIf="displayTable && userTasks.length">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th class="th-lg">
+                        <span>Task</span>
+                    </th>
+                    <th class="th-lg">
+                        <span>Unique-Id</span>
+                    </th>
+                    <th class="th-lg">
+                        <span>Status</span>
+                    </th>
+                    <th class="th-lg">
+                        <span>Time Taken</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let task of userTasks ">
+                <tr>
+                    <td>{{task.taskTitle}}</td>
+                    <td class="text-uppercase">{{task.taskUniqueId}}</td>
+                    <td>{{task.status}}</td>
+                    <td *ngIf="task.isTimer == false">{{task.totalTime}}</td>
+                    <td *ngIf="task.isTimer == true" style="color: blue;">{{task.totalTime}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div *ngIf="isTask" class="text-center">
+    <h4>Sorry, This user has no completed task in this project</h4>
+</div>

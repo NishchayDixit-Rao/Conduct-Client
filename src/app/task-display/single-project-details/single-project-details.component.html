@@ -1,0 +1,85 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<div class="project-title">
+  <div class="row color">
+    <div class="col-lg-5 d-flex align-items-center">
+      <div *ngIf="pro">
+        <h3 *ngIf="pro.title" class="card-header-title">
+          <!-- <span class="mr-1" data-icon="&#xe06a;"></span>  -->
+          {{ pro.title }}
+          <sub class="text-uppercase">({{ pro.taskAlias }})</sub>
+        </h3>
+      </div>
+      <!-- <div *ngIf="activeSprint">
+                <h5 *ngIf="activeSprint.duration>0"><span class="icon-clock mr-1"></span><span
+                        title="Sprint Information" data-toggle="popover-hover"
+                        data-content="">{{activeSprint.remainingDays}} Days Remaining</span></h5>
+            </div> -->
+    </div>
+    <div class="col-lg-7 d-flex justify-content-end">
+      <div class="row p-0">
+        <div class="col-md-5">
+          <div class="md-form form-group">
+            <div class="searchIcon">
+              <span class="mr-1" data-icon="&#xe090;"></span>
+            </div>
+            <div class="searchField">
+              <mat-form-field class="example-full-width">
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="Enter Task Details" (keyup)="onKey(searchText)" [(ngModel)]="searchText" />
+              </mat-form-field>
+              <span id="message"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7 d-flex justify-content-end">
+          <div class="customClass">
+            Sorting
+            <app-display-sorting [sorting]="sortingList" [length]="taskLength" (dueDate)="dueDateSorting($event)"
+              (priority)="taskPriority($event)" (taskUniqueId)="taskSorting($event)" [reset]="sortingReset">
+            </app-display-sorting>
+          </div>
+          <div class="customClass">
+            Filter
+            <app-display-filter [filter]="displayFilter" [developer]="totalTeam" [projectList]="allProjectList"
+              [taskType]="displayType" (developerList)="filterOnDeveloper($event)" (typeSelected)="filterOnType($event)"
+              [resetFilter]="filterReset" [taskPriority]="Priority" (projectSelected)="filterOnProject($event)"
+              (developerProjects)="filterOnDeveAndProject($event)" (prioritySelected)="filterOnPriority($event)"
+              (selectedDate)="filterOnDueDate($event)">
+            </app-display-filter>
+          </div>
+          <div class="d-flex align-items-center" (click)="resetFilter()" *ngIf="displayReset">
+            <button class="btn p-2 resetBtn" tooltipClass="my-custom-class" ngbTooltip="Reset">
+              <i class="fa fa-repeat resetIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="displayTask" *ngIf="isDisplay == 0">
+  <app-task-card [task]="taskList" [newTask]="singleTask" [team]="sendTeam" [track]="tracks"
+    (trackDrop)="onTrackDrop($event)" (statusChange)="changeStatus($event)" [dueDateSorting]="dueDateSort"
+    (talkDrop)="onTalkDrop($event)" [taskPriority]="priority" [taskSorting]="taskUnique">
+  </app-task-card>
+</div>
+<div class="noDataFound" *ngIf="isDisplay == 1">
+  <app-no-data-found [dataFound]="noDataFound"></app-no-data-found>
+</div>
+<div class="main-box" [hidden]="!isMenu">
+  <div id="circularMenu" class="circular-menu">
+    <a class="floating-btn"><i class="fa fa-plus" aria-hidden="true"></i></a>
+    <menu class="items-wrapper">
+      <a class="menu-item" (click)="addItem('Task')">Task</a>
+      <a class="menu-item" (click)="addItem('Issue')">Issue</a>
+      <a class="menu-item" (click)="addItem('Bugg')">Bug</a>
+      <!-- <a class="menu-item">exit</a> -->
+    </menu>
+  </div>
+</div>

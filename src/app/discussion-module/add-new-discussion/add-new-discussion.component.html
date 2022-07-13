@@ -1,0 +1,98 @@
+<!-- New Discussion Model Start -->
+<div class="row mb-1">
+    <div class="col-9 pull-left">
+        <h3 class="card-header-title" id="itemModal">{{displayTitle}}</h3>
+    </div>
+    <div class="col-3 pull-right">
+        <button type="button" class="close" (click)="closeModel()" aria-label="Close">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+</div>
+
+
+
+<form [formGroup]='createDiscussionForm'>
+    <div class="row">
+        <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100 example-full-width">
+                <mat-label>Discussion Title</mat-label>
+                <input matInput placeholder="Enter Discussion" formControlName="title"
+                    ngModel="{{editDiscussion ? editDiscussion.title : ''}}">
+                <mat-error *ngIf="createDiscussionForm.controls.title.hasError('required')">
+                    title is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-12">
+            <h5>Content</h5>
+            <!-- <ckeditor class="ckeditor" [editor]="Editor" (ready)="onReady($event)" formControlName="content"
+                (change)="onChange($event)" required="required" [config]="imageConfig"
+                ngModel="{{editDiscussion ? editDiscussion.content : ''}}"></ckeditor> -->
+
+            <!-- <quill-editor required formControlName="content" ngModel="{{editDiscussion ? editDiscussion.content : ''}}">
+            </quill-editor> -->
+
+            <app-text-editor (commentData)="contentData($event)" [description]="editDescription">
+            </app-text-editor>
+        </div>
+        <div class="col-12 mt-3 uploadButton">
+            <h5>Add Attachment</h5>
+
+            <div class="displaySection" *ngIf="uploadedFileArray && uploadedFileArray.length">
+                <div class="row">
+                    <div *ngFor="let image of uploadedFileArray; let i = index">
+                        <a>
+                            <app-image-display [imageDisplay]="image.singleFile" [imageEdit]="editImage"
+                                (removeImage)="uploadedRemove($event)" [indexOf]="i">
+                            </app-image-display>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center overlay_dragarea" (click)="uploadNewFile()" style="cursor: pointer; border: 2px dotted #e0dcdc;padding: 13px;
+            border-radius: 5px;">
+                <div class="pdf_img">
+                    <img src="../assets/attach.png">
+                    <span style="color: #757575;" for="addFile">Upload Files</span>
+                </div>
+            </div>
+            <!-- <button type="submit" class="btn btn-default " (click)="uploadNewFile()">
+                <i class="fa fa-upload mr-1" aria-hidden="true"></i> Upload Files</button> -->
+            <!-- <app-file-upload-dnd projectId="100" sectionId="107" maxFiles="5" maxSize="500"
+                (uploadedFile)="changeFile($event)"></app-file-upload-dnd> -->
+        </div>
+        <!-- <div class="col-12 mt-1" *ngIf="!editDiscussion">
+            <h5>Notify</h5>
+            <mat-selection-list [(ngModel)]="selectedOptions" [ngModelOptions]="{standalone: true}">
+                <mat-list-option *ngFor="let name of developerName" [value]="name">
+                    <app-user [userDetails]="name" [userRedirect]="redirect"></app-user>
+                    <mat-divider></mat-divider>
+                </mat-list-option>
+            </mat-selection-list>
+        </div> -->
+    </div>
+    <div class="mainSection mt-2" *ngIf="(editDiscussion&& editDiscussion.images) && editDiscussion.images.length">
+        <div class="row">
+            <div *ngFor="let image of imageArray; let i = index">
+                <a>
+                    <app-image-display [imageDisplay]="image" [imageEdit]="editImage" [indexOf]="i"
+                        (removeImage)="imageRemove($event)"></app-image-display>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-1 d-flex justify-content-end align-items-center">
+        <div class="spinner-border mr-2" *ngIf="loading">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <button class="btn btn-default text-white m-0" [disabled]="isDisable || createDiscussionForm.invalid"
+            (click)="editDiscussion? updateDiscussion(createDiscussionForm.value):  addDiscussion(createDiscussionForm.value)">
+            <i class="fa fa-floppy-o mr-1" aria-hidden="true"></i> Save</button>
+    </div>
+
+</form>
+
+
+<!-- New Discussion Model End -->

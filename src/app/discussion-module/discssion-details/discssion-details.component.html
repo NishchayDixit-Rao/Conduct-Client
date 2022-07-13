@@ -1,0 +1,61 @@
+<div class="loader" *ngIf="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="card-header1 d-flex justify-content-between align-items-center">
+                <h4 id="myModalLabel"> Discussion List</h4>
+                <button class="btn btn-primary m-0 float-right" type="button" data-toggle="modal"
+                    data-target="#itemManipulationModel1"
+                    (click)="editDiscussion(discussionDetails);editDetails = discussionDetails "><span
+                        class="icon-pencil mr-1"></span>Edit</button>
+            </div>
+
+
+            <div class="card-body p-0" *ngIf="discussionDetails">
+                <div class="time_details">
+                    <h5 class="title text-capitalize mb-0">{{discussionDetails.title}}</h5>
+                    <span class="text-content">Posted By: <span
+                            class="text-capitalize">{{discussionDetails.createdBy.name}}</span> on
+                        {{discussionDetails.createdAt | date}}</span>
+                </div>
+                <h5 class="my-1">Content</h5>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-3">
+                        <div class="break">
+                            <span [innerHtml]="displayData"></span>
+                            <!-- <span innerHtml="{{displayData}}"></span> -->
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="my-1" *ngIf="discussionDetails.images && discussionDetails.images.length">Attachment</h5>
+                <div class="row" *ngIf="discussionDetails.images && discussionDetails.images.length">
+                    <!-- <div class="col-6"> -->
+                    <div *ngFor="let image of discussionDetails.images">
+                        <a [attr.data-lightbox]="discussionDetails._id" class="image_attachment" href="{{image}}">
+                            <app-image-display [imageDisplay]="image"></app-image-display>
+                        </a>
+                    </div>
+                    <!-- </div> -->
+                </div>
+                <div class="commentBox">
+                    <app-comment-box class="my-2" [comment]="comments" [commentReset]="resetComment"
+                        (commentData)="commentDetails($event)">
+                    </app-comment-box>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-sm-3 border px-0">
+            <div class="list-user">
+                <app-notify-user-list [totalList]="allMembers" (developerSelected)="selectedDeveloper($event)">
+                </app-notify-user-list>
+            </div>
+        </div> -->
+    </div>

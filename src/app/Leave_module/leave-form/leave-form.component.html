@@ -1,0 +1,47 @@
+<div class="all_content">
+  <form [formGroup]='leaveForm' >
+    <div class="row">
+      <div class="col-12">
+        <div class="select_date text-white">Select Date</div>
+        <input placeholder="Enter Date" formControlName="date" id="startDateFor1" class="form-control datepicker"
+          autocomplete="off" type="text">
+      </div>
+      <div class="col-12">
+        <div class="select_date text-white">Days</div>
+        <input type="number" formControlName="noOfDays" placeholder="Enter Number of days" step="0.5" min="0.5"
+          id="input1" (keyup)="updateList($event.target.value,'days')" ([ngModel])="noOfDays"
+          >
+      </div>
+      <div class="or_text w-100 text-center">OR</div>
+      <div class="col-12">
+        <div class="select_date text-white">Hours</div>
+        <input type="number" formControlName="shortLeave" (keyup)="updateList($event.target.value,'shortLeave')"
+          placeholder="Enter your Leave hours..." id="input2" min="0" ([ngModel])="shortLeave"
+          >
+      </div>
+      <div class="col-12">
+        <div class="select_date text-white">Reason</div>
+        <label for="exampleFormControlTextarea4" style="color: #372e5f;"><b>Reason For
+            Leave:-</b></label>
+        <textarea class="form-control" formControlName="reason" id="exampleFormControlTextarea4" rows="1"></textarea>
+      </div>
+      <div class="col-12">
+        <div class="select_date text-white">Compansate</div>
+        <input type="text" formControlName="extraHours" placeholder="Enter your compensate...">
+      </div>
+    </div>
+    <div class="add_leave_btn text-center text-white">
+      <button type="submit" class="btn btn-outline-deep-purple waves-effect btn-default"
+        (click)="applyLeave(leaveForm.value)" [disabled]="this.leaveForm.invalid || isDisable">
+        Submit</button>
+    </div>
+  </form>
+</div>
+
+
+<!-- <ion-input formControlName="shortLeave" type="number" (keyup)="updateList($event.target.value,'shortLeave')"
+  placeholder="Enter your Leave hours..." id="input2" min="0" [disabled]="leaveForm.controls.noOfDays.value"
+  ngModel="{{shortLeave}}"></ion-input>
+<ion-input type="number" id="field1" formControlName="noOfDays" placeholder="Enter Number of days" step="0.5" min="0.5"
+  id="input1" [disabled]="leaveForm.controls.shortLeave.value" ngModel="{{noOfDays}}"
+  (keyup)="updateList($event.target.value,'days')"> -->

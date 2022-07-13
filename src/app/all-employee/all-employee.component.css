@@ -1,0 +1,82 @@
+.searchBar {
+  position: absolute;
+  top: 19px;
+  left: 20px;
+  font-size: 18px;
+}
+.all-emp-main .row.color {
+  background-color: #f5fafc;
+  padding: 15px 0px;
+}
+.card {
+  padding: 15px;
+  cursor: pointer;
+  background-color: #F5FAFC;
+  border: 1px solid #cde5f0;
+  border-radius: 10px;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.card:hover {
+  box-shadow: 0px 0px 8px #9ccbe2 !important;
+}
+.profile-pic {
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  border-radius: 50%;
+  position: absolute;
+}
+.profile-pic img {
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+.emp-list {
+  text-align: left;
+  padding: 0px 0px 0px 50px;
+  position: relative;
+}
+.emp-list img {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 2px solid #3998c5;
+  border-radius: 50%;
+  background-color: #3998c5;
+}
+.emp-list h4 {
+  line-height: 40px;
+  font-size: 18px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+}
+.card-detail .col-12 {
+  margin: 15px 0px 0px !important;
+}
+.card-detail span {
+  padding-left: 24px;
+  position: relative;
+  color: #686060;
+  font-size: 15px;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+  line-height: 24px;
+}
+.card-detail i {
+  color: #3998C5;
+  position: absolute;
+  font-size: 16px;
+  line-height: 24px;
+}

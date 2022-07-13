@@ -1,0 +1,103 @@
+<div class="row m-0 p-0 sorting">
+    <button mat-button [matMenuTriggerFor]="animals"> <input class="p-0" matInput placeholder="{{displayName}}"
+            autocomplete="off">
+    </button>
+</div>
+<mat-menu #animals="matMenu" (closed)="menuClosed($event)">
+    <div *ngFor="let item of displayMenu">
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu" *ngIf="item.displayName == 'Developer'"> Team Member
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu2" *ngIf="item.displayName == 'Due Date'"> Due Date
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu3" *ngIf="item.displayName == 'Created By'"> Created By
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu4" *ngIf="item.displayName == 'Task Type'"> Task Type
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu5" *ngIf="item.displayName == 'Priority'"> Priority
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu6" *ngIf="item.displayName == 'UserRole'"> UserRole
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu7" *ngIf="item.displayName == 'Projects'"> Projects
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu8" *ngIf="item.displayName == 'Manager'"> Manager
+        </button>
+    </div>
+</mat-menu>
+
+
+<mat-menu #developerMenu="matMenu">
+    <div (click)="$event.stopPropagation()">
+        <app-developer-filter [developerList]="totalDeveloper" [filter]="resetFilterDeveloper"
+            (developerSelected)="selectedDeveloper($event)">
+        </app-developer-filter>
+    </div>
+</mat-menu>
+
+<mat-menu #developerMenu8="matMenu">
+    <div (click)="$event.stopPropagation()">
+        <app-developer-filter [developerList]="totalDeveloper" [filter]="resetFilterDeveloper"
+            (managerSelected)="selectedManager($event)">
+        </app-developer-filter>
+    </div>
+</mat-menu>
+
+<mat-menu #developerMenu2="matMenu">
+    <div (click)="$event.stopPropagation()">
+        <app-date-range-picker (selectedDate)="dueDate($event)" [dateReset]="resetDate"></app-date-range-picker>
+    </div>
+</mat-menu>
+
+
+
+<mat-menu #developerMenu4="matMenu">
+    <div (click)="$event.stopPropagation()">
+        <mat-selection-list [(ngModel)]="selectedType" (selectionChange)="taskTypeSelected($event)">
+            <mat-list-option *ngFor="let name of displayType" [value]="name">
+                <button mat-menu-item [disableRipple]="true"> <span class="mr-1" ngClass="{{name.icon}}"> {{name.name}}
+                    </span>
+                </button>
+                <mat-divider></mat-divider>
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+</mat-menu>
+
+
+<mat-menu #developerMenu5="matMenu">
+    <div (click)="$event.stopPropagation()">
+        <mat-selection-list [(ngModel)]="selectedPriority" (selectionChange)="taskPriority($event)">
+            <mat-list-option *ngFor="let name of displayPriority" [value]="name">
+                <button mat-menu-item [disableRipple]="true"> {{name.name}}
+                </button>
+                <mat-divider></mat-divider>
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+</mat-menu>
+
+
+<mat-menu #developerMenu6="matMenu">
+    <div (click)="$event.stopPropagation()">
+        <mat-selection-list [(ngModel)]="selectedRole" (selectionChange)="userRoleSelect($event)">
+            <mat-list-option *ngFor="let name of userRoleList" [value]="name">
+                <button mat-menu-item [disableRipple]="true"> {{ getUserRole(name.name) }}
+                </button>
+                <mat-divider></mat-divider>
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+</mat-menu>
+
+
+
+<mat-menu #developerMenu7="matMenu">
+    <div (click)="$event.stopPropagation()">
+        <mat-selection-list [(ngModel)]="selectedProjects" (selectionChange)="selectProject($event)">
+            <mat-list-option *ngFor="let name of totalProjects" [value]="name">
+                <button mat-menu-item [disableRipple]="true"> {{name.title}}
+                </button>
+                <mat-divider></mat-divider>
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+</mat-menu>

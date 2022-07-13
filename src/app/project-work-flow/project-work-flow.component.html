@@ -1,0 +1,70 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<div *ngIf="projectData">
+  <h3 class="card-header-title">
+    {{ projectData.title }}
+    <sub class="text-uppercase">({{ projectData.taskAlias }})</sub>
+  </h3>
+</div>
+<div class="track_list_container">
+  <div class="track_list">
+    <div class="single_track">
+      <div class="single_track_inner">
+        <mat-form-field appearance="outline" class="w-100 example-full-width">
+          <mat-label>Track Name</mat-label>
+          <input readonly matInput value="To Do">
+          <mat-slide-toggle class="example-margin" [color]="color" [checked]="checked" [disabled]="disabled">
+            Enable Task Limit
+          </mat-slide-toggle>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="draggable_track_list" cdkDropList (cdkDropListDropped)="rearrengeTracks($event)">
+    <div class="single_track" *ngFor="let projectTrack of projectTracks; let i = index" cdkDrag>
+      <div class="single_track_inner" *ngIf="projectTrack.track !== 'To Do' && projectTrack.track !== 'Done'">
+        <mat-form-field appearance="outline" class="w-100 example-full-width">
+          <mat-label>Track Name</mat-label>
+          <input [readonly]="projectTrack.isEditable" matInput placeholder="Enter Track Name"
+            [(ngModel)]="projectTrack.track">
+        </mat-form-field>
+        <span class="delete_track_button" (click)="deleteTrack(projectTrack.track, i)">
+          <span class="icon-trash"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="track_list">
+    <div class="single_track">
+      <div class="single_track_inner">
+        <mat-form-field appearance="outline" class="w-100 example-full-width">
+          <mat-label>Track Name</mat-label>
+          <input readonly matInput value="Done">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <!-- <table class="table">
+    <tbody cdkDropList (cdkDropListDropped)="rearrengeTracks($event)">
+      <tr [cdkDragDisabled]="projectTrack.track == 'To Do' || projectTrack.track == 'Done' ? true : false "
+        *ngFor="let projectTrack of projectTracks; let i = index" cdkDrag>
+        <td>
+          <input type="text" name="comment" [(ngModel)]="projectTrack.track" />
+        </td>
+        <td>
+          <span *ngIf="projectTrack.track !== 'To Do' && projectTrack.track !== 'Done'">
+            <i (click)="deleteTrack(projectTrack.track, i)" class="fas fa-trash-alt"></i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table> -->
+  <button (click)="addNewField()" type="button" class="btn btn-primary btn-floating">
+    <i class="fas fa-plus-circle"></i>
+  </button>
+  <button (click)="updateWorkFlow()" type="button" class="btn btn-primary">Update WorkFlow</button>
+</div>

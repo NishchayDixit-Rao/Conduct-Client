@@ -1,0 +1,108 @@
+<div class="modal-content">
+
+  <div class="spinner-border mr-2" *ngIf="loading">
+    <span class="sr-only">Loading...</span>
+  </div>
+
+  <div class="modal-header">
+    <h5 class="modal-title">Add {{ userRole.length ? userRole : 'User' }}</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModel()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <ng-template #simpleEmail>
+    <form [formGroup]="userEmail" (ngSubmit)="onSubmit()">
+      <div class="modal-body px-0 pb-0">
+        <div class="col-md-12 col-sm-12">
+          <mat-form-field appearance="outline" class="w-100 example-full-width invite-field">
+            <mat-label>Add Email</mat-label>
+            <input formControlName="email" matInput placeholder="Enter Email Addresws">
+          </mat-form-field>
+          <small class="text-danger d-block" *ngIf="userEmail.get('email').errors?.email">Email address is
+            invalid</small>
+          <small class="text-danger d-block" *ngIf="userEmail.get('email').errors?.required">Email address is
+            required</small>
+        </div>
+        <button class="btn btn-default my-3 mx-auto" (click)="addMember()" [disabled]="userEmail.invalid">
+          <i class="fa fa-floppy-o mr-1" aria-hidden="true"></i> Add</button>
+      </div> ​
+    </form>
+  </ng-template>
+
+  <div *ngIf="projectList && projectList.length; else simpleEmail">
+    <ng-select class="pb-0" placeholder="Select Project" [items]="projectList" bindLabel="title" bindValue="_id"
+      [closeOnSelect]="true" (change)="projectSelected($event)" (clear)="onClearProject()" [(ngModel)]="projectAdd">
+      <ng-template ng-label-tmp let-item="item" let-clear="clear">
+        <span class="ng-value-label"><img src="{{item.avatar}}" onerror="this.src='assets/icons/avatar.png'"
+            width="20px" height="20px">
+          {{item.title}}</span>
+        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+      </ng-template>
+      <div class="row">
+        <ng-template ng-option-tmp let-item="item">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="avatar">
+                <img src="{{item.avatar}}" onerror="this.src='assets/icons/avatar.png'">
+              </div>
+              <div class="project-des">
+                <p class="card-title">{{item.title}}</p>
+                <span class="card-title">{{item.uniqueId}}</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </ng-select>
+    <div *ngIf="selectedProject">
+      <form [formGroup]="workCircleUser" (ngSubmit)="onSubmit()">
+        <div class="modal-body px-0 pb-0">
+          <div class="col-md-12 col-sm-12">
+            <mat-form-field appearance="outline" class="w-100 example-full-width invite-field">
+              <mat-label>Add Email</mat-label>
+              <input formControlName="email" matInput placeholder="Enter Email Addresws">
+            </mat-form-field>
+            <small class="text-danger d-block" *ngIf="workCircleUser.get('email').errors?.email">Email address is
+              invalid</small>
+            <small class="text-danger d-block" *ngIf="workCircleUser.get('email').errors?.required">Email address is
+              required</small>
+          </div>
+          <div>
+            <div class="form-group">
+              <label for="userRole">Gender:</label>
+              <div>
+                <input (change)="selectUserRole($event)" id="manager" type="radio" value="Manager" name="userRole"
+                  formControlName="userRole">
+                <label for="manager">Manager</label>
+              </div>
+
+              <div>
+                <input (change)="selectUserRole($event)" id="teamMember" type="radio" value="Team Member"
+                  name="userRole" formControlName="userRole">
+                <label for="teamMember">Team Member</label>
+              </div>
+
+              <small class="text-danger d-block" *ngIf="workCircleUser.get('userRole').errors?.required">Please select
+                user-role</small>
+            </div>
+
+            <!-- <mat-radio-group formcontrolname="userRole" [(ngModal)]="selectedUserRole" aria-label="Select an option">
+              <mat-radio-button (click)="setUserRole('Manager')" value="Manager">Manager
+              </mat-radio-button>
+              <mat-radio-button (click)="setUserRole('Team Member')" value="Team Member">Team
+                Member</mat-radio-button>
+            </mat-radio-group> -->
+
+            <!-- <div *ngIf="workCircleUser.invalid">
+              <small class="text-danger d-block" *ngIf="workCircleUser.get('userRole').errors?.required">Please select
+                user-role</small>
+            </div> -->
+          </div>
+          <button class="btn btn-default my-3 mx-auto" [disabled]="workCircleUser.invalid">
+            <i class="fa fa-floppy-o mr-1" aria-hidden="true"></i> Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

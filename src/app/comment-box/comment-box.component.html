@@ -1,0 +1,96 @@
+<h4 class="comment-header">Comments</h4>
+<div class="commentSection">
+    <div class="mb-1 mt-1 mr-1 ">
+        <div *ngIf="comments && comments.length">
+            <div class="comment_area">
+                <div class="comment_section m-2" *ngFor="let i of comments">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="team-members">
+                                <div *ngIf="i.userId" class="text-capitalize">
+                                    <app-user [userRedirect]="false" [userDetails]="i.userId"></app-user>
+                                    <span class="break" [innerHtml]="i.description">
+                                    </span>
+                                    <div class="mainSection row" *ngIf="i.images&& i.images.length">
+                                        <div *ngFor="let img of i.images">
+                                            <!-- [attr.data-lightbox]="i._id" -->
+
+                                            <div *ngIf="img.split('.').pop() == 'jpg' || img.split('.').pop() == 'png'">
+                                                <a [attr.data-lightbox]="i._id" class="image_attachment" href="{{img}}">
+                                                    <app-image-display [imageDisplay]="img"></app-image-display>
+                                                </a>
+                                            </div>
+
+                                            <div *ngIf="img.split('.').pop() == 'pdf'">
+                                                <a class="image_attachment" href="{{img}}" target="_blank">
+                                                    <app-image-display [imageDisplay]="img"></app-image-display>
+                                                </a>
+                                            </div>
+                                            <div *ngIf="img.split('.').pop() == 'zip'">
+                                                <a class="image_attachment" href="{{img}}" target="_blank">
+                                                    <app-image-display [imageDisplay]="img"></app-image-display>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="comments && !comments.length" class="text-center m-1">
+            <p>Be the first one to comment.</p>
+        </div>
+    </div>
+</div>
+<div class="commentModel">
+    <app-text-editor (commentData)="contentData($event)" [valueReset]="resetValue"></app-text-editor>
+
+    <!-- <quill-editor required [(ngModel)]="addComment">
+    </quill-editor> -->
+
+    <!-- <ckeditor class="ckeditor" style="width:100%;" [editor]="Editor" [(ngModel)]="model.editorData"
+        (ready)="onReady($event)" (change)="onChange($event)"></ckeditor> -->
+
+    <div class="my-3 uploadButton">
+        <div class="displaySection" *ngIf="uploadedFileArray && uploadedFileArray.length">
+            <div class="row">
+                <div *ngFor="let image of uploadedFileArray; let i = index">
+                    <a>
+                        <app-image-display [imageDisplay]="image.singleFile" [imageEdit]="editImage"
+                            (removeImage)="uploadedRemove($event)" [indexOf]="i">
+                        </app-image-display>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- <app-file-upload-dnd projectId="100" [imageReset]="resetImage" sectionId="107" maxFiles="10" maxSize="200"
+            (uploadedFile)="changeFile($event)"></app-file-upload-dnd> -->
+
+        <div class="text-center overlay_dragarea" (click)="uploadNewFile()" style="cursor: pointer; border: 2px dotted #e0dcdc;padding: 13px;
+            border-radius: 5px;">
+            <div class="pdf_img">
+                <img src="../assets/attach.png">
+                <span style="color: #757575;" for="addFile">Upload Files</span>
+            </div>
+        </div>
+
+        <!-- <button type="submit" class="btn btn-default " (click)="uploadNewFile()">
+            <i class="fa fa-upload mr-1" aria-hidden="true"></i> Upload Files</button> -->
+    </div>
+</div>
+<div class="row ">
+    <div class="col-12 text-right">
+        <div class="spinner-border mr-3" *ngIf="loading">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <button class="btn btn-default add-comment float-right m-0 mb-2" (click)="sendComment()"
+            [disabled]="!addComment">
+            <!-- <span></span>
+                {{addComment.length}} -->
+            <span class="icon-plus mr-1"></span> Add Comment
+        </button>
+    </div>
+</div>

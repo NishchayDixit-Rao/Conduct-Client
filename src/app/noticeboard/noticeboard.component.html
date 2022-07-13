@@ -1,0 +1,161 @@
+<div class="loader" *ngIf="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+
+<div class="row m-0 mt-1">
+    <div class="col-md-8 d-flex align-items-center">
+        <h3 class="card-header-title">Notice Board</h3>
+    </div>
+    <div class="col-md-4" *ngIf="currentUser.userRole == 'Manager' || currentUser.userRole == 'admin'">
+        <div class="pull-right">
+            <button (click)="addNotice()" class="btn btn-primary m-0"><span class="icon-note mr-1"></span> Create
+                Notice</button>
+        </div>
+    </div>
+</div>
+
+<div class="noNoticeMessage text-center mt-1"
+    *ngIf="(!allNotice.length && currentUser.userRole == 'Team Member' && !loader)">
+    <div>
+        <div class="empty-notice-image">
+            <img src="../../assets/notice.jpg" alt="empty notice">
+        </div>
+        <h4><a>Opps!</a></h4>
+        <p>There is no new notice</p>
+
+    </div>
+</div>
+
+<div class="noNoticeMessage text-center mt-1"
+    *ngIf="(!allNotice.length && (currentUser.userRole == 'Manager' ||currentUser.userRole == 'admin' ) && !loader)">
+    <div>
+        <div class="empty-notice-image">
+            <img src="../../assets/notice.jpg" alt="empty notice">
+        </div>
+        <h4>Sorry!</h4>
+        <p>There is no notice, <a (click)="addNotice()"> add some</a> to get started!</p>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row grid mt-1">
+        <div class="col-md-4 col-sm-6 grid-item mb-2" *ngFor="let notice of allNotice">
+            <div class="card">
+                <div *ngFor="let image of notice.images; let i =index" class="image_box {{i == 0?'active':''}}">
+                    <a [attr.data-lightbox]="notice._id" href="{{image}}">
+                        <div class="notice-image-div">
+                            <img class="img-fluid" src="{{image}}"
+                                onerror="this.onerror=null;this.src='../assets/notice.jpg'">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+                    </a>
+                </div>
+                <div *ngIf="notice.images && !notice.images.length" class="noImage">
+                    <img class="img-fluid" src="{{path}}{{image}}"
+                        onerror="this.onerror=null;this.src='../assets/notice.jpg'">
+                </div>
+                <div class="notice-status" *ngIf="currentUser.userRole == 'admin'">
+                    <!-- <button class="btn m-0 p-1" [ngStyle]="{'background-color':notice.isPublished == false ? '#f87879': '#777' }"><span class="icon-clock"></span></button> -->
+                    <mat-slide-toggle class="example-margin"
+                        ngModel="{{notice && notice.isPublished ? notice.isPublished  : null}}"
+                        (change)="slideToggle($event , notice)">
+                        <div class="toggle-space">
+                        </div>
+                        <div class="toggle-space">
+                        </div>
+                    </mat-slide-toggle>
+                </div>
+                <div class="card-body p-3">
+                    <div class="btn-group dropleft"
+                        *ngIf="currentUser.userRole == 'Manager' || currentUser.userRole == 'admin'">
+                        <button type="button" style="border-radius: 50%;top: -39px;"
+                            class="btn btn-primary btn-floating btn_popover_menu " data-toggle="dropdown"
+                            aria-haspopup="false" aria-expanded="false"><i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu"
+                            *ngIf="currentUser.userRole == 'Manager' || currentUser.userRole == 'admin'">
+                            <input #noticeFile type="file" name="fileUpload" (change)="uploadFile($event,notice._id)"
+                                accept=".jpg, .png, .jpeg" hidden multiple>
+                            <a class="dropdown-item btn-floating mt-0 mx-1" tooltipClass="my-custom-class"
+                                ngbTooltip="Edit Notice" (click)="editNotice(notice)"><span
+                                    class="icon-pencil padding-top-1"></span></a>
+                            <a class="dropdown-item btn-floating mt-0 mx-1" tooltipClass="my-custom-class"
+                                ngbTooltip="Delete Notice" (click)="deleteNotice(notice._id)"><span
+                                    class="icon-trash"></span></a>
+                        </div>
+                    </div>
+                    <h5 class="notice-title font-weight-bold text-capitalize">{{notice.title}}</h5>
+                    <p class="date-notice"><span class="icon-calendar mr-1"></span>
+                        <span>{{notice.noticeDate | date:'mediumDate'}}</span>
+                    </p>
+                    <a class="read-more m-0 float-right" data-toggle="modal" data-target="#basicExampleModal"
+                        (click)="noticeById(notice._id)"> <span class="icon-book-open mr-1"></span> Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal start here -->
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-none">
+                <h4 class="card-header-title text-capitalize" id="exampleModalLabel" *ngIf="singlenotice">Notice</h4>
+                <mat-slide-toggle class="example-margin mr-4" *ngIf="currentUser.userRole == 'admin'"
+                    ngModel="{{singlenotice&& singlenotice.isPublished ? singlenotice.isPublished  : null}}"
+                    (change)="slideToggle($event , singlenotice)">
+                    <div class="toggle-space">
+                    </div>
+                    <div class="toggle-space">
+                    </div>
+                </mat-slide-toggle>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="date d-inline-block w-100 my-1">
+                    <p class="date-notice text_gray float-right" *ngIf="singlenotice">Created Date : <span
+                            class="icon-calendar mr-1 " aria-hidden="true"></span>
+                        {{singlenotice.noticeDate | date:'mediumDate'}}</p>
+                    <p class="date-notice text_gray float-left" *ngIf="singlenotice">Publish Date : <span
+                            class="icon-calendar mr-1 " aria-hidden="true"></span>
+                        {{ singlenotice.publishedDate? (singlenotice.publishedDate | date:'mediumDate') : 'Not Published
+                        Yet'}}
+                    </p>
+                </div>
+                <h5 *ngIf="singlenotice" class="notice-title mb-1 text-capitalize">{{singlenotice.title}}</h5>
+                <div class="main-img" *ngIf="singlenotice">
+                    <div class="text-center" *ngIf="singlenotice.image && !singlenotice.image.length">
+                        <div class="empty-notice-image1">
+                            <img src="../../assets/notice.jpg" alt="empty notice">
+                        </div>
+                        <span>There are no Images</span>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row" *ngIf="singlenotice.images && singlenotice.images.length">
+                            <div class="col-md-4 mt-1 mb-1" *ngFor="let img of singlenotice.images">
+                                <img src="{{img}}" style="height: 130px; width: 100%;" alt="images">
+                            </div>
+                        </div>
+                        <div class="empty-notice-image" *ngIf="singlenotice.images && !singlenotice.images.length">
+                            <img src="../../assets/notice.jpg" alt="empty notice">
+                        </div>
+                    </div>
+                </div>
+                <div class="desc" *ngIf="singlenotice">
+                    <h5 class="notice-title text-capitalize">{{singlenotice.title}}</h5>
+                    <p class="text-justify text-capitalize mb-0">
+                        {{singlenotice.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal end here -->

@@ -1,0 +1,212 @@
+<div mat-dialog-content>
+    <div class="row">
+        <div class="col-9">
+            <h3 class="card-header-title">
+                <!-- <span class="icon-user-follow"></span>  -->
+                {{displayTitle}}
+            </h3>
+        </div>
+        <div class="col-3">
+            <button type="button" class="close pull-right" (click)="closeModel()">
+                <span class="fa fa-times"></span>
+            </button>
+        </div>
+    </div>
+    <form [formGroup]='addEmployeeForm'>
+        <div class="row mt-2">
+            <div class="col-12">
+                <mat-form-field appearance="outline" class="w-100 example-full-width">
+                    <mat-label>Employee Name</mat-label>
+                    <input matInput placeholder="Enter name" formControlName="name"
+                        ngModel="{{editProfile ? editProfile.name : ''}}">
+                    <!-- <mat-error
+                        *ngIf="addEmployeeForm.controls.name.hasError('maxlength') && !addEmployeeForm.controls.name.hasError('required')">
+                        Name must be only 20 characters
+                    </mat-error> -->
+                    <mat-error
+                        *ngIf="addEmployeeForm.controls.name.hasError('minlength') && !addEmployeeForm.controls.name.hasError('required')">
+                        Name must be at least 2 characters
+                    </mat-error>
+                    <mat-error *ngIf="addEmployeeForm.controls.name.hasError('required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="w-100 example-full-width">
+                    <mat-label>Employee Email</mat-label>
+                    <input matInput placeholder="Enter email" formControlName="email"
+                        ngModel="{{editProfile ? editProfile.email : ''}}">
+                    <mat-error
+                        *ngIf="addEmployeeForm.controls.email.hasError('email') && !addEmployeeForm.controls.email.hasError('required')">
+                        Please enter valid Email
+                    </mat-error>
+                    <mat-error *ngIf="addEmployeeForm.controls.email.hasError('required')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="outline" class="w-100 example-full-width">
+                    <mat-label>Employee Phone No</mat-label>
+                    <input matInput placeholder="Enter Phone Number" formControlName="phone"
+                        ngModel="{{editProfile ? editProfile.phone : ''}}" (keypress)="_keyPress($event)">
+                    <mat-error
+                        *ngIf="addEmployeeForm.controls.phone.hasError('maxlength') && !addEmployeeForm.controls.phone.hasError('required')">
+                        Phone must be only 10 digits
+                    </mat-error>
+                    <mat-error
+                        *ngIf="addEmployeeForm.controls.phone.hasError('minlength') && !addEmployeeForm.controls.phone.hasError('required')">
+                        Phone must be only 10 digits
+                    </mat-error>
+                    <mat-error *ngIf="addEmployeeForm.controls.phone.hasError('required')">
+                        Phone no is <strong>required</strong>
+                    </mat-error>
+                    <mat-error
+                        *ngIf="addEmployeeForm.controls.phone.hasError('pattern') && !addEmployeeForm.controls.phone.hasError('maxlength') && !addEmployeeForm.controls.phone.hasError('minlength')">
+                        It is not a valid mobile number.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-6" *ngIf="!editProfile">
+                <mat-form-field appearance="outline" class="w-100 example-full-width">
+                    <mat-label>Employee Password</mat-label>
+                    <input matInput placeholder="Enter password" [type]="show ? 'text' : 'password'"
+                        formControlName="password">
+                    <span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password"
+                        (click)="password()" [title]="pwd ? 'hide password' : 'show password'"></span>
+                    <mat-error
+                        *ngIf="addEmployeeForm.controls.password.hasError('maxlength') && !addEmployeeForm.controls.password.hasError('required')">
+                        Password must be only 20 characters
+                    </mat-error>
+                    <mat-error
+                        *ngIf="addEmployeeForm.controls.password.hasError('minlength') && !addEmployeeForm.controls.password.hasError('required')">
+                        Password must contain atleast 6 characters
+                    </mat-error>
+                    <mat-error *ngIf="addEmployeeForm.controls.password.hasError('required')">
+                        password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-6" *ngIf="!editProfile">
+                <mat-form-field appearance="outline" class="w-100 example-full-width">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput placeholder="Enter password" [type]="show1 ? 'text' : 'password'"
+                        (input)="comparePassword(addEmployeeForm)" formControlName="confirmPassword">
+                    <span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password"
+                        (click)="confirmPassword()" [title]="pwd1 ? 'hide password' : 'show1 password'"></span>
+                    <mat-error *ngIf="addEmployeeForm.controls.confirmPassword.hasError('inValid')">
+                        Please Enter Same Password
+                    </mat-error>
+                    <mat-error *ngIf="addEmployeeForm.controls.confirmPassword.hasError('required')">
+                        Confirm password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <app-mate-date-picker (selectedDate)="getDate($event)" [addEmployee]="addUser" [date]="disableDate"
+                    [dateName]="Name" [deadlineDate]="deadlineDate">
+                </app-mate-date-picker>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>User Role</mat-label>
+                    <mat-select [disabled]="true" [(value)]="selected1" formControlName="userRole"
+                        ngModel="{{editProfile ? editProfile.userRole : ''}}">
+                        <mat-option>None</mat-option>
+                        <mat-option value="admin">Admin</mat-option>
+                        <mat-option value="Manager">Project Manager</mat-option>
+                        <mat-option value="Team Member">Developer</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="addEmployeeForm.controls.userRole.hasError('required')">
+                        User Role is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-6 d-flex m-0 p-0">
+                <div class="col-6">
+                    <mat-form-field appearance="outline" class="w-100 example-full-width">
+                        <mat-label>Experience Year</mat-label>
+                        <input matInput placeholder="Experience Year" type="text" pattern="[0-9]*"
+                            (input)="yearValidation($event)" formControlName="experienceYear"
+                            ngModel="{{editProfile ? editProfile.experienceYear : ''}}">
+                        <mat-error *ngIf="addEmployeeForm.controls.experienceYear.hasError('pattern') ">
+                            Enter only numbers
+                        </mat-error>
+                        <mat-error *ngIf="addEmployeeForm.controls.experienceYear.hasError('inValid')">
+                            Please enter proper year
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field appearance="outline" class="w-100 example-full-width">
+                        <mat-label>Experience Month</mat-label>
+                        <input matInput type="text" pattern="[0-9]*" placeholder="Experience Month"
+                            formControlName="experienceMonth" (input)="monthValidation($event)"
+                            ngModel="{{editProfile ? editProfile.experienceMonth : ''}}">
+                        <mat-error *ngIf="addEmployeeForm.controls.experienceMonth.hasError('pattern') ">
+                            Enter only numbers
+                        </mat-error>
+                        <mat-error *ngIf="addEmployeeForm.controls.experienceMonth.hasError('inValid')">
+                            Please enter proper month count
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- <div class="col-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>Choose Branch of User</mat-label>
+                    <mat-select [disabled]="true" [(value)]="selected" formControlName="branch"
+                        ngModel="{{editProfile ? editProfile.branch : ''}}">
+                        <mat-option>None</mat-option>
+                        <mat-option value="Rajkot">Rajkot</mat-option>
+                        <mat-option value="Ahemdabad">Ahemdabad</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="addEmployeeForm.controls.branch.hasError('required')">
+                        Branch is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div> -->
+            <!-- <div class="col-6">
+        <div class="file-field">
+          <div class="btn btn-primary btn-sm float-left waves-effect waves-light" (click)="profile.open()">Browse files
+            <input type="file" #profile formControlName="profile" class="form-control" (change)="addProfile($event)"
+              accept="image/png, image/jpeg, image/jpg">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload Your Profile Photo">
+          </div>
+          <p *ngIf="files.length <=0">You can upload only PNG,JPEG & JPG formate
+            Image </p>
+        </div>
+      </div> -->
+            <!-- <div class="col-6">
+        <div class="file-field">
+          <div class="btn btn-primary btn-sm float-left waves-effect waves-light" (click)="cv.open()">
+            Browse files
+            <input type="file" #cv formControlName="cv" class="form-control" (change)="addFile($event)" accept=".pdf"
+              hidden>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload Your CV">
+          </div>
+          <p *ngIf="files.length <=0">You can upload only Pdf File</p>
+        </div>
+      </div> -->
+        </div>
+    </form>
+    <div class="row  float-right">
+        <div class="col-12">
+            <div class="spinner-border mr-2" *ngIf="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <a class="btn btn-delete" *ngIf="editProfile && currentUser.userRole == 'admin'"
+                (click)="deleteEmployee(editProfile)"><span class="fa fa-trash mr-1"
+                    aria-hidden="true"></span>DELETE</a>
+            <button type="submit" [class.disabled]="addEmployeeForm.invalid" class="btn btn-default"
+                (click)="editProfile? editEmployee(addEmployeeForm): addEmployee(addEmployeeForm)"
+                [disabled]="isDisable || addEmployeeForm.invalid"><i class="fa fa-floppy-o mr-1" aria-hidden="true"></i>
+                Save</button>
+        </div>
+    </div>
+</div>

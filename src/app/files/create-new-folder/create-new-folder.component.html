@@ -1,0 +1,43 @@
+<div class="row mb-2">
+    <div class="col-9 pull-left">
+        <h3 class="card-header-title" id="itemModal">{{displayTitle}}</h3>
+    </div>
+    <div class="col-3 pull-right">
+        <button type="button" class="close" (click)="closeModel()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+</div>
+
+
+<form [formGroup]='createFolderForm'>
+    <div class="row">
+        <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100 example-full-width">
+                <mat-label>Folder Name</mat-label>
+                <input matInput placeholder="Enter Folder Name" formControlName="folderName"
+                    ngModel="{{editFolder? editFolder.folderName: ''}}">
+                <mat-error *ngIf="createFolderForm.controls.folderName.hasError('required')">
+                    Folder Name is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100 example-full-width">
+                <mat-label>Description</mat-label>
+                <textarea matInput placeholder="Enter Description " formControlName="description"
+                    ngModel="{{editFolder? editFolder.description: ''}}"></textarea>
+            </mat-form-field>
+        </div>
+        <div class="col-12 d-flex justify-content-end align-items-center">
+            <div class="spinner-border mr-2" *ngIf="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <button class="btn btn-default m-0 text-white" [disabled]="isDisable || createFolderForm.invalid"
+                (click)="editFolder? updateFolder(): newFolderCreate()">
+                <i class="fa fa-floppy-o mr-1" aria-hidden="true"></i> Save</button>
+
+        </div>
+    </div>
+</form>

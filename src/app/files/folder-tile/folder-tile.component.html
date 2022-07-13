@@ -1,0 +1,16 @@
+<div class="card px-2 py-3 border-bottom ">
+    <ul class="single-item">
+        <li class="text-capitalize">
+            <div class="d-flex">
+                <a class="name-file1" (click)="singleFolder(folderDetails)">
+                    <span class="icon-folder-alt mr-2"></span> {{folderDetails.path}}
+                </a>
+            </div>
+            <div class="right-file-content float-right">
+                <span class="date-on mr-3">{{folderDetails.name}} On {{folderDetails.createdAt | date}}</span>
+                <a class="edit"><span title="Edit" class="icon-pencil mr-3" (click)="newEditFolder(folderDetails)"></span></a>
+                <a class="delete" (click)="deleteFolder()"><span title="Delete" class="fa fa-trash mr-3"></span></a>
+            </div>
+        </li>
+    </ul>
+</div>

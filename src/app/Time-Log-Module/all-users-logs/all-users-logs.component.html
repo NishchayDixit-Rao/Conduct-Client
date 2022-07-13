@@ -1,0 +1,146 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+
+<div class="row mb-1 align-items-center rowColor">
+  <div class="col-sm-6">
+    <div class="md-form form-group">
+      <div class="searchBar">
+        <span class="mr-1" data-icon="&#xe090;"></span>
+      </div>
+      <div class="searchField">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search" (keyup)="onKey(searchText)" [(ngModel)]="searchText">
+        </mat-form-field>
+        <span id="message" style="color: red; font-size: 14px;"></span>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 d-flex justify-content-end">
+    <div class="customClass">
+      Filter
+      <app-display-filter [filter]="displayFilter" [roleList]="userRoleList" [resetFilter]="filterReset"
+        (roleSelected)="selectedRole($event)">
+      </app-display-filter>
+    </div>
+    <div class="text-right" (click)="resetFilter()" *ngIf="displayReset">
+      <button class="btn p-2 btn-default resetBtn" ngbTooltip="Reset">
+        <i class="fa fa-repeat resetIcon"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-8 col-md-8 col-sm-12 w-100 timeLogModal my-2">
+    <h4 class="float-left card-title"> Time Logs </h4>
+    <div class="float-right">
+      <app-mate-date-picker [dateName]="Name" (selectedDate)="getDate($event)" [deadlineDate]="dateSelected"
+        [timeDate]="adminDate" class="p-0">
+      </app-mate-date-picker>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-12">
+    <div class="float-right">
+      <button class="btn btn-primary m-0" style="font-size: 13px;" (click)="exportPdf()">Export</button>
+      <div *ngIf="displayCalander">
+        <app-date-range-picker (selectedDate)="dueDate($event)" [dateReset]="resetDate"></app-date-range-picker>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row align-items-center" *ngIf="displayIndex == 0">
+  <div class="col-12">
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    <table mat-table [dataSource]="dataSource" (matSortChange)="someMethod($event)" class="mat-elevation-z2" matSort>
+      <ng-container matColumnDef="users">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>User </th>
+        <td mat-cell *matCellDef="let element">
+          <app-user [userDetails]="element"></app-user>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Taken Time</th>
+        <td mat-cell *matCellDef="let element"> {{element.userTime}}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+<div class="container" [hidden]="!displayTable">
+  <div class="row py-5 justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center py-4">Export Data to Excel Sheet in Angular 8</h1>
+      <div class="col-md-12 table-responsive" #epltable>
+        <div style="padding-bottom: 10px;padding-top: 10px;">
+          <div class="row">
+            <div class="col-sm-12">
+              <button (click)="exportToExcel()" class="btn btn-success">Export To Excel</button>
+            </div>
+          </div>
+        </div>
+        <table class="table table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>Date</th>
+              <th *ngFor="let name of displayName" class="text-capitalize">{{name.name}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let date of allDisplayDate">
+              <td>{{date.date | date}}</td>
+              <td *ngFor="let club of date.userArray">{{club.totalTime}}</td>
+            </tr>
+            <tr *ngFor="let date of allDisplayDate">
+              <td *ngIf="date.totalTime">{{date.totalTime}}</td>
+              <td *ngFor="let club of date.timeArray">{{club}}</td>
+            </tr>
+            <!-- <tr>
+              <td *ngFor="let club of displayName">{{club.totalTime}}</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- </div> -->
+
+
+<!-- <div class="table-wrapper">
+  <table class="table table-hover p-3">
+    <thead>
+      <tr>
+        <th class="th-lg">
+          <span>Name</span>
+        </th>
+        <th class="th-lg">
+          <span>Time</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of totalLogs | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
+        <td>
+          <app-user [userDetails]="log"></app-user>
+        </td>
+        <td>
+          {{log.userTime}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-center">
+    <pagination-controls (pageChange)="p=$event"></pagination-controls>
+  </div>
+</div> -->

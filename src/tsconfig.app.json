@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+
+    "outDir": "../out-tsc/app",
+    "types": [
+    	"node"
+    ],
+    "typeRoots": [
+            // add path to @types
+            "node_modules/@types"
+        ]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

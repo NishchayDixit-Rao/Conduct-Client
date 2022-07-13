@@ -1,0 +1,23 @@
+.btn-danger {
+    background: #D33D2D !important;
+    color: white;
+}
+
+fieldset {
+    border: 1px solid #ececec !important;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+legend {
+    width: auto !important;
+    background-color: #ffffff;
+    padding: 3px;
+    color: #888888;
+    font-size: 16px;
+}
+
+fieldset.task-details,
+fieldset.task-details input {
+    cursor: no-drop;
+}
