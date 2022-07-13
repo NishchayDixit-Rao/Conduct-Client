@@ -1,0 +1,10 @@
+<div class="all_user_pic row">
+    <div class="user_profile card text-center" routerLink="/singleUserLeave/{{user._id}}" *ngFor="let user of allUser">
+      <div class="card-body">
+        <!-- <div class="profile_img" *ngIf="!user.profilePhoto">
+          <img src="../../assets/avatar/food.png" class="rounded-circle">
+        </div> -->
+        <p class="text-center allUser">{{user.name}}</p>
+      </div>
+    </div>
+  </div>

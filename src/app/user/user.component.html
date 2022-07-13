@@ -1,0 +1,16 @@
+<div class="user_profile_pic">
+    <a tooltipClass="my-custom-class" ngbTooltip="{{getUserRole(userDetails.userRole)}}" data-container="body"
+        placement="top-left" (click)="redirectUser(userDetails)">
+        <div class="img_name">
+            <img src="{{userDetails.profilePhoto}}" class="img-rounded" onerror="this.src='assets/default-profile.png'">
+            <!-- <span [ngClass]="userBorder(userDetails.userRole).class">{{(userDetails)? userDetails.email ?
+                userDetails.email : userDetails.name : 'null'}} </span> -->
+            <span [ngClass]="userBorder(userDetails.userRole).class">{{(userDetails)? userDetails.name ?
+                userDetails.name : userDetails.email : 'null'}} </span>
+        </div>
+        <div>
+            <a tooltipClass="my-custom-class" *ngIf="userDetails.update" class="deletebtn"
+                (click)="remoevDevelopoer(userDetails)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+        </div>
+    </a>
+</div>

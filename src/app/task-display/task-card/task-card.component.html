@@ -1,0 +1,176 @@
+<!--<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Personal data
+      </mat-panel-title>
+      <mat-panel-description>
+        Type your name and age
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>First name</mat-label>
+      <input matInput>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Age</mat-label>
+      <input matInput type="number" min="1">
+    </mat-form-field>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Self aware panel
+      </mat-panel-title>
+      <mat-panel-description>
+        Currently I am {{panelOpenState ? 'open' : 'closed'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion> -->
+
+<!-- <div class="float-right priority_btns">
+  <div class="dropdown" *ngIf="currentUser.userRole=='Manager' || currentUser.userRole=='admin'">
+    <button class="due_date_sorting_btn" type="button" aria-haspopup="true" aria-expanded="false">
+      Due Date
+      <span class="sorting_arrows">
+        <span class="ml-1" [class.isActive]="selected == 1" [class.disabled]="!totalList" data-icon="&#xe078;"
+          (click)="sortTasksByDueDate('asc')"></span>
+        <span class="ml-1" [class.disabled]="!totalList" [class.isActive]="selected == 2" data-icon="&#xe07b;"
+          (click)="sortTasksByDueDate('desc')"></span>
+      </span>
+    </button>
+    <button class="priority_sorting_btn" type="button" style="margin-left: 6px;" aria-haspopup="true"
+      aria-expanded="false">
+      Priority
+      <span class="sorting_arrows">
+        <span class="ml-1" [class.disabled]="!totalList" data-icon="&#xe078;" [class.isActive]="selected == 3"
+          (click)="sortTasksByPriority('asc')"></span>
+        <span class="ml-1" [class.disabled]="!totalList" data-icon="&#xe07b;" (click)="sortTasksByPriority('desc')"
+          [class.isActive]="selected == 4"></span>
+      </span>
+    </button>
+    <button class="priority_sorting_btn" type="button" style="margin-left: 6px;" aria-haspopup="true"
+      aria-expanded="false">
+      Task
+      <span class="sorting_arrows">
+        <span class="ml-1" [class.disabled]="!totalList" data-icon="&#xe078;" (click)="sortTasksByTaskName('asc')"
+          [class.isActive]="selected == 5"></span>
+        <span class="ml-1" [class.disabled]="!totalList" data-icon="&#xe07b;" (click)="sortTasksByTaskName('desc')"
+          [class.isActive]="selected == 6"></span>
+      </span>
+    </button>
+  </div>
+</div> -->
+
+<div class="all_card">
+  <div class="board" cdkDropList [cdkDropListData]="tracks" (cdkDropListDropped)="onTrackDrop($event)"
+    cdkDropListOrientation="horizontal">
+    <div class="card-list mat-elevation-z1" *ngFor="let track of tracks">
+      <div class="card-header">
+        <span class="track_title">
+          <!-- <span class="{{ track.icon }}"></span> -->
+          {{ track.title }}
+        </span>
+        <span class="card_count_lbl">
+          {{ track.tasks.length }}
+        </span>
+      </div>
+      <div class="card-list-content" cdkDropList [id]="track.id" [cdkDropListData]="track.tasks"
+        [cdkDropListConnectedTo]="trackIds" (cdkDropListDropped)="onTalkDrop($event)">
+        <mat-card *ngFor="let task of track.tasks; let i = index" cdkDrag [id]="task._id" style="border-radius: 5px">
+          <mat-card-content (click)="displayTaskDetails(task)" style="cursor: pointer">
+            <div class="card open_model" [ngStyle]="{ borderColor: getPriorityClass(task.taskPriority).color }">
+              <div class="card-body" style="padding: 0px">
+                <div class="task_header_container">
+                  <div class="card-task-text text-capitalize">
+                    {{ task.title }}
+                  </div>
+                  <div class="task_type_icon">
+                    <span class="icon-task" *ngIf="task.taskType == 'Task'" tooltipClass="my-custom-class"
+                      ngbTooltip="Task" data-container="body">
+                      <img src="../../assets/task.svg" alt="icon task">
+                    </span>
+                    <span class="icon-issue" *ngIf="task.taskType == 'Issue'" tooltipClass="my-custom-class"
+                      ngbTooltip="Issue" data-container="body">
+                      <img src="../../assets/issue.svg" alt="icon issue">
+                    </span>
+                    <span class="icon-bug" *ngIf="task.taskType == 'Bugg'" tooltipClass="my-custom-class"
+                      ngbTooltip="Bug" data-container="body">
+                      <img src="../../assets/bug.svg" alt="icon bug">
+                    </span>
+                  </div>
+                </div>
+                <div class="task_due_date_container">
+                  <div class="form-row">
+                    <div class="col-6 text-left">
+                      <div *ngIf="task.dueDate" class="card-task-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+                          <path id="calendar"
+                            d="M32.6,35.1a1.25,1.25,0,1,0-1.25-1.25A1.25,1.25,0,0,0,32.6,35.1Zm6.25,0a1.25,1.25,0,1,0-1.25-1.25A1.25,1.25,0,0,0,38.85,35.1Zm-6.25,5a1.25,1.25,0,1,0-1.25-1.25A1.25,1.25,0,0,0,32.6,40.1Zm6.25,0a1.25,1.25,0,1,0-1.25-1.25A1.25,1.25,0,0,0,38.85,40.1Zm-12.5-5a1.25,1.25,0,1,0-1.25-1.25A1.25,1.25,0,0,0,26.35,35.1Zm15-12.5H40.1V21.35a1.25,1.25,0,1,0-2.5,0V22.6h-10V21.35a1.25,1.25,0,0,0-2.5,0V22.6H23.85a3.75,3.75,0,0,0-3.75,3.75v15a3.75,3.75,0,0,0,3.75,3.75h17.5a3.75,3.75,0,0,0,3.75-3.75v-15A3.75,3.75,0,0,0,41.35,22.6ZM42.6,41.35a1.25,1.25,0,0,1-1.25,1.25H23.85a1.25,1.25,0,0,1-1.25-1.25V30.1h20Zm0-13.75h-20V26.35a1.25,1.25,0,0,1,1.25-1.25h17.5a1.25,1.25,0,0,1,1.25,1.25ZM26.35,40.1a1.25,1.25,0,1,0-1.25-1.25A1.25,1.25,0,0,0,26.35,40.1Z"
+                            transform="translate(-20.1 -20.1)" [ngStyle]="{ fill: isDueDate(task.dueDate) }" />
+                        </svg>
+                        <p class="m-0" [ngStyle]="{ color: isDueDate(task.dueDate) }">
+                          {{ task.dueDate | date }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-6 text-right">
+                      <div *ngIf="task.dueDate" class="card-task-text">
+                        <svg id="time" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+                          <path id="Path_17" data-name="Path 17"
+                            d="M32.6,20.1A12.5,12.5,0,1,0,45.1,32.6,12.5,12.5,0,0,0,32.6,20.1Zm1.25,22.413V41.35a1.25,1.25,0,1,0-2.5,0v1.163a10.009,10.009,0,0,1-8.663-8.663H23.85a1.25,1.25,0,1,0,0-2.5H22.687a10.009,10.009,0,0,1,8.663-8.663V23.85a1.25,1.25,0,0,0,2.5,0V22.687a10.009,10.009,0,0,1,8.663,8.663H41.35a1.25,1.25,0,0,0,0,2.5h1.163A10.009,10.009,0,0,1,33.85,42.513Z"
+                            transform="translate(-20.1 -20.1)" [ngStyle]="{ fill: isDueDate(task.dueDate) }" />
+                          <path id="Path_18" data-name="Path 18"
+                            d="M113.05,76.082V71.6a1.25,1.25,0,0,0-2.5,0v5a1.249,1.249,0,0,0,.366.884l3.75,3.75a1.25,1.25,0,1,0,1.768-1.768Z"
+                            transform="translate(-99.3 -64.1)" [ngStyle]="{ fill: isDueDate(task.dueDate) }" />
+                        </svg>
+                        <p class="m-0" [ngStyle]="{ color: isDueDate(task.dueDate) }">
+                          {{ task.estimatedTime }} Hours
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="task_team_and_unique_id">
+                  <div class="form-row">
+                    <div class="col-12" *ngIf="(task.assignTo | json) != ({} | json)">
+                      <a class="assign_to_profile" href="javascript:void(0);">
+                        <app-user [userDetails]="task.assignTo" [userRedirect]="false"></app-user>
+                      </a>
+                    </div>
+                    <div class="col-6 text-left">
+                      <label>{{ task.taskUniqueId }}</label>
+                    </div>
+                    <div class="col-6 text-right">
+                      <div class="card-task-priority" [ngStyle]="{ color: getPriorityClass(task.taskPriority).color }">
+                        {{ task.taskPriority }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div *ngIf="currentUser.userRole == 'Manager' || currentUser.userRole == 'admin' ">
+    <p *ngIf="totalList && !totalList.length " class="text-center">Opps, There is no task in this project</p>
+  </div> -->
+<!-- </div> -->
+<!-- <div *ngIf="currentUser.userRole == 'Manager' || currentUser.userRole == 'admin' ">
+    <p *ngIf="totalList && !totalList.length " class="text-center">Opps, There is no task in this project</p>
+  </div>
+
+  <div *ngIf="currentUser.userRole == 'Team Member' ">
+    <p *ngIf="totalList && !totalList.length" class="text-center">Sorry, You have no task in this project</p>
+  </div> -->
+<!-- </div> -->

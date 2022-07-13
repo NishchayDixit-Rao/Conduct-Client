@@ -1,0 +1,30 @@
+<!-- <mat-form-field class="w-100" appearance="outline">
+    <mat-label>{{displayName}}</mat-label>
+    <input matInput [matDatepicker]="picker" (click)="picker.open()" [disabled]="isDisplay == true"
+        [(ngModel)]="displayDate" [min]="todayDate" [max]="maxDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="dueDateForm.controls.dueDate.hasError('required')">
+        Enter project <strong>Due Date</strong>
+    </mat-error>
+</mat-form-field> -->
+
+<!-- <form [formGroup]='dueDateForm'>
+    <mat-form-field class="w-100" appearance="outline">
+        <mat-label>{{displayName}}</mat-label>
+        <input formControlName="dueDate" matInput [matDatepicker]="picker" (click)="picker.open()"
+            [disabled]="isDisplay == true" [(ngModel)]="displayDate" (dateChange)="getDate($event)" [min]="todayDate"
+            [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="dueDateForm.controls.dueDate.hasError('required')">
+            Enter project <strong>Due Date</strong>
+        </mat-error>
+    </mat-form-field>
+</form> -->
+<mat-form-field class="w-100" appearance="outline">
+    <mat-label>{{displayName}}</mat-label>
+    <input matInput [matDatepicker]="picker" (click)="picker.open()" [disabled]="isDisplay == true" [(ngModel)]="displayDate" (dateChange)="getDate($event)" [min]="todayDate" [max]="maxDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>

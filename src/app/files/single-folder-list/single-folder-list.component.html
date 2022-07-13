@@ -1,0 +1,171 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+
+
+<div class="row py-1 align-items-center">
+  <div class="col-md-6">
+    <h3 class="text-capitalize">{{fileName}}</h3>
+  </div>
+  <div class="col-md-6 text-right">
+    <button class="btn btn-default customButton" (click)="uploadNewFile()">
+      <span class="fa fa-upload mr-1" aria-hidden="true"></span> Upload File </button>
+    <button class="btn btn-primary" (click)="addFolderNew()">
+      <span class="icon-note mr-1"></span> Create Folder
+    </button>
+  </div>
+</div>
+
+<div class="noNoticeMessage text-center mt-1"
+  *ngIf="(totalFolder && !totalFolder.length) && (listOfImages&& !listOfImages.length)">
+  <div>
+    <div class="empty-notice-image">
+      <img src="../../assets/notice.jpg" alt="empty notice">
+    </div>
+    <h4>Sorry!</h4>
+    <p>There is no files, <a (click)="uploadNewFile()"> add some</a> to get started!</p>
+  </div>
+</div>
+
+
+
+
+<div class="card p-2">
+  <div *ngFor="let list of totalFolder; let i =index">
+    <app-folder-tile [singleFolder]="list" [index]="i" [allFolder]="allFolderList" (editFolder)="newEditFolder($event)"
+      (removeFolder)="deleteFolder($event)">
+    </app-folder-tile>
+
+  </div>
+
+  <ul class="single-item">
+    <li class="border-bottom" *ngFor="let image of listOfImages">
+      <div class="left-file-content float-left d-flex align-items-center" *ngIf="image._id">
+        <div class="image-div d-inline-block">
+          <a [attr.data-lightbox]="image._id" class="image_attachment" *ngIf="image" href="{{path}}{{image.fileName}}">
+            <img src="{{path}}{{image.fileName}}" alt="image">
+          </a>
+        </div>
+        <a class="name-file text-uppercase" (click)="imageDetails(image._id)">{{image.alias}}
+          ({{image.size}})</a>
+      </div>
+      <div class="right-file-content float-right d-flex align-items-center" *ngIf="image._id">
+        <div>
+          <span class="mr-3 text-capitalize">{{image.createdBy.name}} On {{image.createdAt | date}}</span>
+          <p><span class="mr-2 text-capitalize" style="color: #2178c3;">{{image.version}}</span>
+            <span class="mr-2" style="color: #2178c3;">Comments ({{image.comments.length}})</span></p>
+        </div>
+        <a href="{{path}}{{image.fileName}}" download=""><i title="DownLoad" class="icon-cloud-download"></i></a>
+        <!-- <a href="#"><i title="Edit" class="icon-pencil"></i></a> -->
+        <a (click)="deleteImage(image)"><i title="Delete" class="icon-trash"></i></a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- <div class="row">
+  <div class="card" *ngFor="let image of listOfImages">
+    <div class="col-md-6">
+      <a [attr.data-lightbox]="image.files._id" class="image_attachment" *ngIf="image"
+        href="{{path}}{{image.files.fileName}}">
+        <img src="{{path}}{{image.files.fileName}}" width="100" height="100" class="comment_img"
+          style="margin-bottom: 7px;height: 150px; float: left;">
+      </a>
+      <p>{{image.files.alias}}</p>
+    </div>
+    <div class="col-md-6">
+      <p class="float-right"> {{image.files.createdBy.name}} Posted On {{image.files.createdAt | date}}</p>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<!-- TO Create Folder -->
+
+<!-- <div class="modal fade right" id="itemManipulationModel" tabindex="-1" role="dialog" aria-labelledby="itemModal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      </button>
+      <div class="modal-body">
+        <h3 class="card-header-title" id="itemModal"><span class="icon-note"></span> Add Discussion</h3>
+        <form style="width: 100%;" [formGroup]="createFolderForm">
+          <div class="form-group">
+            <label for="title">Folder</label>
+            <input type="text" id="title" formControlName="folderName" class="form-control" autocomplete="off"
+              required="required" />
+            <div *ngIf="submitted && f.folderName.errors" class="invalid-feedback">
+              <div>folderName is required</div>
+              <div *ngIf="f.folderName.errors.maxLength">You can use maximum 50 characters</div>
+            </div>
+          </div>
+          <div class="md-form form-group">
+            <label for="desc">Description</label>
+            <textarea id="desc" rows="5" formControlName="description" class="form-control rounded-0 md-textarea"
+              [ngClass]="{ 'is-invalid': f.description.touched && f.description.errors }"></textarea>
+          </div>
+        </form>
+        <div class="float-right">
+          <button type="button" class="btn btn-default ml-0" data-dismiss="modal">Close</button>
+          <div id="refresh_icon" style="display: none;">
+            <span aria-hidden="true" class="icon-refresh"></span>
+          </div>
+          <button type="submit" id="save_changes" class="btn btn-primary" (click)="saveTheData(createFolderForm.value)"
+            [disabled]=" isDisable || createFolderForm.invalid">Save
+            changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<!-- To uploadFile in folder -->
+
+<div class="modal fade right" id="itemManipulationModel1" tabindex="-1" role="dialog" aria-labelledby="itemModal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      </button>
+      <div class="modal-body">
+        <h3 class="card-header-title" id="itemModal"><span class="icon-note"></span> Add Discussion</h3>
+        <div>
+          <label for="content">Upload File</label>
+          <app-file-upload-dnd projectId="100" sectionId="107" maxFiles="1" maxSize="2" fileExt="JPG, JPEG, PNG"
+            (uploadedFile)="changeFile($event)"></app-file-upload-dnd>
+        </div>
+        <div class="form-check" *ngFor="let name of allMembers">
+          <input type="checkbox" class="form-check-input" id="{{name.name}}" [checked]="name.selected"
+            (change)="selectedUsers($event.target.checked , name._id)">
+          <label class="form-check-label" for="{{name.name}}">{{name.name}}</label>
+        </div>
+        <div class="float-right">
+          <button type="button" class="btn btn-default ml-0" data-dismiss="modal">Close</button>
+          <div id="refresh_icon" style="display: none;">
+            <span aria-hidden="true" class="icon-refresh"></span>
+          </div>
+          <button type="submit" id="save_changes" class="btn btn-primary" (click)="saveFile()">Save
+            changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

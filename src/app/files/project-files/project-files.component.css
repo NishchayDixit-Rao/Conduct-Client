@@ -1,0 +1,170 @@
+/* .image-div {
+    width: 70px;
+    height: 70px;
+    border: 3px solid #e2e2e2;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.image-div img {
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+.right-file-content a i {
+    color: gray;
+    margin: 5px;
+    border: 1px solid gray;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+a.name-file {
+    margin-left: 15px;
+    color: #2178c3;
+    font-size: 12px;
+}
+
+a.name-file1 {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.icon-folder-alt {
+    font-size: 30px !important;
+    line-height: 50px !important;
+    margin-right: 15px !important;
+}
+
+.text-uppercase {
+    font-size: 12px;
+}
+
+.folder_icon {
+    height: 35px;
+    margin: -3px 15px 0 10px;
+    vertical-align: middle;
+    opacity: .85;
+}
+
+ul.single-item li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+
+/* new css start author by swati */
+
+h3 {
+    color: #3998c5;
+}
+
+ul.single-item li {
+    padding: 10px 0;
+}
+
+.image-div {
+    width: 35px;
+    height: 35px;
+    border-radius: 30%;
+    overflow: hidden;
+    margin-right: 7px;
+}
+
+.image-div img {
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+ul.single-item li {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 23px 12px 9px;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+a.name-file {
+    color: #656565 !important;
+}
+
+.left-file-content {
+    float: left;
+    display: flex;
+    align-items: center;
+}
+
+.right-file-content {
+    float: right;
+    display: flex;
+    font-size: 13px;
+}
+
+.right-file-content span {
+    color: #9c9c9c;
+}
+
+p.comments {
+    color: #757575;
+    margin-bottom: 0px;
+}
+
+.right-file-content span.fa.fa-trash {
+    font-size: 16px;
+    color: #f54336;
+}
+
+.right-file-content span.icon-cloud-download {
+    font-size: 16px;
+    margin-right: 12px;
+    color: #3998c5;
+}
+
+.empty-notice-image {
+    height: 300px;
+    width: 300px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.empty-notice-image img {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+.noNoticeMessage {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noNoticeMessage a {
+    color: #3998c5;
+}
+
+.noNoticeMessage p {
+    color: #757575;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.breadcrumb{
+    background: transparent;
+}
+.breadCrumbs-text {
+    color: #3f98c5 !important;
+    font-size: 16px;
+}
+
+
+/* new css end author by swati */

@@ -1,0 +1,63 @@
+/* .card i {
+    font-size: 32px;
+    text-align: center;
+}
+
+.card-body{
+    position: relative;
+    border-radius: 10px;
+}
+.card.testimonial-card.open,
+.open .card-body{
+    border-radius: 10px 0px 0px 10px;
+}
+.card-body:after{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    display: block;
+    content: "";
+}
+.card-title {
+    color: blue !important;
+    cursor: pointer;
+}
+
+.card img{
+	height: 35px;
+	width: 35px;
+    display: inline-block;
+    color: black !important;
+} */
+
+.single-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 20px 0;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+}
+
+.single-card:hover {
+    box-shadow: 0px 0px 10px #a5a0a0;
+}
+
+.single-card-img {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.single-card-img img {
+    opacity: 0.5;
+}
+
+.single-card span {
+    font-size: 26px;
+    color: grey;
+}

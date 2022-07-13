@@ -1,0 +1,187 @@
+.bs-datepicker-head{
+    background-color: #805ee4 !important;
+  }
+
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid black;
+    border-radius: 0.375rem;
+
+}
+
+.card-header {
+    background-color: #181123 !important;
+}
+
+
+
+.card.report_card {
+    height: auto;
+    min-height: 250px;
+}
+
+
+.report_card h5,.report_card h4,.report_card h3 {
+    font-size: 13px ;
+    font-family: inherit;
+    color: #32325d;
+}
+
+
+
+span.box {
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    background-color: red;
+    float: left;
+    margin-right: 15px;
+}
+span.box1 {
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    background-color: rgba(140, 140, 243, 0.4);
+    float: left;
+    margin-right: 15px;
+}
+span.box2 {
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    background-color: silver;
+    float: left;
+    margin-right: 15px;
+}
+
+span.text1 {
+    float: left;
+    margin-right: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #ff000066;
+}
+span.text2{
+    float: left;
+    margin-right: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    color: green;
+}
+span.text3 {
+    float: left;
+    margin-right: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    color: red;
+}
+span.text4 {
+    float: left;
+    margin-right: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    color: black;
+}
+
+ul.searchRecordDate_box li {
+    list-style: none;
+}
+ul.searchRecordDate_box{
+  padding: 0;
+  margin: 0
+}
+
+nav#navbar-main {
+    background-color: #181123;
+    margin: 0px 15px;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(2.75rem + 2px);
+    /* padding: 0.625rem 0.75rem; */
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #8898aa;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #cad1d7;
+    border-radius: 0.375rem;
+    box-shadow: none;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+} 
+ .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #5e72e4;
+}
+.nav-pills .nav-link {
+    padding: 0.75rem 1rem;
+    color: #5e72e4;
+    font-weight: 500;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+    transition: all 0.15s ease;
+}
+
+.heading {
+    letter-spacing: 0.025em;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 5px 15px;
+}
+.form-control-label {
+    color: #525f7f;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+.recordDetails h3{
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #32325d;
+    font-size: 17px;
+}
+.selectUser h4{
+    color: #181123 !important;
+     margin-top: 10px;
+      margin-left: 0px;
+       font-size: 15px
+}
+
+.table .thead-light th {
+    background-color: #f6f9fc;
+    color: #8898aa;
+    font-size: 16px;
+}
+.selectUser button{
+    background-color: #324cdd;
+    
+}
+
+
+
+.pill_btn{
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #fff !important;
+    background: #171123;
+    padding: 5px 12px;
+    margin-right: 6px;
+    cursor: pointer;
+    box-shadow: none;
+    outline: none;
+}
+.pill_btn.active, .pill_btn:focus{
+    color: #171123 !important;
+    background: aliceblue;
+}

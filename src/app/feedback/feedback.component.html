@@ -1,0 +1,128 @@
+<div class="feedback-form-content feedback" *ngIf="isView">
+  <h2 mat-dialog-title class="mat-dialog-title">
+    Feedback
+    <button (click)="close()" class="closeBtn evidence_close" *ngIf="!isFileUploadLoading">
+      <i class="fa fa-close"></i>
+    </button>
+  </h2>
+  <div class="feedback-form-content-inner">
+    <form [formGroup]="feedbackForm">
+      <div>
+        <div class="row feedback-form-fields">
+          <mat-form-field class="example-full-width col-12">
+            <mat-select formControlName="category" required placeholder="Feedback category" cdkFocusInitial>
+              <mat-option class="mat-radio-label-content" *ngFor="let cat of categoryList" [value]="cat.name">
+                {{cat.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error> Category is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width col-12">
+            <input matInput placeholder="Name" formControlName="name" required>
+            <mat-error> Name is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width col-12">
+            <input matInput placeholder="Email" formControlName="email" required
+              [pattern]="'^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'" type="email">
+            <mat-error *ngIf="feedbackForm.controls['email'].value && feedbackForm.controls['email'].errors">
+              Please enter valid email, e.g abc@gmail.com
+            </mat-error>
+            <mat-error *ngIf="!feedbackForm.controls['email'].value">
+              Email is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width col-12">
+            <input matInput placeholder="Contact Number" formControlName="contactNo" (keypress)="numberOnly($event)">
+          </mat-form-field>
+          <mat-form-field class="example-full-width col-12">
+            <textarea rows="6" matInput placeholder="Message" formControlName="feedback" required></textarea>
+            <mat-error> Description is required</mat-error>
+          </mat-form-field>
+          <div class="col-12">
+            <div class="single-file">
+              <!-- <input style="border-radius: 4px" accept=".jpg,.jpeg,.png" type="file" multiple placeholder="select file"
+                (change)="selectFile($event)"> -->
+              <div mat-button class="fake_file button_hover_effect" *ngIf="!isFileUploaded && files && !files.length">
+                <input style="border-radius: 4px" accept=".jpg,.jpeg,.png" type="file" multiple
+                  placeholder="select file" (change)="selectFile($event)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                  <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                    stroke-width="4"
+                    d="M18.77 29.954l12.147-12.147a4.632 4.632 0 0 1 6.55 6.55L17.816 44.012A9.264 9.264 0 0 1 4.713 30.91L26.277 9.346c5.427-5.427 14.226-5.427 19.653 0 5.427 5.427 5.427 14.226 0 19.652L31.873 43.056" />
+                </svg>
+                <p class="m-0"> Attach Photo</p>
+              </div>
+              <div mat-button class="fake_file button_hover_effect" *ngIf="isFileUploaded && isFileUploadLoading">
+                <p class="m-0"> Please wait...</p>
+              </div>
+              <div mat-button class="fake_file button_hover_effect"
+                *ngIf="files && files.length && !isFileUploadLoading">
+                <p class="m-0"> Screenshot attached</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-100 row mx-0 scroll">
+          <div class="file-block" *ngFor="let file of files; let j = index">
+            <div class="card p-0 mb-0">
+              <div class="row m-0 align-items-center">
+                <div class="col-12 p-0 image_box" style="cursor: pointer;">
+                  <div class="incident-img w-100" *ngIf="file.Location">
+                    <img src="{{file.Location}}" id="thumbNailImg"
+                      onerror="this.src='https://platinum-rail-services-client.s3.eu-west-2.amazonaws.com/assets/fallBack.png';"
+                      alt="Missing Image">
+                  </div>
+                </div>
+                <div class="col-9 text-center py-2 pr-0 fileTitlePosition" placement="top" ngbTooltip="{{file.key}}"
+                  tooltipClass="tooltip-class" triggers="hover">
+                  <p *ngIf="file.key" class="file_tile_main_area px-0 m-0">
+                    {{file.key}}</p>
+                </div>
+                <div class="col-3 text-right pr-3 pl-0 fileTitlePosition" style="text-align: right;">
+                  <a mat-flat-button style="color:red; min-width: unset; padding: 0; font-size: 22px;"
+                    (click)="deleteFile(file)">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div mat-dialog-actions class="justify-content-end submit-btn" *ngIf="!isLoading">
+          <button mat-button mat-raised-button color="primary" (click)="onSubmit()"
+            [disabled]="isFileUploadLoading ||  this.feedbackForm.invalid">
+            Submit
+          </button>
+        </div>
+        <div mat-dialog-actions class="justify-content-center" *ngIf="isLoading">
+          <span class="working">
+            Working... <i class="fa fa-refresh fa-spin"></i>
+          </span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<div *ngIf="!isView">
+  <h1 mat-dialog-title class="mat-dialog-title light-underline text-red text-capitalize">
+    <i class="fa fa-undo mr-1" style="font-size: 18px;">
+    </i> Restore Data
+  </h1>
+  <mat-dialog-content>
+    <div class="content">
+      <!-- <h5>{{data.msg}}</h5> -->
+      <p>A form with the selected email address already exists. Would you like to restore it?</p>
+    </div>
+  </mat-dialog-content>
+  <div mat-dialog-actions class="buttons">
+    <button mat-flat-button (click)="confirm('yes')" color="warn" *ngIf="!loading"
+      class="yes-btn button_hover_effect"><i class="fa fa-check mr-1"></i>Yes</button>
+    <button mat-flat-button (click)="confirm('no')" color="primary" *ngIf="!loading"
+      class="delete-btn close_hover_effect"><i class="fa fa-times mr-1"></i>No</button>
+  </div>
+</div>

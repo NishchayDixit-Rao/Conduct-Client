@@ -1,0 +1,140 @@
+<div class="leave_history">
+  <div class="apply_leave_text text-white">
+    Apply Leave
+  </div>
+  <div class="select_time">
+    <div class="row">
+      <div class="col-6 pr-2">
+        <form [formGroup]='monthLeaveForm'>
+          <input type="text" placeholder="Select Month" id="date-picker" formControlName="month"
+            class="form-control datepicker" autocomplete="off" ngModel="{{displayMonth}}">
+        </form>
+      </div>
+      <div class="col-6 pl-2">
+        <form [formGroup]='yearLeaveForm'>
+          <input type="text" placeholder="Select Year" id="date-picker1" formControlName="year"
+            class="form-control datepicker" autocomplete="off" ngModel="{{displayYear}}">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="loader" *ngIf="loading">
+    <img class="loading_img" src="../../assets/images/loader.gif" />
+  </div>
+  <div>
+    <div class="leave_details" *ngFor="let leave of monthlyLeaveOfUser">
+      <div class="card" style="cursor: pointer;" (click)="openModal(leave)">
+        <div class="row">
+          <div class="col-4">
+            <span *ngIf="userRole=='admin' || userRole == 'Manager'">{{leave.userId.name}}</span>
+            <span *ngIf="userRole=='Team Member'">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+          </div>
+          <div class="col-4" *ngIf="userRole=='admin' || userRole == 'Manager'">
+            <div *ngIf="leave.status == 'Rejected'">
+              <span style="color: #FF0000;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+            </div>
+            <div *ngIf="leave.status == 'pending'">
+              <span style="color: #FFAA00;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+            </div>
+            <div *ngIf="leave.status == 'Approved'">
+              <span style="color: #3998C5;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+            </div>
+          </div>
+          <div class="col-4" *ngIf="userRole=='Team Member'">
+            <span *ngIf="userRole=='Team Member'">{{getNoOfDays(leave)}}</span>
+          </div>
+          <div class="col-4">
+            <div *ngIf="leave.status == 'Approved'"><span class="pl-2" style="color: #00B51E;">{{leave.status}}</span>
+            </div>
+            <div *ngIf="leave.status == 'Rejected'"><span class="pl-2" style="color: #FF0000;">{{leave.status}}</span>
+            </div>
+            <div *ngIf="leave.status == 'pending'"><span class="pl-2" style="color: #FFAA00;">{{leave.status}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isMonthLeave == 1" class="no_leaves text-center mt-0"><span class="text-center no-leaves-of-month">There
+      are No
+      leaves</span></div>
+
+  <div>
+    <div class="leave_details" *ngFor="let leave of yearlyLeaveOfuser">
+      <div class="card" style="cursor: pointer;" (click)="openModal(leave)">
+        <div class="row">
+          <div class="col-4">
+            <span *ngIf="userRole=='admin' || userRole == 'Manager'">{{leave.userId.name}}</span>
+            <span *ngIf="userRole=='Team Member'">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+          </div>
+          <div class="col-4" *ngIf="userRole=='admin' || userRole == 'Manager'">
+            <div *ngIf="leave.status == 'Rejected'">
+              <span style="color: #FF0000;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+            </div>
+            <div *ngIf="leave.status == 'pending'">
+              <span style="color: #FFAA00;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+            </div>
+            <div *ngIf="leave.status == 'Approved'">
+              <span style="color: #3998C5;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+            </div>
+          </div>
+          <div class="col-4" *ngIf="userRole=='Team Member'">
+            <span *ngIf="userRole=='Team Member'">{{getNoOfDays(leave)}}</span>
+          </div>
+          <div class="col-4">
+            <div *ngIf="leave.status == 'Approved'"><span class="pl-2" style="color: #00B51E;">{{leave.status}}</span>
+            </div>
+            <div *ngIf="leave.status == 'Rejected'"><span class="pl-2" style="color: #FF0000;">{{leave.status}}</span>
+            </div>
+            <div *ngIf="leave.status == 'pending'"><span class="pl-2" style="color: #FFAA00;">{{leave.status}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isYearLeave == 1" class="no_leaves text-center mt-0"><span class="no-leave-of-year">There are No
+      leaves</span></div>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Leave Details</h4>
+      </div>
+      <div class="modal-body" *ngIf="leaves">
+        <div class="row">
+          <div class="col-12">
+            <p>Reason :</p>
+            <div> {{leaves.reason}}</div>
+          </div>
+          <div class="col-12">
+            <p>Date :</p>
+            <div>{{leaves.date.date}}/{{leaves.date.month}}/{{leaves.date.year}}
+            </div>
+          </div>
+          <div class="col-12" *ngIf="leaves.extraHours">
+            <p>Compensation :</p>
+            <div>{{leaves.extraHours}}
+            </div>
+          </div>
+          <div class="col-12" *ngIf="leaves.approvedBy">
+            <p>Approved By :</p>
+            <div>{{leaves.approvedBy}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

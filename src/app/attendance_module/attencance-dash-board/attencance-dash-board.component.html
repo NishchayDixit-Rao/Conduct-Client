@@ -1,0 +1,277 @@
+<div class="main-content">
+  <!-- Navbar -->
+  <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+    <div class="d-inline-block w-100">
+      <ul *ngIf="userInfo.userRole == 'admin'" class="float-left d-flex" id="tabs-text" role="tablist">
+        <li class="nav-item">
+          <button (click)="branchSelector('Rajkot')" id="rajkot" class="pill_btn">Rajkot</button>
+        </li>
+        <li class="nav-item ">
+          <button (click)="branchSelector('Ahemdabad')" id="ahemdabad" class="pill_btn">Ahemdabad</button>
+        </li>
+      </ul>
+      <ul class="navbar-nav float-right justify-content-end">
+        <li class="nav-item dropdown">
+          <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <div class="media align-items-center">
+              <!-- <span class="avatar avatar-sm rounded-circle">
+                <img alt="Image placeholder" src="./assets/img/theme/team-4-800x800.jpg">
+              </span> -->
+              <div class="media-body ml-2 ">
+                <span class="mb-0 text-sm text-capitalize font-weight-bold" *ngIf="userInfo">{{userInfo.name}}</span>
+              </div>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+            <div class=" dropdown-header noti-title">
+              <h6 class="text-overflow m-0">Welcome!</h6>
+            </div>
+            <a class="dropdown-item">
+              <i class="ni ni-single-02"></i>
+              <span routerLink="/userprofile">My profile</span>
+            </a>
+            <!-- <div class="dropdown-divider"></div>
+            <a (click)="logout()" class="dropdown-item" style="cursor: pointer;">
+              <i class="ni ni-user-run"></i>
+              <span>Logout</span>
+            </a> -->
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+  <!-- Header -->
+  <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+        <!-- Card stats -->
+        <div class="row m-auto">
+          <div class="col-xl-4 col-lg-6 "
+            *ngIf="!userInfo.userRole || (userInfo.userRole == 'Team Member' || userInfo.userRole == 'Manager')">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body button main_card_btn" (click)="fillAttendance()" data-toggle="tooltip"
+                title="Log Attendance" style="height: auto;">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title attendance text-uppercase text-muted">Fill Attendance</h5>
+                    <span *ngIf="!filledAttendanceLog" class="h3 log_title font-weight-bold mb-2 text-danger">You are
+                      left with
+                      your today's attendance !!!</span>
+                    <span *ngIf="filledAttendanceLog && entry"
+                      class="h3 log_title font-weight-bold mb-2 text-success">You filled
+                      your attendance</span>
+                    <span *ngIf="filledAttendanceLog && exit"
+                      class="h3 log_title font-weight-bold mb-2 text-danger">Start the
+                      time log if you wish to work again !!!</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <i class="fas fa-chart-bar"></i>
+                    </div>
+                  </div>
+                </div>
+                <div style="position: absolute; bottom: 10px;">
+                  <p class="mt-3 mb-0 text-muted text-sm" *ngIf="entry">
+                    <span class="text-nowrap">Your Entry Time :</span>
+                    <span class="text-success mr-2"> {{entry}} </span>
+                  </p>
+                  <p class="mt-3 mb-0 text-muted text-sm" *ngIf="exit">
+                    <span class="text-nowrap">Your Last Exit Time :</span>
+                    <span class="text-danger mr-2"> {{exit}} </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="userInfo.userRole && userInfo.userRole == 'admin'" class="col-xl-3 col-lg-6">
+            <div class="card card-stats userCount mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Total Users</h5>
+                    <span class="h2 font-weight-bold mb-0">{{totalUsers}}</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                      <i class="fas fa-chart-pie"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-warning mr-2 text-capitalize"><a routerLink="/all-employee" (click)="allUserList()">
+                      view
+                      users
+                    </a></span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="userInfo.userRole && userInfo.userRole == 'admin'" class="col-xl-3 col-lg-6">
+            <div class="card card-stats userCount mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted text-white mb-0">Present Count</h5>
+                    <span class="h2 font-weight-bold mb-0">{{presentCount}}</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-yellow rounded-circle shadow">
+                      <i class="fas fa-users"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-warning mr-2 text-capitalize"><a href="#nameSearch"> view more</a></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt--7">
+
+    <div class="row mt-5 ">
+      <div class="col-xl-12 mb-5 mb-xl-0">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0 text-white font-weight-bold" *ngIf="userInfo.userRole == 'admin'">Today's Summary</h3>
+                <h3 class="mb-0 text-white font-weight-bold"
+                  *ngIf="!userInfo.userRole ||(userInfo.userRole == 'Team Member' || userInfo.userRole == 'Manager')">
+                  Week Summary </h3>
+              </div>
+              <div class="col ">
+                <input class="mb-0 custom-input text-white" placeholder="search name" id="nameSearch"
+                  (keyup)="searchByName(filteredData)" *ngIf="userInfo.userRole == 'admin'" type="text">
+              </div>
+              <div class="col text-right">
+                <a class="btn btn-sm btn btn-info" routerLink="/attenDanceLogSummary">See all</a>
+              </div>
+
+            </div>
+          </div>
+          <div class="table-responsive">
+            <!-- Projects table -->
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light text-uppercase"
+                *ngIf="!userInfo.userRole || (userInfo.userRole == 'Team Member' || userInfo.userRole == 'Manager')">
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">day</th>
+                  <th scope="col">Hours in office</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <thead class="thead-light text-uppercase" *ngIf="userInfo.userRole == 'admin'">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">day</th>
+                  <th scope="col">Hours in office</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngIf="!userInfo.userRole ||(userInfo.userRole == 'Team Member' || userInfo.userRole == 'Manager')">
+                  <tr *ngFor="let data of fiveDaysLogs ; let i = index">
+                    <th scope="row text-capitalize">
+                      {{ data.date }}
+                    </th>
+                    <td>
+                      {{data.day}}
+                    </td>
+                    <td>
+                      {{data.diffrence}}
+                    </td>
+                    <td>
+                      <a id="viewMore" (click)="openModel(i)"><span class="viewMore">View More</span></a>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-container *ngIf="userInfo.userRole == 'admin'">
+                  <tr *ngFor="let data of todaysAttendance | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
+                    <th scope="row" class="nameClick text-capitalize"
+                      [routerLink]="['/all-users/user-detail/' ,data.user[0]._id]">
+                      {{ data.user[0].name }}
+                    </th>
+                    <td>
+                      {{data.day}}
+                    </td>
+                    <td>
+                      {{data.diffrence}}
+                    </td>
+                    <td>
+                      <a id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <pagination-controls *ngIf="userInfo.userRole == 'admin'" (pageChange)="p=$event"></pagination-controls>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="row align-items-center justify-content-xl-between">
+        <div class="col-xl-6">
+          <div class="copyright text-xl-left text-muted">
+            &copy; 2019 <a href="https://raoinformationtechnology.com/" class="font-weight-bold ml-1"
+              target="_blank">Rao Infotech</a>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  </div>
+</div>
+
+
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header" *ngIf="modelValue">
+        <h4 class="modal-title">{{modelValue.day}} &nbsp;-&nbsp; {{modelValue.date}}</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" *ngIf="modelValue">
+        <h3 align="center"><u>Time log </u></h3>
+        <div class="form-group" style="overflow: auto; ; max-height: 350px">
+          <table align="center" style="width: 100% " cellpadding="10px" *ngIf="modelValue">
+            <tr align="center">
+              <th>No.</th>
+              <th>In</th>
+              <th>Out</th>
+            </tr>
+            <tr *ngFor="let time of modelValue.timeLog ; let i = index" align="center">
+              <td>{{i+1}}</td>
+              <td>{{time.in}}</td>
+              <td>{{time.out}}</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>

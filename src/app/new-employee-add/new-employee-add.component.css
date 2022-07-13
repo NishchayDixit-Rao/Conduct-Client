@@ -1,0 +1,39 @@
+.field-icon {
+    float: right;
+    margin: -20px 0 0 0;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.file-field .btn {
+    line-height: 2.5;
+    margin-bottom: 8px!important;
+    margin-left: 0px;
+}
+
+.file-field p {
+    color: red;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.icons {
+    position: absolute;
+    top: -3px;
+    right: 50px;
+    color: #f44336;
+    padding: 5px;
+    border-radius: 3px;
+    line-height: 0;
+    font-size: 19px;
+}
+
+input[type="text"],
+input[type="password"] {
+    height: auto!important;
+}
+
+.spinner-border{
+    margin-bottom: -9px;
+}

@@ -1,0 +1,42 @@
+<div class="loader" *ngIf="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+<div class="main-timelog">
+    <div class="row">
+        <div class="col-6">
+            <h3 class="card-header-title">
+                <!-- <span class="mr-1" data-icon="&#xe06a;"></span>  -->
+                {{projectName}}
+            </h3>
+        </div>
+        <div class="col-6 text-right" *ngIf="displayHours" [ngClass]="totalHours(displayHours).class">
+            <span class="mr-2 totaltime">Total Time :<span class="def-timelog">{{displayHours}}</span> Hours</span>
+            <button class="btn btn-primary m-0" (click)="addTimeLog()">
+                <i class="fa fa-clock-o text-white mr-1"></i>Add Log </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <mwl-demo-utils-calendar-header [(view)]="view" (viewDateChange)="daysChange($event)"
+                (viewChange)="changeView($event)" [(viewDate)]="viewDate">
+            </mwl-demo-utils-calendar-header>
+            <div [ngSwitch]="view">
+                <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events"
+                    (columnHeaderClicked)="clickedColumn = $event.isoDayNumber" (dayClicked)="dayClicked($event.day)"
+                    (eventClicked)="handleEvent('Clicked', $event.event)" [refresh]="refresh">
+                </mwl-calendar-month-view>
+                <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events"
+                    (hourSegmentClicked)="dateClick($event.date)" (eventClicked)="handleEvent('Clicked', $event.event)"
+                    [refresh]="refresh">
+                </mwl-calendar-week-view>
+                <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events"
+                    (hourSegmentClicked)="dateClick($event.date)" [refresh]="refresh"
+                    (eventClicked)="handleEvent('Clicked', $event.event)">
+                </mwl-calendar-day-view>
+            </div>
+        </div>
+    </div>
+</div>

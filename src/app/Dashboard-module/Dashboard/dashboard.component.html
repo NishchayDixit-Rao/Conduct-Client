@@ -1,0 +1,130 @@
+<!-- <div class="row">
+    <div class="col-md-4 col-sm-6 col-lg-3 margin-tb-20">
+        <div class="card card-cascade">
+            <div class="view view-cascade overlay" style="background-color: #e7ebee; box-shadow: none;">
+                <div class="margin-top-10 margin-bottom-10 text-center">
+                    <i class="fas fa-th-large"></i>
+                    <h5 routerLink="/view-projects" class="font-weight-bold card-title">
+                        View Project</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-lg-3 margin-tb-20" *ngIf=" currentUser.userRole=='admin'">
+        <div class="card card-cascade">
+            <div class="view view-cascade overlay" style="background-color: #e7ebee; box-shadow: none;">
+                <div class="margin-top-10 margin-bottom-10 text-center">
+                    <i class="fas fa-users"></i>
+                    <h5 routerLink="/all-employee" class="font-weight-bold card-title">
+                        Work Circle</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-lg-3 margin-tb-20">
+        <div class="card card-cascade">
+            <div class="view view-cascade overlay" style="background-color: #e7ebee; box-shadow: none;">
+                <div class="margin-top-10 margin-bottom-10 text-center">
+                    <i class="icon-book-open mr-1"></i>
+                    <h5 routerLink="/noticeboard" class="font-weight-bold card-title">
+                        NoticeBoard</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-lg-3 margin-tb-20" *ngIf="currentUser.userRole=='projectManager' || currentUser.userRole=='admin'">
+        <div class="card card-cascade">
+            <div class="view view-cascade overlay" style="background-color: #e7ebee; box-shadow: none;">
+                <div class="margin-top-10 margin-bottom-10 text-center">
+                    <i class="fas fa-plus-square"></i>
+                    <h5 routerLink="/newProject" class="font-weight-bold card-title">
+                        Create Project</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-lg-3 margin-tb-20">
+        <div class="card card-cascade">
+            <div class="view view-cascade overlay" style="background-color: #e7ebee; box-shadow: none;">
+                <div class="margin-top-10 margin-bottom-10 text-center">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <h5 routerLink="/attenDanceDashBoard" class="font-weight-bold card-title">
+                        Attendance</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-lg-3 margin-tb-20" *ngIf="currentUser.userRole=='projectManager' || currentUser.userRole=='admin'">
+        <div class="card card-cascade">
+            <div class="view view-cascade overlay" style="background-color: #e7ebee; box-shadow: none;">
+                <div class="margin-top-10 margin-bottom-10 text-center">
+                    <img src="assets/fonts/pendingLeave.svg">
+                    <h5 routerLink="/leaveDashboard" class="font-weight-bold card-title">
+                        Employee Leave</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<div class="loader" *ngIf="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+
+<div class="row">
+    <app-user-to-do-tasks-list></app-user-to-do-tasks-list>
+    <div class="col-lg-3 col-md-6" *ngIf="totalCount">
+        <div class="single-card" routerLink="/projects">
+            <span>{{zeroPad (totalCount.projectCount , 2)}}</span>
+            <h5>View Project</h5>
+            <div class="single-card-img">
+                <img src="../../assets/view-project.png" alt="view-project">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6" *ngIf="currentUser.userRole == 'admin' && totalCount">
+        <div class="single-card" routerLink="/workCircleList">
+            <span>{{zeroPad (totalCount.userCount , 2)}}</span>
+            <h5>Work Circle</h5>
+            <div class="single-card-img">
+                <img src="../../assets/all-employee.png" alt="all-employee">
+            </div>
+        </div>
+    </div>
+
+    <!-- notice board -->
+    <!-- <div class="col-lg-3 col-md-6" *ngIf="totalCount">
+        <div class="single-card" routerLink="/notices">
+            <span>{{zeroPad (totalCount.noticeCount , 2)}}</span>
+            <h5>NoticeBoard</h5>
+            <div class="single-card-img">
+                <img src="../../assets/noticeboard.png" alt="noticeboard">
+            </div>
+        </div>
+    </div>
+ -->
+
+    <!-- <div class="col-md-3">
+        <div class="single-card" routerLink="/attenDanceDashBoard">
+            <span>00</span>
+            <h5>Attendance</h5>
+            <div class="single-card-img">
+                <img src="../../assets/attendance.png" alt="attendance">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="single-card" routerLink="/leaveDashboard">
+            <span>00</span>
+            <h5>Employee Leave</h5>
+            <div class="single-card-img">
+                <img src="../../assets/leave.png" alt="employee-leaves">
+            </div>
+        </div>
+    </div> -->
+</div>

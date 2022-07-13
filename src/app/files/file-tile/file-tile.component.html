@@ -1,0 +1,57 @@
+<ul class="single-item border-bottom">
+  <li>
+    <div class="w-100 d-inline-block">
+      <div class="left-file-content">
+        <div class="image-div d-inline-block">
+          <a [attr.data-lightbox]="image._id" class="image_attachment"
+            *ngIf="fileType== 'jpg' || fileType == 'jpeg' || fileType == 'png'" href="{{image.fileName}}">
+            <img src="{{image.fileName}}" alt="image">
+          </a>
+          <a class="image_attachment" *ngIf="fileType == 'pdf' ">
+            <i class="fa fa-file-pdf-o pdfFile" aria-hidden="true"></i>
+          </a>
+
+
+          <a class="image_attachment" *ngIf="fileType == 'zip' ">
+            <i class="fa fa-file-archive-o zipFile" aria-hidden="true"></i>
+          </a>
+
+
+          <a class="image_attachment" *ngIf="fileType == 'mp4' || fileType == 'webm' ">
+            <i class="fa fa-video-camera videoFile" aria-hidden="true"></i>
+          </a>
+
+          <a class="image_attachment" *ngIf="fileType == 'docx' || fileType == 'doc' ">
+            <i class="fa fa-file docFile" aria-hidden="true"></i>
+          </a>
+
+        </div>
+        <a class="name-file text-uppercase" (click)="imageDetails(image._id)">{{image.alias}}
+          ({{image.size}})</a>
+      </div>
+      <div class="right-file-content">
+        <div>
+          <span class="mr-3 text-capitalize">{{image.createdBy.name}} On {{image.createdAt | date}}</span>
+          <p class="comments"><span class="mr-2 text-capitalize">{{image.version}}</span>
+            <span class="mr-2">Comments ({{image.comments.length}})</span></p>
+        </div>
+
+        <a (click)="saveFile(image.fileName , image.alias)"><span tooltipClass="my-custom-class" ngbTooltip="Download"
+            class="icon-cloud-download"></span></a>
+        <!-- <a (click)="finalDownLoad(image.alias, image.base64Image)"><span tooltipClass="my-custom-class"
+            ngbTooltip="Download" class="icon-cloud-download"></span></a> -->
+        <!-- <a (click)="saveFile(image.fileName , image.alias)">vivek</a> -->
+        <!-- <a (click)="finalDownLoad(image.alias, image.fileName)"> Bharda</a>
+        <a href="{{image.fileName}}"> vivek</a> -->
+
+        <!-- <span (click)="finalDownLoad(image.alias, image.base64Image)"> AE Malik </span> -->
+        <a (click)="openImage(image.fileName)"><span tooltipClass="my-custom-class" ngbTooltip="View"
+            class="fa fa-eye"></span></a>
+        <a (click)="deleteImage(image)"><span tooltipClass="my-custom-class" ngbTooltip="Delete" title="Delete"
+            class="fa fa-trash"></span></a>
+        <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
+
+      </div>
+    </div>
+  </li>
+</ul>

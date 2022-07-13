@@ -1,0 +1,13 @@
+.noDataFound{
+    text-align: center;
+    /* margin: 10px; */
+    /* width: 300px; */
+    border: 1px solid black;
+    padding: 50px;
+    margin: 20px;
+    background: #e2e8e7;
+}
+.noDataFound i {
+    color: red;
+    font-size: 18px;
+}

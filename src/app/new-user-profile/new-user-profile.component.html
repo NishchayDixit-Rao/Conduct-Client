@@ -1,0 +1,135 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- User profile page design start -->
+<div class="row">
+  <div class="user-profile-main" *ngIf="userDetails">
+    <div class="user-left">
+      <div class="user-profile mb-">
+        <div class="user-profile-image ng-star-inserted" tooltipClass="my-custom-class" touranchor="change-profile"
+          ng-reflect-tour-anchor="change-profile">
+          <input id="profile" name="fileUpload" (change)="uploadFile()" style="display:none;">
+          <label *ngIf="isAdmin" for="profile" class="profile_and_cover_edit" ngbTooltip="Change Profile"
+            (click)="uploadFile()"><i class="fas fa-edit"></i></label>
+          <img src="{{displayPhoto}}" onerror="this.src='../assets/default-profile.png'" ngbTooltip="Profile Image"
+            alt="profile image">
+        </div>
+        <!-- <img src="{{displayPhoto}}" alt="vivek"> -->
+        <!-- {{displayPhoto}} -->
+        <div class="user-profile-name">
+          <h4>{{userDetails.name}}</h4>
+          <!-- <span>{{ getUserRole(userDetails.userRole) }}</span> -->
+        </div>
+      </div>
+      <div *ngIf="isAdmin" class="edit-profile d-flex justify-content-between">
+        <button class="btn btn-primary" (click)="editProfile()"
+          *ngIf="(currentUser._id == userDetails._id || currentUser.userRole == 'admin')"><span
+            class="icon-user-follow mr-2"></span> Edit Profile</button>
+      </div>
+      <div class="user-details">
+        <mat-tab-group>
+          <mat-tab label="About">
+            <div class="tab-content-box">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Name</p>
+                    <span class="text-capitalize">{{userDetails.name}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Email</p>
+                    <span><a href="mailto: {{userDetails.email}}">
+                        {{userDetails.email}}</a></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Phone no.</p>
+                    <span><a href="tel:+91{{userDetails.phone}}">
+                        {{userDetails.phone}}</a></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Branch</p>
+                    <span *ngIf="userDetails.branch"><span>
+                        {{userDetails.branch }}</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Experience">
+            <div class="tab-content-box">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Joining Date</p>
+                    <span><span>{{userDetails.date | date}}</span></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Worked For</p>
+                    <span *ngIf="userDetails.firmExperience"><span>
+                        {{userDetails.firmExperience }}</span></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Past Experience</p>
+                    <span *ngIf="userDetails.experienceYear"><span>
+                        Year: {{userDetails.experienceYear }} Month: {{userDetails.experienceMonth}}</span></span>
+                    <span *ngIf="!userDetails.experienceYear"><span>
+                        Fresher</span></span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="single-info-box">
+                    <p>Total Experience</p>
+                    <span *ngIf="userDetails.totalExperience"><span>
+                        {{userDetails.totalExperience }}</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+    <div class="user-right">
+      <div class="edit-profile d-flex justify-content-between">
+        <button class="btn projectButton"><span class="fa fa-object-group mr-1"></span> Projects</button>
+        <div *ngIf="currentUser.userRole == 'admin'">
+          <button class="btn btn-default" (click)="singleUserLogs()"> <i class="fa fa-clock-o mr-1"
+              aria-hidden="true"></i>
+            Timelog</button>
+        </div>
+      </div>
+      <div class="project">
+        <div class="form-row" *ngIf="totalProject && totalProject.length">
+          <div class="col-sm-6 col-md-4 col-lg-6 col-xl-4 mb-1" *ngFor="let project of totalProject">
+            <div class="profile-single-project" (click)="projectDetails(project)">
+              <div class="project_img">
+                <img src="{{project.avatar}}" class="avatar_image" onerror="this.src='../assets/4.jpeg'">
+              </div>
+              <label class="text-capitalize">{{project.title}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="noProject" *ngIf="totalProject && !totalProject.length">
+          <div class="no_project_img">
+            <img src="../assets/notice.jpg" class="avatar_image" onerror="this.src='../assets/notice.jpg'">
+          </div>
+          <h4>There is no project of this user</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

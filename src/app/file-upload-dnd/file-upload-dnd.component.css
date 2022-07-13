@@ -1,0 +1,40 @@
+.default_cover_images {
+    width: 70px;
+    height: 70px;
+    border-radius: 30%;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 0px 5px 0px #f9f9f9;
+    box-shadow: 0px 0px 5px 0px #f9f9f9;
+    cursor: pointer;
+}
+
+.default_cover_images img {
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.default_cover_images span {
+    opacity: 0;
+}
+
+.default_cover_images:hover span {
+    opacity: 0.7;
+}
+
+.default_cover_images:hover span:hover {
+    opacity: 1;
+}
+
+.pdf_img img {
+    /* margin: auto; */
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+}
+
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}

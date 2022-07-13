@@ -1,0 +1,86 @@
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 0.375rem;
+}
+
+nav#navbar-main {
+    background-color: #181123;
+    margin: 0px 15px;
+
+}
+
+::placeholder {
+    color: white;
+    opacity: 1; /* Firefox */
+  }
+  
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: white;
+  }
+  input#date1 {
+    color: white;
+}
+
+.userSummary button{
+    color: white !important;
+    border-color: white !important;
+}
+.totalTime h5{
+    font-size: 13px;
+}
+
+.totalTime h3{
+    font-size: 17px;
+}
+
+
+.adminHeader{
+    background-color: #181123;
+    /* color: ; */
+}
+
+.userHeader{
+    background-color: white;
+    color: #32325d !important;
+}
+.userHeader i {
+    color: #32325d !important;
+}
+
+.input-group-text{
+    background-color: #fff;
+    border: none;
+}
+input#reportrange {
+    background-color: #e9ecef;
+}
+.input-group.input-group-alternative {
+    box-shadow: 1px 2px 4px #dadada;
+    border-radius: 5px;
+    outline: none;
+}
+
+
+.pill_btn{
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #fff !important;
+    background: #171123;
+    padding: 5px 12px;
+    margin-right: 6px;
+    cursor: pointer;
+    box-shadow: none;
+    outline: none;
+}
+.pill_btn.active, .pill_btn:focus{
+    color: #171123 !important;
+    background: aliceblue;
+}

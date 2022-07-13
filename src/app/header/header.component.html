@@ -1,0 +1,251 @@
+<header>
+    <button class="nav_toggle_btn float-left">
+        <span class="fa fa-bars mr-2"></span> Conduct
+    </button>
+    <div class="menu_content_with_overlay">
+        <nav>
+            <diV class="top_logo_area">
+                <img src="../../assets/rao_conduct_logo_white.png" alt="conduct light logo">
+            </diV>
+            <div *ngIf="currentUser" class="profile_section" routerLink="/user/{{currentUser._id}}"
+                (click)="closeNav()">
+                <div class="user_name">
+                    <img src="{{currentUser.profilePhoto}}" onerror="this.src='assets/default-profile.png'">
+                    <h3>{{currentUser.name}}</h3>
+                </div>
+            </div>
+            <div class="menu_items_container">
+                <ul class="collapsible collapsible-accordion">
+                    <li class="item_list">
+                        <a routerLink="/dashboard" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="fa fa-newspaper-o mr-1" aria-hidden="true"></span> Dashboard
+                        </a>
+                    </li>
+                    <li class="item_list">
+                        <a routerLink="/projects" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="fa fa-object-group mr-1"></span> Projects
+                        </a>
+                    </li>
+                    <li class="item_list">
+                        <a routerLink="/add-project" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="icon-note mr-1"></span> Create Project
+                        </a>
+                    </li>
+                    <!-- <li class="item_list">
+                        <a routerLink="/tasks" class="waves-effect item_link" (click)="closeNav()" id="item_list"
+                            [class.disabled]="demoprojects&& demoprojects.length == 0">
+                            <span class="fa fa-tasks mr-1"></span> Item List
+                        </a>
+                    </li> -->
+                    <!-- <li class="item_list">
+                        <a routerLink="/notices" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="fa fa-picture-o mr-1"></span> Notice Board
+                        </a>
+                    </li> -->
+                    <li class="item_list">
+                        <a routerLink="/workCircleList" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="fa fa-users mr-1"></span> Work Circle
+                        </a>
+                    </li>
+                    <!-- <li class="item_list">
+                        <a routerLink="/total-logs" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="fa fa-calendar mr-1"></span> Total Logs
+                        </a>
+                    </li>
+                    <li class="item_list">
+                        <a routerLink="/user-logs" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="fa fa-folder mr-1"></span> All Users Logs
+                        </a>
+                    </li> -->
+                    <!-- <li>
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="item_list">
+                                <a class="collapsible-header waves-effect arrow-r" id="projects">
+                                    <span><i class="fa fa-clock-o mr-1" aria-hidden="true"></i>Attendance
+                                    </span>
+                                </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li>
+                                            <a routerLink="/attenDanceDashBoard" class="collapsible-header waves-effect"
+                                                (click)="closeNav()">
+                                                <span><i class="fas fa-tv"></i></span> Dashboard
+                                            </a>
+                                        </li>
+                                        <li *ngIf="currentUser.userRole == 'admin'">
+                                            <a routerLink="/attenDanceUserReport" class="collapsible-header waves-effect"
+                                                (click)="closeNav()">
+                                                <span class="fas fa-user-tie"></span> User Report
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a routerLink="/attenDanceLogSummary" class="collapsible-header waves-effect"
+                                                (click)="closeNav()">
+                                                <span><i class="fas fa-list-ul"></i></span> Logs Summary
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li> -->
+                </ul>
+                <!-- <ul class="collapsible collapsible-accordion only_for_mobile">
+                    <li class="item_list">
+                        <a class="waves-effect item_link" (click)="myProfile(currentUser)">
+                            <span class="icon-user mr-1"></span> My Profile
+                        </a>
+                    </li>
+                    <li class="item_list">
+                        <a (click)="viewNotification()" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="icon-bell mr-1"></span> Notification
+                        </a>
+                    </li>
+                    <li class="item_list">
+                        <a (click)="logout()" class="waves-effect item_link" (click)="closeNav()">
+                            <span class="icon-logout mr-1"></span> Log Out
+                        </a>
+                    </li>
+                </ul> -->
+            </div>
+        </nav>
+    </div>
+</header>
+
+
+<div class="side_fixed_nav">
+    <div class="top_icon">
+        <div class="second_icon dropdown" id="plus_details" *ngIf="isDisplay">
+            <a href="" class="star_link dropdown-toggle" id="addMore" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <span class="icon-plus" aria-hidden="true"></span>
+            </a>
+            <div *ngIf="demoprojects" class="dropdown-menu" aria-labelledby="addMore">
+                <a class="dropdown-item" [routerLink]="['/add-project']"> <span class="icon-folder-alt mr-1"></span>
+                    Project
+                </a>
+                <a class="dropdown-item" (click)="addItem('Task')"><span data-icon="&#xe067;" class="mr-1"></span>
+                    Task</a>
+                <a class="dropdown-item" (click)="addItem('Bugg')"><span class="icon-energy mr-1"></span> Bug</a>
+                <a class="dropdown-item" (click)="addItem('Issue')"> <span class="icon-question mr-1"></span> Issue</a>
+            </div>
+        </div>
+        <div class="allIcons" *ngIf="sideMenu && sideMenuControl">
+            <a class=" hover-item" tooltipClass="my-custom-class" [class.isActive]="selectedIndex == 1" ngbTooltip="Tasks" (click)="taskDetails()" placement="right">
+                <i class="fas fa-tasks"></i>
+            </a>
+            <a class=" hover-item" *ngIf="currentUser.userRole=='admin'" tooltipClass="my-custom-class" placement="right" ngbTooltip="Edit Project" [class.isActive]="selectedIndex == 2" (click)="editProject()">
+                <i class="fas fa-pen"></i>
+            </a>
+            <a class=" hover-item" tooltipClass="my-custom-class" placement="right" [class.isActive]="selectedIndex == 3" ngbTooltip="Discussion" (click)="addDiscussion()">
+                <i class="fas fa-comments"></i>
+            </a>
+            <a class="hover-item " tooltipClass="my-custom-class" ngbTooltip="Files" placement="right" [class.isActive]="selectedIndex == 4" (click)="projectFiles()">
+                <i class="fas fa-folder"></i>
+            </a>
+            <a class="hover-item " [class.isActive]="selectedIndex == 5" placement="right" *ngIf="currentUser.userRole=='admin' || currentUser.userRole=='Manager'" tooltipClass="my-custom-class" ngbTooltip="Summary" (click)="projectSummary()">
+                <i class="fas fa-chart-pie"></i>
+            </a>
+            <a class="hover-item  " *ngIf="currentUser.userRole=='Manager' || currentUser.userRole=='admin'" placement="right" [class.isActive]="selectedIndex == 6" tooltipClass="my-custom-class" ngbTooltip="Verify Logs" (click)="verifyLogs()">
+                <i class="fas fa-check"></i>
+            </a>
+            <a class="hover-item " tooltipClass="my-custom-class" ngbTooltip="Time Log" (click)="displayTimeLog()" [class.isActive]="selectedIndex == 7" placement="right">
+                <i class="fas fa-clock"></i>
+            </a>
+            <!-- <a class="hover-item " tooltipClass="my-custom-class" placement="right" *ngIf="currentUser.userRole=='admin'" ngbTooltip="Project Logs" (click)="singleProjectLogs()">
+                <i class="fas fa-clipboard-check"></i>
+            </a> -->
+            <a class="hover-item " tooltipClass="my-custom-class" *ngIf="currentUser.userRole=='admin'" ngbTooltip="Manage Flow" (click)="displayProjectSettings()" [class.isActive]="selectedIndex == 8" placement="right">
+                <i class="fas fa-cog"></i>
+            </a>
+        </div>
+    </div>
+    <div class="second_icon dropdown">
+        <!-- <div class="bottom_icon">
+            <div class="second_icon">
+                <a (click)="viewNotification()" class="star_link" tooltipClass="my-custom-class"
+                    ngbTooltip="Notifications" data-placement="right"><span class="icon-bell" aria-hidden="true">
+                        <span class="notification_count animated slower" *ngIf="newNotification">
+                            <span class="custom_badge ">{{newNotification}}</span>
+                        </span>
+                    </span>
+                </a>
+            </div>
+        </div> -->
+        <a href="" class="star_link" data-toggle="tooltip" title="Your profile and settings" data-placement="right"></a>
+        <ul class="team-members">
+            <li id="login_details">
+                <a href="" class="dropdown-toggle" id="myAcc" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <div class="user_profile_pic"><img src="{{currentUser.profilePhoto}}" class="img-rounded"
+                            onerror="this.src='../assets/default-profile.png'"></div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="myAcc">
+                    <a class="dropdown-item" (click)="logout()"><span class="icon-logout mr-1"></span>Log Out</a>
+                    <a class="dropdown-item" (click)="myProfile(currentUser)"> <span class="icon-user mr-1"></span>My
+                        Profile</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- Select project -->
+</div>
+<div class="modal fade left " id="editModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-model" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between">
+                <div class="col-9 p-0 pull-left">
+                    <h5 id="myModalLabel">{{modalTitle}}</h5>
+                </div>
+                <div class="col-3 p-0 pull-right">
+                    <button type="button" class="close" (click)="closeModel()">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- <button *ngIf="!demoprojects" class="btn-primary mt-2 float-right" (click)="createNewProject(id)"> Create Project</button> -->
+                <!-- <form [formGroup]="editTaskForm"> -->
+                <div class="form-group mb-0">
+                    <ng-select class="pb-0" placeholder="Select Project" [items]="demoprojects" bindLabel="title"
+                        bindValue="_id" [closeOnSelect]="true" (change)="projectSelected($event)" (clear)="onClear()"
+                        [(ngModel)]="projectAdd">
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                            <span class="ng-value-label"><img src="{{item.avatar}}"
+                                    onerror="this.src='assets/icons/avatar.png'" width="20px" height="20px">
+                                {{item.title}}</span>
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <div class="row">
+                            <ng-template ng-option-tmp let-item="item">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <div class="avatar">
+                                            <img src="{{item.avatar}}" onerror="this.src='assets/icons/avatar.png'">
+                                        </div>
+                                        <div class="project-des">
+                                            <p class="card-title">{{item.title}}</p>
+                                            <span class="card-title">{{item.uniqueId}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </ng-select>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="row m-0 p-0">
+                    <div class="col-12" class="displayTask" [hidden]="!taskDisplay">
+                        <app-add-task [selectedProject]="projectId" [taskDisable]="addTaskDisable" [sideBar]="'true'"
+                            [taskReset]="resetTask" [teamMember]="totalTeam" [taskType]="addTaskType"
+                            (taskUpdate)="taskAdded($event)">
+                        </app-add-task>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

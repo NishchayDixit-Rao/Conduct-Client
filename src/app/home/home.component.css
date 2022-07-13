@@ -1,0 +1,9 @@
+.body_content{
+	padding-top: 60px;
+	padding-left: 79px;
+}
+@media (max-width: 575px){
+	.body_content{
+		padding-left: 60px;
+	}
+}

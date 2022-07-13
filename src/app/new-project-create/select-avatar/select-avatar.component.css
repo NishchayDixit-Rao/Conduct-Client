@@ -1,0 +1,14 @@
+.modal-header,
+.modal-footer,
+.modal-content {
+    border: none!important;
+    padding: 0 !important;
+}
+
+.mat-dialog-container {
+    padding: 0 !important;
+}
+
+h5 {
+    color: #3998c5;
+}

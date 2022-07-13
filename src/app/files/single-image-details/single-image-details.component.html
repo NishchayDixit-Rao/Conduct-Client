@@ -1,0 +1,138 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-9">
+      <div class="card p-3" *ngIf="imageDetails">
+        <h3 class="mb-1">Files</h3>
+        <div class="left-file-content float-left d-flex align-items-center">
+          <div class="image-div d-inline-block">
+            <a [attr.data-lightbox]="imageDetails._id" class="image_attachment"
+              *ngIf="fileType== 'jpg' || fileType == 'jpeg' || fileType == 'png'" href="{{imageDetails.fileName}}">
+              <img src="{{imageDetails.fileName}}" alt="image">
+            </a>
+            <a class="image_attachment" *ngIf="fileType == 'pdf' ">
+              <i class="fa fa-file-pdf-o pdfFile" aria-hidden="true"></i>
+            </a>
+
+            <a class="image_attachment" *ngIf="fileType == 'zip' ">
+              <i class="fa fa-file-archive-o zipFile" aria-hidden="true"></i>
+            </a>
+
+
+            <a class="image_attachment" *ngIf="fileType == 'mp4' || fileType == 'webm' ">
+              <i class="fa fa-video-camera videoFile" aria-hidden="true"></i>
+            </a>
+
+            <a class="image_attachment" *ngIf="fileType == 'docx' || fileType == 'doc' ">
+              <i class="fa fa-file docFile" aria-hidden="true"></i>
+            </a>
+          </div>
+          <a class="name-file" *ngIf="imageDetails">{{imageDetails.alias}}</a>
+        </div>
+        <div class="row my-2">
+          <div class="col-md-4">
+            <span class=" top" *ngIf="imageDetails"> Last Modified:</span>
+            <span class="bottom font-weight-bold">{{imageDetails.createdBy.name}} On{{imageDetails.createdAt | date}}
+            </span>
+          </div>
+          <div class="col-md-4">
+            <span class="top" *ngIf="imageDetails"> Size: </span>
+            <span class="bottom font-weight-bold"> {{imageDetails.size}}</span>
+          </div>
+          <div class="col-md-4">
+            <span class="top" *ngIf="imageDetails"> Version:</span>
+            <span class="bottom font-weight-bold">{{imageDetails.version}}</span>
+          </div>
+        </div>
+        <div class="card border-top older_version mb-1 py-2" *ngIf="allVersionImageList.length>0">
+          <h5 class="mb-1">Older Version</h5>
+          <div class="row" *ngFor="let images of allVersionImageList">
+            <div class="col-md-4 d-flex align-items-center">
+              <div class="left-file-content float-left d-flex align-items-center">
+                <div class="image-div d-inline-block">
+                  <a [attr.data-lightbox]="images._id" class="image_attachment" *ngIf="images"
+                    href="{{images.fileName}}">
+                    <img src="{{images.fileName}}" alt="image">
+                  </a>
+                </div>
+              </div>
+              <a class="name-file mr-3" *ngIf="images">{{images.alias}}</a>
+            </div>
+            <div class="col-md-2 d-flex flex-wrap align-content-center">
+              <span class="top w-100 d-flex">Size </span>
+              <span class="bottom"> {{images.size}}</span>
+            </div>
+            <div class="col-md-2 d-flex flex-wrap align-content-center">
+              <span class="top">{{images.createdBy.name}}</span>
+            </div>
+            <div class="col-md-2 d-flex flex-wrap align-content-center">
+              <span class="top">{{images.createdAt | date : 'medium': 'IST'}}</span>
+            </div>
+            <div class="col-md-2 d-flex flex-wrap align-content-center">
+              <span class="top">{{images.version}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h5 class="mb-1">Add Version</h5>
+            <!-- <app-upload-files-project projectId="100" sectionId="107" (uploadedFile)="changeFile($event)"
+              [imageReset]="resetImage">
+            </app-upload-files-project> -->
+
+            <div class="mainSection" *ngIf="files && files.length">
+              <div class="row">
+                <div *ngFor="let image of files; let i = index">
+                  <a>
+                    <app-image-display [imageDisplay]="image.Location" [imageEdit]="editImage"
+                      (removeImage)="uploadedRemove($event)" [indexOf]="i">
+                    </app-image-display>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center overlay_dragarea" (click)="uploadNewFile()" style="cursor: pointer; border: 2px dotted #e0dcdc;padding: 13px;
+            border-radius: 5px;" *ngIf="files && !files.length">
+              <div class="pdf_imgUpload">
+                <img src="../assets/attach.png">
+                <span style="color: #757575;" for="addFile">Upload File Version</span>
+              </div>
+            </div>
+            <!-- <button type="submit" *ngIf="files && !files.length" class="btn btn-default uploadButton"
+              (click)="uploadNewFile()">
+              <i class="fa fa-upload mr-1" aria-hidden="true"></i> Upload File Version</button> -->
+            <div class="d-flex justify-content-end align-items-center">
+              <div class="spinner-border mr-2" *ngIf="loading">
+                <span class="sr-only">Loading...</span>
+              </div>
+              <button class="btn btn-default float-right m-0 mt-1" [disabled]="isDisable || (files && !files.length)"
+                (click)="saveFile()">
+                <span class="icon-plus"></span>
+                Add Version</button>
+            </div>
+          </div>
+        </div>
+        <div class="commentBox">
+          <!-- <div class="col-12"> -->
+          <app-comment-box [comment]="comments" [commentReset]="resetComment" (commentData)="commentDetails($event)">
+          </app-comment-box>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-sm-3 border px-0">
+      <div class="list-user">
+        <app-notify-user-list [totalList]="allMembers" (developerSelected)="selectedDeveloper($event)">
+        </app-notify-user-list>
+      </div>
+    </div> -->
+  </div>
+</div>

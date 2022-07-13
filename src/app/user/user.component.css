@@ -1,0 +1,60 @@
+.user_profile_pic img {
+    object-position: relative;
+    object-fit: cover;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    /* border: 2px solid #fff; */
+    float: left;
+    position: relative;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.user_profile_pic a {
+    cursor: pointer;
+    text-transform: capitalize;
+    font-size: 15px;
+    display: flex !important;
+    align-items: center;
+    color: #727272;
+    justify-content: space-between;
+}
+
+/*.user_profile_pic a:hover {
+    color: #3998c5;
+}*/
+
+/*.pmBorder {
+    color: #e91e63;
+}
+
+.developerBorder {
+    color: #3998c5;
+}
+
+.defaultBoder {
+    color: #181123;
+}*/
+
+.mat-list-text app-user .user_profile_pic a {
+    font-size: 16px !important;
+    color: #444 !important;
+}
+
+.img_name{
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+a.deletebtn {
+    right: 10px;
+    /* position: absolute; */
+    background-color: none;
+    box-shadow: none;
+}
+a.deletebtn i {
+    color: #f44336
+
+}

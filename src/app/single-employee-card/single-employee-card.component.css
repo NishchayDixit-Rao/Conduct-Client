@@ -1,0 +1,65 @@
+.card{
+  margin: 5px;
+} 
+.card-body{
+  padding: 0;
+}
+.imageDisplay{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.userDisplay{
+  /* display: block; */
+}
+.img_section{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    /* float: left; */
+  }
+  .img_section img{
+    min-height: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+  
+  }
+
+.icon_for_action span{
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  line-height: 16px;
+  display: table;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+a.icon_for_action {
+  position: absolute;
+  right: 10%;
+  top: 32%;
+  bottom: 0;
+}
+
+.team_card span{
+  line-height: normal!important;
+  /* margin: 0px 0px 5px 25px; */
+  min-height: auto !important;
+  display: block;
+  text-transform: capitalize;
+/* float: left; */
+}
+.team_card p{
+  font-size: 14px;
+  line-height: normal;
+   /* margin:0px 0px 0px 25px; */
+   text-transform: capitalize;
+   /* float: left; */
+}

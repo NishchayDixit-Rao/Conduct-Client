@@ -1,0 +1,155 @@
+<div class="user_detail">
+  <div *ngIf="userLeaves">
+    <div class="single_user_profile text-center">
+      <div class="single_user">
+        <div class="profile_img">
+          <img *ngIf="!singleUser.profilePhoto" src="../../assets/images/person.png">
+          <img *ngIf="singleUser.profilePhoto" src="{{path}}{{singleUser.profilePhoto}}">
+        </div>
+      </div>
+    </div>
+    <div class="usee_name_text">
+      <p class="text-center">{{singleUser.name}}</p>
+    </div>
+    <div class="card">
+      <div class="card-content row">
+        <div class="col-4"><span class="user_heading">Name : </span></div>
+        <div class="col-8">
+          <span class="single_user_name">{{singleUser.name}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-content row">
+        <div class="col-4"><span class="user_heading">email : </span></div>
+        <div class="col-8">
+          <span class="single_user_name">{{singleUser.email}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-content row">
+        <div class="col-4"><span class="user_heading">DOB : </span></div>
+        <div class="col-8">
+          <span class="single_user_name">{{singleUser.dob}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-content row">
+        <div class="col-4"><span class="user_heading">Phone No. : </span></div>
+        <div class="col-8">
+          <span class="single_user_name">{{singleUser.phone}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-content row">
+        <div class="col-4"><span class="user_heading">Location : </span></div>
+        <div class="col-8">
+          <span class="single_user_name">{{singleUser.location}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-content row">
+        <div class="col-4 pr-0"><span class="user_heading">Designation : </span></div>
+        <div class="col-8">
+          <span class="single_user_name">{{singleUser.designation}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="leave_report">
+    <div class="leave_report_text text-white">
+      Leave Report
+    </div>
+    <div *ngIf="userLeaves.length">
+      <div class="leave_details" *ngFor="let leave of userLeaves; let i=index">
+        <div class="card" style="cursor:pointer" (click)="openModal(leave)">
+          <div class="row">
+            <div class="col-4">
+              <div *ngIf="leave.status == 'Rejected'">
+                <span style=" color: #FF0000;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+              </div>
+              <div *ngIf="leave.status == 'Approved'">
+                <span style=" color: #3998C5;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+              </div>
+              <div *ngIf="leave.status == 'pending'">
+                <span style=" color: #FFAA00;">{{leave.date.date}}/{{leave.date.month}}/{{leave.date.year}}</span>
+              </div>
+            </div>
+            <div class="col-4 text-center">
+              <div *ngIf="leave.status == 'Rejected'">
+                <span style="cursor: pointer; color: #FF0000;">
+                  {{getNoOfDays(leave)}}</span>
+              </div>
+              <div *ngIf="leave.status == 'Approved'">
+                <span style="cursor: pointer; color: #3998C5;">
+                  {{getNoOfDays(leave)}}</span>
+              </div>
+              <div *ngIf="leave.status == 'pending'">
+                <span style="cursor: pointer; color: #FFAA00;">
+                  {{getNoOfDays(leave)}}</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div *ngIf="leave.status == 'Rejected'">
+                <span class="pl-2" style="color: #FF0000;">{{leave.status}}</span>
+              </div>
+              <div *ngIf="leave.status == 'Approved'">
+                <span class="pl-2" style="color: #00B51E;">{{leave.status}}</span>
+              </div>
+              <div *ngIf="leave.status == 'pending'">
+                <span class="pl-2" style="color: #FFAA00;">{{leave.status}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!userLeaves.length" class="no_leaves">
+      <p style="text-align:center;">No leaves yet...</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Leave Details</h4>
+      </div>
+      <div class="modal-body" *ngIf="leaves">
+        <div class="row">
+          <div class="col-12">
+            <p>Reason :</p>
+            <div> {{leaves.reason}}</div>
+          </div>
+          <div class="col-12">
+            <p>Date :</p>
+            <div>{{leaves.date.date}}/{{leaves.date.month}}/{{leaves.date.year}}
+            </div>
+          </div>
+          <div class="col-12" *ngIf="leaves.extraHours">
+            <p>Compensation :</p>
+            <div>{{leaves.extraHours}}
+            </div>
+          </div>
+          <div class="col-12" *ngIf="leaves.approvedBy">
+            <p>Approved By :</p>
+            <div>{{leaves.approvedBy}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

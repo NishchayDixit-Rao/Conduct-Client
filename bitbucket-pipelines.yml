@@ -1,0 +1,33 @@
+image: node:12
+
+definitions:
+  services:
+    docker:
+      memory: 1024
+
+pipelines:
+  branches:
+    first/release/1.2:
+      - step:
+          name: Installation
+          caches:
+            - node
+          script:
+            - rm -rf package-lock.json
+            - npm install
+            - export NODE_OPTIONS=--max-old-space-size=6144
+            - npm run build --prod
+            - apt-get update && apt-get install zip
+            - zip -r client.zip dist
+          artifacts:
+            - client.zip
+      - step:
+          name: Deployment
+          script:
+            - pipe: atlassian/scp-deploy:1.2.1
+              variables:
+                USER: $USER
+                SERVER: $HOST
+                REMOTE_PATH: '/var/www/html/conduct-staging/client'
+                LOCAL_PATH: 'client.zip'
+            - ssh $USER@$HOST unzip -o /var/www/html/conduct-staging/client/client -d /var/www/html/conduct-staging/client/

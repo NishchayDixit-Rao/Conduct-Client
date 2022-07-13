@@ -1,0 +1,151 @@
+.tag {
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+}
+
+.tag-default {
+    background-color: gray;
+}
+
+.tag-success {
+    background-color: green;
+}
+
+.tag-warning {
+    background-color: orange;
+}
+
+.tag-danger {
+    background-color: red;
+}
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.drop-zone {
+    border: dotted 3px lightgray;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 55px
+}
+
+td {
+    padding: 3px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+
+.single-file{
+    position: relative;
+}
+
+.single-file input {
+   
+    /* @media (max-width:767px){
+        margin-bottom: 20px;
+    } */
+    /* input { */
+        position: relative;
+        text-align: right;
+        opacity: 0;
+        z-index: 2;
+        height: 50px;
+        cursor: pointer;
+    /* } */
+}
+
+.fake_file {
+    position: absolute;
+    background: #53A9CF;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 15px;
+    z-index: 1;
+    top: 26px;
+    font-size: 18px;
+    color: white;
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.single-file input[type="file"] {
+    width: 100%;
+    outline: none !important;
+}
+
+.closeBtn {
+    background: transparent;
+    border: transparent;
+    float: right;
+    cursor: pointer;
+    /* color: red; */
+    /* &:active,
+    &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    } */
+}
+
+.success_button {
+    border-radius: 4px;
+    margin-top: 20px;
+    /* // padding: 10px;
+    // padding: 7px; */
+    background: green;
+    color: white
+    /* @media (max-width: 575px){
+        margin-left: 10px;
+    } */
+}
+
+.remove_button {
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-left: 10px;
+    /* // padding: 10px;
+    // padding: 7px; */
+    color: white;
+    background-color: #f54336
+}
+button i{
+    vertical-align: baseline;
+}
+mat-form-field{
+    width: 100%;
+}
+
+.noDataMsg p{
+    width: 100% !important;
+    position: absolute;
+    text-align: center;
+    font-size: 16px;
+}
+
+table {
+    margin: 0;
+    width: 100%;
+
+    @media (max-width: 767px) {
+        min-width: 730px;
+    }
+    @media (max-width: 575px) {
+        min-width: 690px;
+    }
+}

@@ -1,0 +1,54 @@
+<div mat-dialog-content class="mat-typography">
+  <div class="row mb-1" *ngIf="displayData == true">
+    <div class="col-9 pull-left">
+      <h3 class="card-header-title" id="itemModal">
+        {{displayTitle}}
+      </h3>
+    </div>
+    <div class="col-3 pull-right">
+      <button type="button" class="close" id="close" (click)="closeModel()">
+        <span class="fa fa-times"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body">
+
+    <form>
+      <div class="">
+        <mat-form-field appearance="fill">
+          <mat-label>From Project</mat-label>
+          <mat-select [(value)]="currentProject._id" [disabled]="true" required>
+            <mat-option [(value)]="currentProject._id">
+              {{currentProject.title}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="">
+        <div *ngIf="hasProjects;then selectProjects else noprojectmessage"></div>
+        <ng-template #selectProjects>
+          <mat-form-field appearance="fill">
+            <mat-label>To Project</mat-label>
+            <mat-select [(value)]="projects[0]._id" #matSelect required>
+              <mat-option *ngFor="let project of projects" [(value)]="project._id">
+                {{project.title}}
+              </mat-option>
+            </mat-select>
+
+          </mat-form-field>
+        </ng-template>
+        <ng-template #noprojectmessage>
+          <div class="strong">
+            Cannot find any projects please create one to move.
+            <button mat-button (click)="createProject()">Create Project</button>
+          </div>
+        </ng-template>
+
+      </div>
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [disabled]="disableActions" (click)="moveTask()">Move</button>
+</div>

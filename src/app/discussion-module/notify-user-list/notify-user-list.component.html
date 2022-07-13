@@ -1,0 +1,25 @@
+<div class="heading w-100 d-inline-block">
+  <span class="float-left">Notification</span>
+  <div class="float-right">
+    <!-- <a href="">All</a>
+    <a href="">None</a> -->
+  </div>
+</div>
+<div class="notify-users">
+  <!-- <div class="form-check text-capitalize" *ngFor="let name of allMembers">
+    <input type="checkbox" class="form-check-input" id="{{name.name}}" [checked]="name.selected"
+      (change)="selectedUsers($event.target.checked , name._id)">
+    <label class="form-check-label" for="{{name.name}}">{{name.name}}</label>
+  </div> -->
+  <!-- vivek -->
+  <mat-selection-list [(ngModel)]="selectionChanges" (selectionChange)="closeMenu($event)">
+    <mat-list-option *ngFor="let name of totalMembers" [value]="name" [selected]="name?name.selected : null">
+      <!-- {{name.name}} -->
+      <app-user [userDetails]="name" [userRedirect]="redirect"></app-user>
+      <mat-divider></mat-divider>
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+<div class="w-100 text-center">
+  <!-- <a href="">View all Users</a> -->
+</div>

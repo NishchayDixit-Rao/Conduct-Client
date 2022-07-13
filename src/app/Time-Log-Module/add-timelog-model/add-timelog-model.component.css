@@ -1,0 +1,32 @@
+.selectTask {
+    border: 1px solid black;
+    margin: 10px;
+    padding: 5px;
+    /* width: 500px; */
+    border-radius: 10px;
+}
+
+.yourClass {
+    height: 50px;
+    padding: 10px;
+    font-size: 18px;
+}
+
+fieldset {
+    border: 1px solid #ececec !important;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+legend {
+    width: auto !important;
+    background-color: #ffffff;
+    padding: 3px;
+    color: #888888;
+    font-size: 16px;
+}
+.radioGroup{
+    display: flex !important;
+    justify-content: space-evenly !important;
+    width: 100% !important;
+}

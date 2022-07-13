@@ -1,0 +1,168 @@
+<div mat-dialog-content class="displayTaskDetails" *ngIf="isDisplay == true">
+    <div class="task-header-title">
+        <div class="col-6">
+            <h3 class="card-header-title">Task Details</h3>
+        </div>
+        <div class="col-5">
+            <button class="pull-right" style="position: relative;" mat-icon-button [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu">
+                <mat-icon><i class="fas fa-ellipsis-v"></i></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="moveTask()">
+                    <mat-icon><i class="fas fa-angle-double-right"></i></mat-icon>
+                    &nbsp;&nbsp;&nbsp;
+                    <span>Move Task</span>
+                </button>
+                <button mat-menu-item disabled>
+                    <mat-icon><i class="fas fa-copy"></i></mat-icon>
+                    &nbsp;&nbsp;&nbsp;
+                    <span>Copy Task</span>
+                </button>
+            </mat-menu>
+        </div>
+        <div class="col-1">
+            <button type="button" class="close pull-right" (click)="closeModel()">
+                <span class="fa fa-times"></span>
+            </button>
+        </div>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="task-title-detail my-3">
+        <a href="javascript:void(0);" *ngIf="task.assignTo">
+            <div class="user_profile_pic">
+                <img src="{{task.assignTo.profilePhoto}}" class="img-rounded" onerror="this.src='assets/4.jpeg'"
+                    routerLink="/visit-user-profile/{{task.assignTo._id}}">
+            </div>
+        </a>
+        <div class="des-title">
+            <p class="card-title m-0 text-uppercase">{{task.title}} ({{task.taskUniqueId}})</p>
+            <!-- <span>{{task.description}}</span> -->
+            <div class="row">
+                <div class="col-6 displayData">
+                    <span [innerHtml]="displayContent"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <mat-divider></mat-divider>
+    <div class="details">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <p *ngIf="task.createdBy">
+                    <label>Created By:</label>
+                    <app-user [userRedirect]="false" [userDetails]="task.createdBy"></app-user>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <p *ngIf="task.createdAt">
+                    <label>Created Date: &nbsp;</label>
+                    <span><strong> {{task.createdAt | date}}</strong></span>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <p *ngIf="task.status">
+                    <label>Status: &nbsp;</label>
+                    <span><strong>{{task.status}}</strong></span>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <p *ngIf="task.estimatedTime">
+                    <label>Estimated hours: &nbsp;</label>
+                    <span><strong> {{task.estimatedTime}} Hours </strong></span>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-6" *ngIf="task.totalTime">
+                <p>
+                    <label>Time Taken: &nbsp;</label>
+                    <span>
+                        <strong>
+                            <!-- {{task.totalTime?task.totalTime:'00:00'}} -->
+                            {{ zeroPad(task.totalTime.split(':')[0] , 2)}}
+                            :
+                            {{ zeroPad(task.totalTime.split(':')[1] , 2)}}
+                        </strong>
+                    </span>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-6" *ngIf="movedUserName">
+                <p>
+                    <label>Moved By: &nbsp;</label>
+                    <app-user [userDetails]="movedUserName"></app-user>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <p>
+                    <label>Assigned To: &nbsp;</label>
+                    <app-user [userRedirect]="false" [userDetails]="task.assignTo" *ngIf="task.assignTo"></app-user>
+                    <app-user [userRedirect]="false" [userDetails]="notAssign" *ngIf="!task.assignTo"></app-user>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <p *ngIf="task.taskPriority">
+                    <label>Priority: &nbsp;</label>
+                    <span [style.color]="getPriorityOfClass(task.taskPriority)"><strong>
+                            {{getPriorityClass(task.taskPriority).title}}</strong></span>
+                </p>
+            </div>
+            <div class="col-4">
+                <p *ngIf="task.dueDate">
+                    <label>Due Date: &nbsp;</label>
+                    <span><strong> {{task.dueDate | date}}</strong></span>
+                </p>
+            </div>
+            <div class="col-4">
+                <p *ngIf="task.projectId.title">
+                    <label>Project Title: &nbsp;</label>
+                    <span class="text-capitalize"> <strong>{{task.projectId.title}}</strong></span>
+                </p>
+            </div>
+            <div class="col-4">
+                <p *ngIf="task.status == 'Done'">
+                    <label>Completed Date: &nbsp;</label>
+                    <span><strong>{{task.completedAt | date}}</strong></span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="displayButton" *ngIf="displayBtn == true">
+        <button type="button" class="btn deleteTask" (click)="removeTask(task)" *ngIf="!task.totalTime">
+            <span class="icon-trash"></span> Delete Task
+        </button>
+        <button class="btn float-right" type="button" (click)="editTask(task)" *ngIf="!task.itemPage">
+            <span class="icon-pencil mr-2"></span>Edit
+        </button>
+        <button class="btn" *ngIf="task.status == 'To Do'" (click)=" updateStatus('In Progress', task)">
+            <span class="icon-control-start"></span>Start Progress
+        </button>
+        <button class="btn" *ngIf="task.status == 'In Progress'" (click)="updateStatus('Testing', task)">
+            <span class=" icon-action-redo"></span>Move To Testing
+        </button>
+        <button class="btn" *ngIf="task.status == 'Testing'" (click)="updateStatus('Done', task)">Complete</button>
+        <button class="btn" *ngIf="task.status == 'Done'" (click)="updateStatus('To Do', task)">Reset Progress</button>
+    </div>
+    <div class="mainSection" *ngIf="task.images&& task.images.length">
+        <h4>Attachments</h4>
+        <div class="row">
+            <div class="col-3">
+                <div *ngFor="let image of task.images">
+                    <a [attr.data-lightbox]="task._id" class="image_attachment" href="{{image}}">
+                        <app-image-display [imageDisplay]="image"></app-image-display>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="commentBox mt-1">
+        <app-comment-box [comment]="comments" [commentReset]="resetComment" (commentData)="commentDetails($event)">
+        </app-comment-box>
+    </div>
+</div>
+
+
+
+<!-- no-drop class add if needed to display no data message -->

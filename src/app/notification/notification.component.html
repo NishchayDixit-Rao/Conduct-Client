@@ -1,0 +1,64 @@
+<div class="loader" *ngIf="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<h3 class="card-header-title mt-1 mb-1"> Notification</h3>
+<div class="empty-message">
+    <div *ngIf="blankArry && !blankArry.length">
+        <div class="empty-notice-image">
+            <img src="../../assets/notice.jpg" alt="empty notice">
+        </div>
+        <p>You have no new notification</p>
+    </div>
+</div>
+<ul id="accordionEx" role="tablist" aria-multiselectable="true">
+    <div *ngIf="blankArry">
+        <li class="task" id="colorChange" *ngFor="let task of blankArry" (click)="redirectPage(task.redirectTo)"
+            style="cursor: pointer;">
+            <div class="single-notification"
+                [ngStyle]="{'background-color':task.isUnread === false ? '#e4e9f2' : 'white' }">
+                <div class="notification_type">
+                    <div class="unread1">
+                        <div class="task_priority_highest">
+                            <span [ngClass]="notificationType(task.type).class">{{ displayTaskType(task.type)}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification_content">
+                    <div class="content">
+                        <p innerHtml="{{task.notification}}"></p>
+                    </div>
+                </div>
+                <div class="notificaiton_time">
+                    <label>{{task.time | timeAgo}}</label>
+                </div>
+            </div>
+        </li>
+    </div>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<!-- New Notification Display -->
+
+<!-- <div class="container-fluid">
+	<div class="row">
+		<div class="col-12" *ngFor="let task of allNotification">
+			<div class="notification_content">
+				<div class="content">
+					<p innerHtml="{{task}}"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->

@@ -1,0 +1,182 @@
+<div class="loader" *ngIf="loader">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<div *ngIf="projectData">
+  <h3 class="card-header-title">
+    {{ projectData.title }}
+    <sub class="text-uppercase">({{ projectData.taskAlias }})</sub>
+  </h3>
+</div>
+&nbsp;&nbsp;&nbsp;
+<div class="track_list_container">
+  <!-- <mat-accordion class="track_list"> -->
+  <mat-expansion-panel class="single_track">
+    <mat-expansion-panel-header class="single_track_inner">
+      <mat-form-field appearance="outline" class="w-100 example-full-width">
+        <mat-label>Track Name</mat-label>
+        <input readonly matInput value="To Do">
+      </mat-form-field>
+      &nbsp;&nbsp;&nbsp;
+      <!-- <mat-form-field appearance="outline" class="w-50">
+          <mat-label>Task Limit</mat-label>
+          <input matInput id="fromFieldForLimit" value="{{minimumTaskAllow}}" [disabled]="limitFieldStatus">
+        </mat-form-field> -->
+      <!-- <mat-label>TaskLimit can't be less then {{minimumTaskAllow.length}}</mat-label> -->
+    </mat-expansion-panel-header>
+    <div *ngIf="projectTracks">
+      <mat-slide-toggle [(ngModel)]="projectTracks[0].isTrackDisplayLimit" (change)="isTrackDisplayLimit($event, 0)"
+        class="example-margin">
+        Track Display Limit
+      </mat-slide-toggle>
+    </div>
+    &nbsp;&nbsp;&nbsp;
+    <p class="example-container">
+      <mat-form-field *ngIf="projectTracks"
+        [hidden]="projectTracks && projectTracks[0].isTrackDisplayLimit !== undefined ? !projectTracks[0].isTrackDisplayLimit : true"
+        appearance="outline">
+        <mat-label>Task Limit</mat-label>
+        <input matInput [(value)]="projectTracks[0].trackDisplayValue" type="number"
+          onKeyPress="if(this.value.length==2) return false;" (input)="onTrackDisplayLimitChange($event, 0)"
+          placeholder="Please enter a limit">
+      </mat-form-field>
+    </p>
+    <div *ngIf="projectTracks">
+      <mat-slide-toggle [(ngModel)]="projectTracks[0].isTaskAllowLimit" (change)="isTaskAllowLimit($event, 0)"
+        class="example-margin">
+        Task Allow Limit
+      </mat-slide-toggle>
+    </div>
+    &nbsp;&nbsp;&nbsp;
+    <p class="example-container">
+      <mat-form-field *ngIf="projectTracks"
+        [hidden]="projectTracks && projectTracks[0].isTaskAllowLimit !== undefined ? !projectTracks[0].isTaskAllowLimit : true"
+        appearance="outline" class="toggle_form">
+        <mat-label>Task Limit</mat-label>
+        <input matInput [(value)]="projectTracks[0].taskAllowValue" type="number"
+          onKeyPress="if(this.value.length==2) return false;" (input)="onTaskAllowLimitChange($event, 0)"
+          placeholder="Please enter a limit">
+      </mat-form-field>
+    </p>
+  </mat-expansion-panel>
+  <!-- </mat-accordion> -->
+
+
+
+  <div class="draggable_track_list" cdkDropList (cdkDropListDropped)="rearrengeTracks($event)">
+    <mat-expansion-panel class="single_track" *ngFor="let projectTrack of projectTracks; let i = index" cdkDrag>
+      <mat-expansion-panel-header class="single_track_inner"
+        *ngIf="projectTrack.track !== 'To Do' && projectTrack.track !== 'Done'">
+        <mat-form-field appearance="outline" class="w-100 example-full-width">
+          <mat-label>Track Name</mat-label>
+          <input [readonly]="projectTrack.isEditable" matInput placeholder="Enter Track Name"
+            [(ngModel)]="projectTrack.track">
+        </mat-form-field>
+        <br>
+      </mat-expansion-panel-header>
+      <div *ngIf="projectTracks">
+        <mat-slide-toggle [(ngModel)]="projectTrack.isTrackDisplayLimit" (change)="isTrackDisplayLimit($event, i)"
+          class="example-margin">
+          Track Display Limit
+        </mat-slide-toggle>
+      </div>
+      &nbsp;&nbsp;&nbsp;
+      <p class="example-container">
+        <mat-form-field *ngIf="projectTracks" [hidden]="!projectTrack.isTrackDisplayLimit" appearance="outline">
+          <mat-label>Task Limit</mat-label>
+          <input matInput [(value)]="projectTrack.trackDisplayValue" type="number"
+            onKeyPress="if(this.value.length==2) return false;" placeholder="Please enter a limit"
+            (input)="onTrackDisplayLimitChange($event, i)">
+        </mat-form-field>
+      </p>
+      <div *ngIf="projectTracks">
+        <mat-slide-toggle [(ngModel)]="projectTrack.isTaskAllowLimit" (change)="isTaskAllowLimit($event, i)"
+          class="example-margin">
+          Task Allow Limit
+        </mat-slide-toggle>
+      </div>
+      &nbsp;&nbsp;&nbsp;
+      <p class="example-container">
+        <mat-form-field *ngIf="projectTracks" [hidden]="!projectTrack.isTaskAllowLimit" appearance="outline">
+          <mat-label>Task Limit</mat-label>
+          <input matInput [(value)]="projectTrack.taskAllowValue" type="number"
+            onKeyPress="if(this.value.length==2) return false;" placeholder="Please enter a limit"
+            (input)="onTrackDisplayLimitChange($event, i)">
+        </mat-form-field>
+      </p>
+      <span class="delete_track_button" (click)="deleteTrack(projectTrack.track, i)">
+        <span class="icon-trash"></span>
+      </span>
+    </mat-expansion-panel>
+  </div>
+
+
+
+  <div class="track_list">
+    <mat-expansion-panel class="single_track">
+      <mat-expansion-panel-header class="single_track_inner">
+        <mat-form-field appearance="outline" class="w-100 example-full-width">
+          <mat-label>Track Name</mat-label>
+          <input readonly matInput value="Done">
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;
+      </mat-expansion-panel-header>
+      <div *ngIf="projectTracks">
+        <mat-slide-toggle [(ngModel)]="projectTracks[projectTracks.length-1].isTrackDisplayLimit"
+          (change)="isTrackDisplayLimit($event, this.projectTracks.length-1)" class="example-margin">
+          Track Display Limit
+        </mat-slide-toggle>
+      </div>
+      &nbsp;&nbsp;&nbsp;
+      <p class="example-container">
+        <mat-form-field *ngIf="projectTracks"
+          [hidden]="projectTracks && projectTracks[projectTracks.length - 1].isTrackDisplayLimit ? !projectTracks[projectTracks.length - 1].isTrackDisplayLimit : true"
+          appearance="outline">
+          <mat-label>Task Limit</mat-label>
+          <input matInput [(value)]="projectTracks[projectTracks.length - 1].trackDisplayValue" type="number"
+            onKeyPress="if(this.value.length==2) return false;" placeholder="Please enter a limit"
+            (input)="onTrackDisplayLimitChange($event, projectTracks.length-1)">
+        </mat-form-field>
+      </p>
+      <div *ngIf="projectTracks">
+        <mat-slide-toggle [(ngModel)]="projectTracks[projectTracks.length-1].taskAllowValue"
+          (change)="isTaskAllowLimit($event, this.projectTracks.length-1)" class="example-margin">
+          Task Allow Limit
+        </mat-slide-toggle>
+      </div>
+      &nbsp;&nbsp;&nbsp;
+      <p class="example-container">
+        <mat-form-field *ngIf="projectTracks"
+          [hidden]="projectTracks && projectTracks[projectTracks.length - 1].isTaskAllowLimit ? !projectTracks[projectTracks.length - 1].isTaskAllowLimit : true"
+          appearance="outline">
+          <mat-label>Task Limit</mat-label>
+          <input matInput [(value)]="projectTracks[projectTracks.length - 1].taskAllowValue" type="number"
+            onKeyPress="if(this.value.length==2) return false;" placeholder="Please enter a limit"
+            (input)="onTrackDisplayLimitChange($event, projectTracks.length-1)">
+        </mat-form-field>
+      </p>
+    </mat-expansion-panel>
+  </div>
+  <!-- <table class="table">
+    <tbody cdkDropList (cdkDropListDropped)="rearrengeTracks($event)">
+      <tr [cdkDragDisabled]="projectTrack.track == 'To Do' || projectTrack.track == 'Done' ? true : false "
+        *ngFor="let projectTrack of projectTracks; let i = index" cdkDrag>
+        <td>
+          <input type="text" name="comment" [(ngModel)]="projectTrack.track" />
+        </td>
+        <td>
+          <span *ngIf="projectTrack.track !== 'To Do' && projectTrack.track !== 'Done'">
+            <i (click)="deleteTrack(projectTrack.track, i)" class="fas fa-trash-alt"></i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table> -->
+
+  <button (click)="addNewField()" type="button" class="btn btn-primary btn-floating">
+    <i class="fas fa-plus-circle"></i>
+  </button>
+  <button (click)="updateWorkFlow()" type="button" class="btn btn-primary">Update WorkFlow</button>
+</div>

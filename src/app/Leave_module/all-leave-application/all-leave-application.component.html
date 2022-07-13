@@ -1,0 +1,68 @@
+<div class="table-responsive text-nowrap">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>
+          <span class="icon-user"></span> Name
+        </th>
+        <th>
+          <span><span class="icon-pencil"></span>No Of Days
+          </span>
+        </th>
+        <th>
+          <span><span class="icon-clock"></span> Leave-Duration
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="PendingLeaves.length">
+      <tr *ngFor="let leave of PendingLeaves" >
+        <td (click)="openModal(leave)"><strong>{{leave.userId.name}}</strong></td>
+        <td>{{getNoOfDays(leave)}}</td>
+        <td style="font-size: 20px;"><a><span class="icon-check mr-2" aria-hidden="true"
+              (click)="leaveApproval(leave._id,'Approved')"></span><span class="icon-close" aria-hidden="true"
+              (click)="leaveApproval(leave._id,'Rejected')"></span></a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="pendingLeavesCount == 0" class=" text-center mt-4">
+  <p style="font-size: 25px;">There are no leaves...</p>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Leave Details</h4>
+      </div>
+      <div class="modal-body" *ngIf="leaves">
+        <div class="row">
+          <div class="col-12">
+            <p>Reason :</p>
+            <div> {{leaves.reason}}</div>
+          </div>
+          <div class="col-12">
+            <p>Date :</p>
+            <div>{{leaves.date.date}}/{{leaves.date.month}}/{{leaves.date.year}}
+            </div>
+          </div>
+          <div class="col-12" *ngIf="leaves.extraHours">
+            <p>Compensation :</p>
+            <div>{{leaves.extraHours}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

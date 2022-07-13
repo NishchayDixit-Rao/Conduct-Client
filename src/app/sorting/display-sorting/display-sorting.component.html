@@ -1,0 +1,104 @@
+<div class="row m-0 p-0 sorting">
+    <button class="p-0" mat-button [matMenuTriggerFor]="animals"> <input class="p-0" matInput
+            placeholder="{{displayName}}" autocomplete="off">
+    </button>
+</div>
+<mat-menu #animals="matMenu" (closed)="menuClosed($event)">
+    <div *ngFor="let item of displayMenu">
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu" *ngIf="item.displayName == 'Due Date'"> Due Date
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu2" *ngIf="item.displayName == 'Priority'"> Priority
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="developerMenu3" *ngIf="item.displayName == 'Task'"> Task
+        </button>
+    </div>
+</mat-menu>
+
+
+
+<mat-menu #developerMenu="matMenu" class="sortMenu">
+    <div (click)="$event.stopPropagation()" class="row m-0 p-0 justify-content-center align-items-center">
+        <div class="col-9 d-flex">
+            <button mat-menu-item class="p-0" (click)="sortTasksByDueDate('asc')"> Ascending
+            </button>
+        </div>
+        <div class="col-3 d-flex m-0 p-0 justify-content-center align-items-center">
+            <span class="sorting_arrows">
+                <span [class.isActive]="selected == 1" [class.disabled]="!totalList" data-icon="&#xe078;"
+                    (click)="sortTasksByDueDate('asc')"></span>
+            </span>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div (click)="$event.stopPropagation()" class="row m-0 p-0 justify-content-center align-items-center">
+        <div class="col-9 d-flex">
+            <!-- Descending -->
+            <button mat-menu-item class="p-0" (click)="sortTasksByDueDate('desc')"> Descending
+            </button>
+        </div>
+        <div class="col-3 d-flex m-0 p-0 justify-content-center align-items-center">
+            <span class="sorting_arrows">
+                <span [class.isActive]="selected == 2" [class.disabled]="!totalList" data-icon="&#xe07b;"
+                    (click)="sortTasksByDueDate('desc')"></span>
+            </span>
+        </div>
+    </div>
+</mat-menu>
+
+
+
+<mat-menu #developerMenu2="matMenu" class="sortMenu">
+    <div (click)="$event.stopPropagation()" class="row m-0 p-0 justify-content-center align-items-center">
+        <div class="col-9 d-flex">
+            <button mat-menu-item class="p-0" (click)="sortTasksByPriority('asc')"> Ascending
+            </button>
+        </div>
+        <div class="col-3 d-flex m-0 p-0 justify-content-center align-items-center">
+            <span class="sorting_arrows">
+                <span class="ml-1" [class.isActive]="selected == 3" [class.disabled]="!totalList" data-icon="&#xe078;"
+                    (click)="sortTasksByPriority('asc')"></span>
+            </span>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div (click)="$event.stopPropagation()" class="row m-0 p-0 justify-content-center align-items-center">
+        <div class="col-9 d-flex ">
+            <button mat-menu-item class="p-0" (click)="sortTasksByPriority('desc')"> Descending
+            </button>
+        </div>
+        <div class="col-3 d-flex m-0 p-0 justify-content-center align-items-center">
+            <span class="sorting_arrows">
+                <span class="ml-1" [class.isActive]="selected == 4" [class.disabled]="!totalList" data-icon="&#xe07b;"
+                    (click)="sortTasksByPriority('desc')"></span>
+            </span>
+        </div>
+    </div>
+</mat-menu>
+
+<mat-menu #developerMenu3="matMenu" class="sortMenu">
+    <div (click)="$event.stopPropagation()" class="row m-0 p-0 justify-content-center align-items-center">
+        <div class="col-9 d-flex">
+            <button mat-menu-item class="p-0" (click)="sortTasksByTaskName('asc')"> Ascending
+            </button>
+        </div>
+        <div class="col-3 d-flex m-0 p-0 justify-content-center align-items-center">
+            <span class="sorting_arrows">
+                <span class="ml-1" [class.isActive]="selected == 5" [class.disabled]="!totalList" data-icon="&#xe078;"
+                    (click)="sortTasksByTaskName('asc')"></span>
+            </span>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div (click)="$event.stopPropagation()" class="row m-0 p-0 justify-content-center align-items-center">
+        <div class="col-9 d-flex ">
+            <button mat-menu-item class="p-0" (click)="sortTasksByTaskName('desc')"> Descending
+            </button>
+        </div>
+        <div class="col-3 d-flex m-0 p-0 justify-content-center align-items-center">
+            <span class="sorting_arrows">
+                <span class="ml-1" [class.isActive]="selected == 6" [class.disabled]="!totalList" data-icon="&#xe07b;"
+                    (click)="sortTasksByTaskName('desc')"></span>
+            </span>
+        </div>
+    </div>
+</mat-menu>

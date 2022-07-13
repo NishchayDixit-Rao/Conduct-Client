@@ -1,0 +1,127 @@
+<div *ngIf="displayIndex != 2">
+  <h1 mat-dialog-title class="mat-dialog-title light-underline card-header-title"><i class="fas fa-plus-circle"></i> Add
+    Files
+    <button (click)="close()" class="closeBtn"
+      *ngIf="(uploadedFilesCount == queueCount) || (queueCount <= uploadedFiles.length) || (queueCount == 0) || (uploadedFilesCount == 0 && uploadedFiles.length == 0)">
+      <span class="fa fa-times"></span>
+    </button>
+    <!-- <button (click)="close()" class="closeBtn" *ngIf="uploadedFilesCount == queueCount || queueCount == 0">
+      <span class="fa fa-times"></span>
+    </button> -->
+  </h1>
+</div>
+
+
+<mat-card>
+  <!-- <p>Upload</p> -->
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-5">
+        <h3>Upload</h3>
+        <div class="well drop-zone" ngClass="{{dragAreaClass}}">{{dragAreaContent}} </div>
+        <div class="single-file">
+          <h4>Select files</h4>
+          <input type="file" name="multipleAllowed"
+            accept=".pdf,.mp3,.ppt,.pptx, .doc, .docx ,.mp4,.jpg,.jpeg,.png,.zip,.csv,.mov,.mkv,.txt,.xls,.xlsx,.xlsm"
+            #fileInput multiple (change)="addToQueue()" *ngIf="displayIndex == 0" />
+          <input type="file" name="singleAllowed" accept=".jpg,.jpeg,.png" #fileInput (change)="addToQueue()"
+            *ngIf="displayIndex == 1" />
+          <input type="file" name="singleFileModule"
+            accept=".pdf,.mp3,.ppt,.pptx, .doc, .docx ,.mp4,.jpg,.jpeg,.png,.zip,.csv,.mov,.mkv,.txt,.xls,.xlsx,.xlsm"
+            #fileInput (change)="addToQueue()" *ngIf="displayIndex == 2" />
+          <input type="file" name="newVersion"
+            accept=".pdf,.mp3,.ppt,.pptx, .doc, .docx ,.mp4,.jpg,.jpeg,.png,.zip,.csv,.mov,.mkv,.txt,.xls,.xlsx,.xlsm"
+            #fileInput (change)="addToQueue()" *ngIf="displayIndex == 3" />
+          <div mat-button class="fake_file button_hover_effect">
+            <p class="m-0">Choose file</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-md-7">
+        <h3>Upload queue</h3>
+        <div class="table-responsive">
+          <table class="table-headed table table-striped">
+            <thead>
+              <tr>
+                <th class="text-left" width="50%">Name</th>
+                <th class="text-right">Size</th>
+                <th class="text-left">Progress</th>
+                <th class="text-left">Status</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <!-- <thead *ngIf="queueCount == 0">
+              <tr>
+                
+              </tr>
+            </thead> -->
+            <tbody>
+              <tr *ngFor="let item of queue | async">
+                <td>{{ item?.file?.name }}</td>
+                <td class="text-right">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                <td>
+                  <div class="progress" style="border: 1px solid black;">
+                    <div class=" progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                  </div>
+
+                  <!-- {{ item.progress + ' %' }} -->
+                </td>
+                <td>
+                  <span *ngIf="item.isPending()" class="tag tag-default"></span>
+                  <span *ngIf="item.isSuccess()" class="tag tag-success"></span>
+                  <span *ngIf="item.inProgress()" class="tag tag-warning"></span>
+                  <span *ngIf="item.isError()" class="tag tag-danger"></span>
+                </td>
+                <td class="text-right">
+                  <button type="button" class="btn btn-success btn-sm action_btns" style="margin-right: 5px;"
+                    *ngIf="item.isUploadable()" (click)="item.upload()">
+                    <i class="fa fa-upload"></i>
+                  </button>
+
+                  <button type="button" class="btn btn-warning btn-sm action_btns" style="margin-right: 5px;"
+                    *ngIf="item.inProgress()" (click)="item.cancel()">
+                    <i class="fa fa-times-circle"></i>
+                  </button>
+                  <button type="button" *ngIf="!item.inProgress()" class="btn btn-danger btn-sm action_btns"
+                    (click)="item.remove();">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="queueCount == 0" class="noDataMsg">
+                <p> There is no Images added in queue</p>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <!-- (click)="uploader.uploadAll() -->
+          <button mat-button type="button" class="btn btn-success btn-sm success_button success_hover_effect"
+            (click)="upload()">
+            <i class="fa fa-upload"></i> Upload all
+          </button>
+
+          <button mat-button type="button" class="btn btn-danger btn-sm remove_button close_hover_effect"
+            (click)="uploader.clearQueue()">
+            <i class="fa fa-trash"></i> Remove all
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="data && data.session">
+      <button mat-flat-button class="button_hover_effect Button_shap_effact ripple" (click)="saveSession()"><i
+          class="fas fa-save fa-fw"></i>
+        <span>Save</span></button>
+      <button mat-flat-button class="close_hover_effect resets_delete_button ripple text-white pull-right" type="button"
+        (click)="delete()">
+        <i class="fas fa-trash fa-fw"></i>
+        <span>Delete</span>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

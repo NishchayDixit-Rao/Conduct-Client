@@ -1,0 +1,174 @@
+<div class="loader" *ngIf="loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+<div class="row">
+    <div class="col-lg-6 d-flex align-items-center">
+        <!-- <div> -->
+        <h3 class="card-header-title">
+            Projects List
+            <!-- <span class="mr-1" data-icon="&#xe06a;"></span>  -->
+            <!-- {{pro.title}} -->
+            <!-- <sub class="text-uppercase">({{pro.taskAlias}})</sub> -->
+        </h3>
+        <!-- </div> -->
+        <!-- <div *ngIf="activeSprint">
+            <h5 *ngIf="activeSprint.duration>0"><span class="icon-clock mr-1"></span><span title="Sprint Information"
+                    data-toggle="popover-hover" data-content="">{{activeSprint.remainingDays}} Days Remaining</span>
+            </h5>
+        </div> -->
+    </div>
+</div>
+
+<div class="search-bar-box">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="searchIcon">
+                <div class="searchBar">
+                    <span class="mr-1" data-icon="&#xe090;"></span>
+                </div>
+                <mat-form-field class="w-100 example-full-width">
+                    <input class="p-0" matInput placeholder="Search" (keyup)="onKey(searchText)"
+                        [(ngModel)]="searchText">
+                </mat-form-field>
+                <span id="message" style="color: red; font-size: 14px;"></span>
+            </div>
+        </div>
+        <!-- Temporary comment it -->
+        <div class="col-lg-6 d-flex align-items-center justify-content-end">
+            <span>Filter</span>
+            <div>
+                <app-display-filter [filter]="displayFilter" [developer]="allDevelopers" [resetFilter]="filterReset"
+                    (selectedDate)="dueDateSelected($event)" (managerList)="filterOnManager($event)"
+                    (developerList)="filterOnDeveloper($event)">
+                </app-display-filter>
+            </div>
+            <!-- <div class="ml-2" (click)="changetab(displayText)" *ngIf="currentUser.userRole == 'admin'">
+                <button class="btn btn-primary m-0" style="font-size: 13px;">{{displayText.text}}</button>
+            </div> -->
+            <div *ngIf="displayReset" tooltipClass="my-custom-class" ngbTooltip="Reset" placement="bottom"
+                (click)="resetFilter()">
+                <button class="btn resetBtn ml-2">
+                    <i class="fa fa-repeat resetIcon text-white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+​
+<!-- <div class="row" *ngIf="currentUser.userRole == 'admin'">
+    <div class="col-12">
+        <div *ngIf="displayIndex == 0">
+            <mat-accordion *ngFor="let pm of adminProject" class="accordian viewProjectPanel" [multi]="true">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div class="row m-0 p-0 displayProject">
+                                <div>
+                                    <app-user [userDetails]="pm.projectManager"></app-user>
+                                </div>
+                                <div class="total-project">
+                                    <p>Total: {{pm.project.length}}</p>
+                                </div>
+                            </div>
+                            ​
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    ​
+                    <mat-divider style="margin-bottom: 20px;"></mat-divider>
+                    <div class="row parent_row">
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-2" *ngFor="let project of pm.project">
+                            <app-single-project-card [singleProject]="project"></app-single-project-card>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+        <div *ngIf="displayIndex == 1">
+            <div class="row parent_row">
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-2" *ngFor="let project of adminUniqueProject">
+                    <app-single-project-card [singleProject]="project"></app-single-project-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+​ ​
+<!-- <div *ngIf="displayIndex == 3">
+    <div class="row parent_row" *ngIf="currentUser.userRole == 'Manager' || currentUser.userRole == 'Team Member'">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-2" *ngFor="let project of projects">
+            <app-single-project-card [singleProject]="project"></app-single-project-card>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="row parent_row">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-2" *ngFor="let project of projects">
+        <app-single-project-card [singleProject]="project"></app-single-project-card>
+    </div>
+</div> -->
+​
+<!-- <div *ngIf="(projects && !projects.length && !loader)">
+    <div class="noProjects" *ngIf="currentUser.userRole == 'Manager'">
+        <h4 style="color: #9b9c9a; font-size: 20px;">Sorry</h4>
+        <div>
+            <p style="color: #9b9c9a; font-size: 20px;">There are no projects, <a routerLink="/add-project"
+                    style="width: 100%; color: black;" class="collapsible-header waves-effect arrow-r"> Create New
+                    Project</a> to get started!</p>
+        </div>
+    </div>
+</div> -->
+​ ​
+<!-- <div
+    *ngIf="(((adminProject && !adminProject.length) && (adminUniqueProject && !adminUniqueProject.length))  && !loader)">
+    <div class="noProjects" *ngIf="currentUser.userRole == 'admin'">
+        <h4 style="color: #9b9c9a; font-size: 20px;">Sorry</h4>
+        <div>
+            <p style="color: #9b9c9a; font-size: 20px;">There are no projects, <a routerLink="/add-project"
+                    style="width: 100%; color: black;" class="collapsible-header waves-effect arrow-r"> Create New
+                    Project</a> to get started!</p>
+        </div>
+    </div>
+</div> -->
+​
+<!-- <div *ngIf="(projects && !projects.length && !loader)">
+    <div class="noProjects" *ngIf="currentUser.userRole == 'Team Member'">
+        <h4><a>Opps!</a></h4>
+        <div>
+            <p>There are no projects</p>
+        </div>
+        ​
+    </div>
+</div> -->
+
+<div *ngIf="displayIndex == 2">
+    <app-no-data-found [dataFound]="noDataFound"></app-no-data-found>
+</div>
+
+<div *ngIf="displayIndex == 3" class="form-row parent_row">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1" *ngFor="let project of projects">
+        <app-single-project-card [singleProject]="project"></app-single-project-card>
+    </div>
+</div>
+
+<div *ngIf="(projects && !projects.length && !loader)">
+    <div class="noProjects">
+        <h4 style="color: #9b9c9a; font-size: 20px;">Sorry</h4>
+        <div>
+            <p style="color: #9b9c9a; font-size: 20px;">There are no projects, <a routerLink="/add-project"
+                    style="width: 100%; color: black;" class="collapsible-header waves-effect arrow-r"> Create New
+                    Project</a> to get started!</p>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="displayIndex == 1">
+    <div class="form-row parent_row">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1" *ngFor="let project of adminUniqueProject">
+            <app-single-project-card [singleProject]="project"></app-single-project-card>
+        </div>
+    </div>
+</div>

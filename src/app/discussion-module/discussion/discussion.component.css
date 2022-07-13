@@ -1,0 +1,54 @@
+.accordion .card .fa-angle-down {
+    float: none !important;
+}
+
+table.mat-table {
+    width: 100% !important;
+}
+
+p.discussionTitle {
+    color: #3998c5;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-size: 17px;
+    margin-bottom: 0;
+}
+
+h4.card-title {
+    color: #3998c5;
+}
+
+span.discussionTitle {
+    color: #757575;
+}
+
+.noNoticeMessage {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.noNoticeMessage a {
+    color: #3998c5;
+}
+
+.noNoticeMessage p {
+    color: #757575;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.empty-notice-image {
+    height: 300px;
+    width: 300px;
+    overflow: hidden;
+}
+
+.empty-notice-image img {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}

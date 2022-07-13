@@ -1,0 +1,117 @@
+<!-- create notice modal design start -->
+<!-- modal header start -->
+<div class="row mb-1">
+    <div class="col-9 pull-left">
+        <h3 class="card-header-title">{{noticeName}}</h3>
+    </div>
+    <div class="col-3 pull-right">
+        <button type="button" class="close" (click)="closeModel()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+</div>
+<!-- modal header end -->
+<!-- modal inner form start -->
+<form [formGroup]='addForm'>
+    <div class="row">
+        <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100 example-full-width">
+                <mat-label>Notice Title</mat-label>
+                <input matInput placeholder="Enter Notice Title" formControlName="title"
+                    ngModel="{{editNotice ? editNotice.title : ''}}">
+                <mat-error *ngIf="addForm.controls.title.hasError('required')">
+                    Notice Title is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100 example-full-width">
+                <mat-label>Notice Content</mat-label>
+                <textarea matInput placeholder="Enter Description " formControlName="description"
+                    ngModel="{{editNotice ? editNotice.description : ''}}"></textarea>
+                <mat-error *ngIf="addForm.controls.description.hasError('required')">
+                    Description is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row mb-1">
+        <div class="col-md-6">
+            <app-mate-date-picker [dateName]="Name" [deadlineDate]="deadlineDate" (selectedDate)="getDate($event)">
+            </app-mate-date-picker>
+        </div>
+        <div class="col-md-6">
+            <mat-card class="result">
+                <mat-card-content>
+                    <mat-slide-toggle class="example-margin" formControlName="isPublished"
+                        (change)="slideToggle($event)"
+                        ngModel="{{editNotice && editNotice.isPublished ? editNotice.isPublished  : null}}">
+                        <div class="toggle-space" *ngIf="published">
+                            Published
+                        </div>
+                        <div class="toggle-space" *ngIf="!published">
+                            Unpublished
+                        </div>
+                    </mat-slide-toggle>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div class="mainSection" *ngIf="(editNotice&& editNotice.images) && editNotice.images.length">
+        <div class="row">
+            <!-- <div class="col-12"> -->
+            <div *ngFor="let image of imageArray; let i = index">
+                <a>
+                    <app-image-display [imageDisplay]="image" [imageEdit]="editImage" [indexOf]="i"
+                        (removeImage)="imageRemove($event)"></app-image-display>
+                </a>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 fileUpload">
+            <div class="mainSection" *ngIf="uploadedFileArray && uploadedFileArray.length">
+                <div class="row">
+                    <div *ngFor="let image of uploadedFileArray; let i = index">
+                        <a>
+                            <app-image-display [imageDisplay]="image.singleFile" [imageEdit]="editImage"
+                                (removeImage)="uploadedRemove($event)" [indexOf]="i">
+                            </app-image-display>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- <app-file-upload-dnd projectId="100" sectionId="107" maxFiles="10" maxSize="2" fileExt="JPG, JPEG, PNG"
+                (uploadedFile)="changeFile($event)"></app-file-upload-dnd> -->
+
+            <div class="text-center overlay_dragarea" (click)="uploadNewFile()" style="cursor: pointer; border: 2px dotted #e0dcdc;padding: 13px;
+                    border-radius: 5px;">
+                <div class="pdf_img">
+                    <img src="../assets/attach.png">
+                    <span style="color: #757575;" for="addFile">Upload Files</span>
+                </div>
+                <!-- <input type="file" #file id="addFile" file-name="filename" [multiple]="(maxFiles > 1)"
+                    accept=".jpg, .png, .jpeg, .pdf , .zip" (change)="onFileChange($event)" style="display:none" /> -->
+            </div>
+
+            <!-- <button type="submit" class="btn btn-default uploadButton" (click)="uploadNewFile()">
+                <i class="fa fa-upload mr-1" aria-hidden="true"></i> Upload Files</button> -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 w-100 text-right">
+            <div class="spinner-border mr-2" *ngIf="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <button class="btn btn-default mt-1 m-0" [disabled]="isDisable || addForm.invalid"
+                (click)="editNotice? updateNotice(addForm.value): addNotice(addForm.value)"> <i
+                    class="fa fa-floppy-o mr-1" aria-hidden="true"></i> Save</button>
+        </div>
+    </div>
+</form>
+<!-- modal inner form end -->
+<!-- create notice modal design end -->
